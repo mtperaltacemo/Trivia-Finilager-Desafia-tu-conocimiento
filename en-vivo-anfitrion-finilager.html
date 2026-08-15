@@ -615,7 +615,10 @@ function enterControlPanel(code) {
 
 /* ---------- link de jugador / compartir ---------- */
 function playerLink() {
-  const base = location.href.replace(/en-vivo-anfitrion\.html.*$/, 'en-vivo-jugador.html');
+  // reemplaza "anfitrion" por "jugador" en el nombre del archivo, sin depender de que
+  // el nombre completo coincida exactamente (por ejemplo, si el navegador le agregó
+  // un sufijo tipo "_1" al descargarlo dos veces, igual arma el link correcto)
+  const base = location.href.split('?')[0].replace('anfitrion', 'jugador');
   const mock = isMockMode() ? '&mock=1' : '';
   return base + '?g=' + currentGameCode + mock;
 }
