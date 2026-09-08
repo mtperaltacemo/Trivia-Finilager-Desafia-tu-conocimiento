@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Desafiando tu Conocimiento — FINILAGER — Modo Relámpago (Jugador)</title>
+<title>Desafiando tu Conocimiento — FINILAGER — Modo Clásico (Jugador)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
@@ -196,7 +196,7 @@
   .final-rank-name .me-tag { font-size:10.5px; color:var(--good); font-weight:700; margin-left:6px; letter-spacing:.04em; }
   .final-rank-score { font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--good); font-size:16px; }
 
-  /* ---------- Modo Relámpago ---------- */
+  /* ---------- estilos varios ---------- */
   .settings-row { display:flex; flex-wrap:wrap; gap:10px 18px; margin:6px 0 4px; }
   .settings-row label { display:flex; align-items:center; gap:7px; font-size:13.5px; color:var(--text); font-weight:500; margin:0; cursor:pointer; }
   .settings-row input[type="checkbox"] { width:17px; height:17px; accent-color:var(--bg-red); cursor:pointer; margin:0; }
@@ -252,7 +252,7 @@
     <div class="brand-logo-credit" aria-hidden="true"></div>
   </div>
   <h1 class="page-title">FINILAGER</h1>
-  <p class="page-subtitle">Modo Relámpago ⚡ · En vivo</p>
+  <p class="page-subtitle">Modo Clásico 🕹</p>
   <div class="live-pill-wrap"><span class="live-pill"><span class="live-dot"></span> EN VIVO</span></div>
 
   <div id="errBanner" class="err-box hidden"></div>
@@ -260,9 +260,9 @@
   <!-- JOIN -->
   <div id="screenJoin">
     <div class="card">
-      <h3 style="margin-bottom:4px;">Unite al Modo Relámpago</h3>
+      <h3 style="margin-bottom:4px;">Unite al Modo Clásico</h3>
       <p class="muted" style="font-size:13px; margin:0 0 10px;">Código: <b id="joinCodeLabel" style="color:var(--text);">----</b></p>
-      <p class="muted" style="font-size:12.5px; margin:0 0 16px;">⚡ Acá todos responden a la vez con cronómetro y el puntaje se calcula solo: el que acierta más rápido, suma más.</p>
+      <p class="muted" style="font-size:12.5px; margin:0 0 16px;">🕹 El anfitrión lanza las preguntas una por una. El primero en tocar la opción correcta suma un punto; si te equivocás, restás uno.</p>
       <button class="secondary" id="viewRankBeforeJoinBtn" type="button" style="width:100%; margin-bottom:14px;">🏆 Ver ranking de desafiantes</button>
 
       <label for="playerNameInput">Tu nombre completo</label>
@@ -301,7 +301,7 @@
     <div class="card">
       <div class="status-box">
         <div class="status-icon">⏳</div>
-        <div class="status-text">Esperando a que el anfitrión inicie el Modo Relámpago...</div>
+        <div class="status-text">Esperando a que el anfitrión lance una pregunta...</div>
         <div class="status-sub">Dejá esta pantalla abierta. Empieza en cualquier momento.</div>
       </div>
     </div>
@@ -351,7 +351,7 @@
     <div class="card">
       <div class="final-banner">
         <div class="final-icon">🏁</div>
-        <div class="final-title" id="fTitle">¡Modo Relámpago finalizado!</div>
+        <div class="final-title" id="fTitle">¡Modo Clásico finalizado!</div>
       </div>
       <div class="podium-wrap" id="podiumWrap"></div>
       <div class="final-rank-heading">Ranking final — todos los participantes</div>
