@@ -171,12 +171,17 @@
   .status-text { font-size:15.5px; font-weight:600; line-height:1.5; }
   .status-sub { font-size:13px; color:var(--muted); margin-top:6px; }
 
-  .reopen-timer {
-    margin-top:14px; display:inline-flex; align-items:center; gap:8px;
-    background:rgba(242,183,5,0.14); border:1.5px solid var(--yellow); border-radius:999px;
-    padding:8px 18px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:var(--yellow);
+  .timer-track {
+    position:relative; width:100%; max-width:320px; margin:14px auto 0; height:14px;
+    border-radius:999px; background:rgba(183,201,214,0.18); overflow:hidden;
   }
-  .reopen-timer.urgent { border-color:var(--danger); color:var(--danger); background:rgba(255,106,77,0.14); }
+  .timer-fill {
+    position:absolute; top:0; left:0; bottom:0; width:100%; border-radius:999px;
+    background:var(--good); transition:background-color .35s ease;
+  }
+  .timer-fill.warn { background:var(--yellow); }
+  .timer-fill.urgent { background:var(--danger); animation:timerPulse .5s ease-in-out infinite; }
+  @keyframes timerPulse { 0%, 100% { opacity:1; } 50% { opacity:.5; } }
 
   .locked-info {
     background:var(--panel-2); border:2px solid var(--yellow); border-radius:12px; padding:16px; margin-bottom:16px; text-align:center;
@@ -334,7 +339,7 @@
         <div class="status-icon">📡</div>
         <div class="status-text" id="waitingLockText">Pregunta lanzada — esperando que alguien responda...</div>
         <div class="status-sub" id="waitingLockSub">El primero en tocar una opción se bloquea automáticamente.</div>
-        <div id="reopenTimerBox" class="reopen-timer hidden">⏱ Quedan <span id="reopenTimerSeconds">10</span>s para responder</div>
+        <div id="reopenTimerBox" class="timer-track hidden"><div id="reopenTimerFill" class="timer-fill"></div></div>
       </div>
 
       <div id="lockedReviewBox" class="hidden">
@@ -1162,15 +1167,25 @@ function clearAnswerTimer() {
 
 function startAnswerTimer(q) {
   const box = document.getElementById('reopenTimerBox');
-  const secEl = document.getElementById('reopenTimerSeconds');
+  const fill = document.getElementById('reopenTimerFill');
   const deadline = q.deadline;
   const qId = q.qId;
   box.classList.remove('hidden');
+
+  // La barra se contrae de forma continua y pareja hasta el deadline exacto
+  // (vía transición CSS), en vez de saltar cada segundo como el número viejo
+  // — así no se pierde de vista mientras el jugador está pensando la respuesta.
+  const msLeftNow = Math.max(0, deadline - Date.now());
+  fill.style.transition = 'none';
+  fill.style.width = (msLeftNow / ANSWER_WINDOW_MS * 100) + '%';
+  void fill.offsetWidth; // fuerza reflow para que el ancho inicial se aplique antes de animar
+  fill.style.transition = 'width ' + msLeftNow + 'ms linear';
+  fill.style.width = '0%';
+
   const tick = () => {
     const msLeft = deadline - Date.now();
-    const secs = Math.max(0, Math.ceil(msLeft / 1000));
-    secEl.textContent = secs;
-    box.classList.toggle('urgent', secs <= 5);
+    fill.classList.toggle('warn', msLeft <= ANSWER_WINDOW_MS / 2);
+    fill.classList.toggle('urgent', msLeft <= 5000);
     if (msLeft <= 0) {
       clearAnswerTimer();
       resolveQuestion(qId, deadline);

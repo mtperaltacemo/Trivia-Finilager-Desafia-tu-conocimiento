@@ -130,8 +130,17 @@
 
   .quiz-cat-label { font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--blue-light); font-weight:700; margin-bottom:6px; text-align:center; }
   .question-text { font-size:19px; font-weight:700; line-height:1.4; margin:4px 0 16px; font-family:'Space Grotesk',sans-serif; text-align:center; }
-  .q-timer-box { text-align:center; font-weight:700; font-size:14px; color:var(--yellow); margin-bottom:10px; letter-spacing:.02em; font-family:'Space Grotesk',sans-serif; }
-  .q-timer-box.urgent { color:var(--danger); }
+  .timer-track {
+    position:relative; width:100%; height:14px; margin-bottom:14px;
+    border-radius:999px; background:rgba(183,201,214,0.18); overflow:hidden;
+  }
+  .timer-fill {
+    position:absolute; top:0; left:0; bottom:0; width:100%; border-radius:999px;
+    background:var(--good); transition:background-color .35s ease;
+  }
+  .timer-fill.warn { background:var(--yellow); }
+  .timer-fill.urgent { background:var(--danger); animation:timerPulse .5s ease-in-out infinite; }
+  @keyframes timerPulse { 0%, 100% { opacity:1; } 50% { opacity:.5; } }
   .kahoot-tile.picked { opacity:1 !important; outline:3px solid var(--text); }
 
   .opt-review { display:grid; gap:8px; margin-bottom:16px; }
@@ -315,7 +324,7 @@
     <div class="score-strip"><span id="qPlayerName"></span><span><b id="qScore">0</b> pts</span></div>
     <div class="card">
       <div class="quiz-cat-label" id="qCatLabel"></div>
-      <div class="q-timer-box" id="qTimerBox">⏱ Quedan <span id="qTimerSeconds">20</span>s</div>
+      <div class="timer-track" id="qTimerBox"><div class="timer-fill" id="qTimerFill"></div></div>
       <div class="question-text" id="qText"></div>
       <div class="kahoot-tiles" id="qOptions"></div>
       <p class="muted" id="qAnsweredNote" style="font-size:12.5px; text-align:center; margin-top:10px;">Tocá una opción. Todos pueden responder — el tiempo sigue corriendo para los demás.</p>
@@ -532,6 +541,7 @@ function playerLevel(gp) {
 }
 let player = null;
 let qTimerHandle = null;
+const ANSWER_WINDOW_MS = 20000; // debe coincidir con el mismo valor en anfitrion-clasico.html
 
 const screens = {
   join: document.getElementById('screenJoin'),
@@ -730,13 +740,22 @@ function clearQuestionTimer() {
 }
 function startQuestionTimer(deadline) {
   clearQuestionTimer();
-  const box = document.getElementById('qTimerBox');
-  const secEl = document.getElementById('qTimerSeconds');
+  const fill = document.getElementById('qTimerFill');
+
+  // La barra se contrae de forma continua y pareja hasta el deadline exacto
+  // (vía transición CSS) en vez de un número que salta cada segundo — así
+  // se sigue viendo con el rabillo del ojo mientras se piensa la respuesta.
+  const msLeftNow = Math.max(0, deadline - Date.now());
+  fill.style.transition = 'none';
+  fill.style.width = (msLeftNow / ANSWER_WINDOW_MS * 100) + '%';
+  void fill.offsetWidth; // fuerza reflow para que el ancho inicial se aplique antes de animar
+  fill.style.transition = 'width ' + msLeftNow + 'ms linear';
+  fill.style.width = '0%';
+
   const tick = () => {
     const msLeft = deadline - Date.now();
-    const secs = Math.max(0, Math.ceil(msLeft / 1000));
-    secEl.textContent = secs;
-    box.classList.toggle('urgent', secs <= 5);
+    fill.classList.toggle('warn', msLeft <= ANSWER_WINDOW_MS / 2);
+    fill.classList.toggle('urgent', msLeft <= 5000);
     if (msLeft <= 0) clearQuestionTimer();
   };
   tick();
@@ -822,7 +841,7 @@ function showRoundResultScreen(game, q) {
     sub.textContent = 'La respuesta correcta era: ' + correctText;
     ptsEl.textContent = '+0';
   } else if (myAnswer.optionIndex === correctIndex) {
-    const launchedAt = (typeof q.launchedAt === 'number') ? q.launchedAt : (q.deadline - 20000);
+    const launchedAt = (typeof q.launchedAt === 'number') ? q.launchedAt : (q.deadline - ANSWER_WINDOW_MS);
     const elapsedMs = myAnswer.answeredAt - launchedAt;
     const pts = pointsForElapsed(elapsedMs);
     icon.textContent = '🎉';
