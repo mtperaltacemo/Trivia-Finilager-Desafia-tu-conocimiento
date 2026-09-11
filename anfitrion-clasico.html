@@ -290,6 +290,7 @@
           <button class="cat-btn cat-lubricacion" data-cat="lubricacion" type="button">Lubricación</button>
           <button class="cat-btn cat-equipos_herramientas" data-cat="equipos_herramientas" type="button">Equipos y Herramientas</button>
         </div>
+        <div id="bankBlockInfo" class="muted" style="font-size:12.5px; margin-bottom:8px;"></div>
         <div id="bankQuestionsList" style="max-height:280px; overflow-y:auto;"></div>
       </div>
 
@@ -586,14 +587,14 @@ const QUESTIONS = {
   rodamientos: [
     { text: "¿Qué función cumplen los elementos rodantes (bolas o rodillos) en un rodamiento?", difficulty: 1, options: ["Sellar el lubricante", "Aumentar la temperatura del eje", "Reducir la fricción entre pistas"], correct: 2, tip: "Los rodamientos pueden durar millones de revoluciones si se montan y lubrican correctamente." },
     { text: "¿Cuál es la función principal de un rodamiento?", difficulty: 1, options: ["Frenar el eje", "Soportar cargas y permitir el giro con baja fricción", "Aumentar la vibración"], correct: 1, tip: "Un rodamiento bien lubricado genera menos fricción que un cubo de hielo deslizando sobre vidrio." },
-    { text: "¿Qué tipo de rodamiento soporta principalmente cargas radiales?", difficulty: 2, options: ["Rodamiento de empuje axial", "Buje de bronce", "Rodamiento rígido de bolas"], correct: 2, tip: "SKF inventó el rodamiento autoalineable en 1907, revolucionando la industria." },
-    { text: "¿Qué tipo de rodamiento es más adecuado para cargas axiales puras?", difficulty: 2, options: ["Rodamiento de empuje (axial)", "Rodamiento rígido de bolas", "Rodamiento de agujas"], correct: 0, tip: "La contaminación es la causa #1 de falla prematura en rodamientos industriales." },
-    { text: "¿Qué puede causar el sobrecalentamiento de un rodamiento?", difficulty: 2, options: ["Falta de lubricación", "Exceso de ventilación", "Baja velocidad de giro"], correct: 0, tip: "Un rodamiento sobrecalentado puede alcanzar más de 200°C, dañando la grasa internamente." },
-    { text: "¿Qué instrumento se usa para detectar fallas tempranas en rodamientos?", difficulty: 2, options: ["Analizador de vibraciones", "Termómetro de bulbo", "Manómetro"], correct: 0, tip: "El análisis de vibraciones puede detectar un problema en un rodamiento semanas antes de la falla." },
-    { text: "¿Qué efecto tiene el exceso de grasa en un rodamiento?", difficulty: 2, options: ["No tiene efecto", "Sobrecalentamiento por fricción", "Mejora el enfriamiento"], correct: 1, tip: "El 16% de las fallas en rodamientos se debe a montaje incorrecto." },
-    { text: "¿Qué es el 'juego interno' de un rodamiento?", difficulty: 2, options: ["El ruido que produce", "El tipo de grasa usada", "El espacio entre los elementos rodantes y las pistas"], correct: 2, tip: "Los rodamientos de contacto angular se montan en pares para soportar cargas combinadas." },
-    { text: "¿Cuál es una causa común de fallo prematuro en rodamientos?", difficulty: 2, options: ["Mala instalación o desalineación", "Exceso de limpieza", "Uso de guantes"], correct: 0, tip: "Un rodamiento de agujas ocupa hasta un 50% menos de espacio radial que uno de bolas equivalente." },
-    { text: "¿Qué se recomienda para montar un rodamiento sin dañarlo?", difficulty: 2, options: ["Golpearlo con martillo directamente", "Forzarlo con una prensa hidráulica sin protección", "Usar un extractor/montador o inducción de calor"], correct: 2, tip: "La designación '6205' indica: serie 62 (carga media) y diámetro interior 25mm (05 x 5)." },
+    { text: "¿Qué tipo de rodamiento soporta principalmente cargas radiales?", difficulty: 1, options: ["Rodamiento de empuje axial", "Buje de bronce", "Rodamiento rígido de bolas"], correct: 2, tip: "SKF inventó el rodamiento autoalineable en 1907, revolucionando la industria." },
+    { text: "¿Qué tipo de rodamiento es más adecuado para cargas axiales puras?", difficulty: 1, options: ["Rodamiento de empuje (axial)", "Rodamiento rígido de bolas", "Rodamiento de agujas"], correct: 0, tip: "La contaminación es la causa #1 de falla prematura en rodamientos industriales." },
+    { text: "¿Qué puede causar el sobrecalentamiento de un rodamiento?", difficulty: 1, options: ["Falta de lubricación", "Exceso de ventilación", "Baja velocidad de giro"], correct: 0, tip: "Un rodamiento sobrecalentado puede alcanzar más de 200°C, dañando la grasa internamente." },
+    { text: "¿Qué instrumento se usa para detectar fallas tempranas en rodamientos?", difficulty: 1, options: ["Analizador de vibraciones", "Termómetro de bulbo", "Manómetro"], correct: 0, tip: "El análisis de vibraciones puede detectar un problema en un rodamiento semanas antes de la falla." },
+    { text: "¿Qué efecto tiene el exceso de grasa en un rodamiento?", difficulty: 1, options: ["No tiene efecto", "Sobrecalentamiento por fricción", "Mejora el enfriamiento"], correct: 1, tip: "El 16% de las fallas en rodamientos se debe a montaje incorrecto." },
+    { text: "¿Qué es el 'juego interno' de un rodamiento?", difficulty: 1, options: ["El ruido que produce", "El tipo de grasa usada", "El espacio entre los elementos rodantes y las pistas"], correct: 2, tip: "Los rodamientos de contacto angular se montan en pares para soportar cargas combinadas." },
+    { text: "¿Cuál es una causa común de fallo prematuro en rodamientos?", difficulty: 1, options: ["Mala instalación o desalineación", "Exceso de limpieza", "Uso de guantes"], correct: 0, tip: "Un rodamiento de agujas ocupa hasta un 50% menos de espacio radial que uno de bolas equivalente." },
+    { text: "¿Qué se recomienda para montar un rodamiento sin dañarlo?", difficulty: 1, options: ["Golpearlo con martillo directamente", "Forzarlo con una prensa hidráulica sin protección", "Usar un extractor/montador o inducción de calor"], correct: 2, tip: "La designación '6205' indica: serie 62 (carga media) y diámetro interior 25mm (05 x 5)." },
     { text: "¿Qué significa 'rpm' al hablar de la velocidad de un rodamiento?", difficulty: 1, options: ["Radio por milímetro", "Revoluciones por minuto", "Resistencia por metro"], correct: 1, tip: "El sufijo 2RS indica sellos de caucho a ambos lados; ZZ indica cubiertas metálicas." },
     { text: "¿Qué material es común en las pistas y elementos rodantes de un rodamiento?", difficulty: 1, options: ["Plástico reforzado", "Aluminio", "Acero endurecido (acero para rodamientos)"], correct: 2, tip: "El juego C3 es el más usado en motores eléctricos por la dilatación térmica del eje." },
     { text: "¿Qué indica un ruido metálico irregular en un rodamiento en funcionamiento?", difficulty: 3, options: ["Posible daño o desgaste interno", "Funcionamiento normal", "Exceso de lubricación"], correct: 0, tip: "La temperatura ideal de almacenamiento para rodamientos es entre 10°C y 30°C." },
@@ -643,13 +644,28 @@ const QUESTIONS = {
     { text: "¿Qué se debe hacer si se detecta una temperatura anormalmente alta en un rodamiento durante la operación?", difficulty: 2, options: ["Ignorarlo si el equipo sigue funcionando", "Aumentar la velocidad para 'estabilizarlo'", "Detener el equipo si es posible y verificar lubricación, carga y alineación"], correct: 2, tip: "El sufijo 'C3' después de la designación indica juego interno mayor que el normal." },
     { text: "¿Qué rol cumple la capacitación del personal de mantenimiento en la vida útil de los rodamientos de una planta?", difficulty: 1, options: ["Aumenta el costo sin ningún beneficio", "No tiene ninguna relación con la vida útil", "Reduce fallas por montaje o manipulación incorrecta, prolongando la vida útil"], correct: 2, tip: "El calentamiento por inducción es el método más seguro y controlado para montar rodamientos." },
     { text: "¿Qué buena práctica general resume el cuidado adecuado de los rodamientos en una planta industrial?", difficulty: 1, options: ["Usar el rodamiento más barato disponible sin verificar especificaciones", "Manipulación limpia, montaje correcto, lubricación adecuada y monitoreo periódico", "Instalarlos lo más rápido posible sin revisión"], correct: 1, tip: "La vida útil de un rodamiento se duplica al reducir la contaminación del lubricante a la mitad." },
-    { text: "¿Qué se debe hacer con un rodamiento si se detecta que gira con puntos duros o irregulares al probarlo manualmente?", difficulty: 2, options: ["No instalarlo y reportarlo como posible defecto de fábrica o daño en tránsito", "Forzar el giro varias veces hasta que se sienta suave", "Instalarlo y esperar a que se ajuste solo con el uso"], correct: 0, tip: "Un buen programa de monitoreo puede predecir fallas con 1-3 meses de anticipación." }
+    { text: "¿Qué se debe hacer con un rodamiento si se detecta que gira con puntos duros o irregulares al probarlo manualmente?", difficulty: 2, options: ["No instalarlo y reportarlo como posible defecto de fábrica o daño en tránsito", "Forzar el giro varias veces hasta que se sienta suave", "Instalarlo y esperar a que se ajuste solo con el uso"], correct: 0, tip: "Un buen programa de monitoreo puede predecir fallas con 1-3 meses de anticipación." },
+    { text: "¿Qué función cumple la jaula (separador) dentro de un rodamiento?", difficulty: 1, options: ["Mantener los elementos rodantes separados y equidistantes entre sí", "Sellar el lubricante dentro del rodamiento", "Soportar toda la carga radial del sistema"], correct: 0, tip: "La jaula puede ser de acero estampado, latón mecanizado o polímero, según la aplicación." },
+    { text: "¿Cuál es la principal diferencia práctica entre un rodamiento abierto y uno sellado (2RS o ZZ)?", difficulty: 1, options: ["El sellado no requiere relubricación externa durante su vida útil; el abierto sí", "El abierto gira más rápido que el sellado", "El sellado no puede montarse con herramientas de inducción"], correct: 0, tip: "Un rodamiento abierto permite inspeccionar visualmente la grasa, algo que uno sellado no permite." },
+    { text: "¿Qué característica distingue a un rodamiento de rodillos cilíndricos?", difficulty: 2, options: ["Soporta cargas radiales muy altas y algunos diseños permiten desplazamiento axial", "Solo se usa para cargas axiales puras", "No admite ningún tipo de carga radial"], correct: 0, tip: "Los rodillos cilíndricos tienen mayor área de contacto que las bolas, por eso soportan más carga radial." },
+    { text: "¿Qué se recomienda al relubricar un rodamiento a través de una grasera (boquilla tipo zerk)?", difficulty: 2, options: ["Aplicar grasa sin ningún criterio, mientras más frecuente mejor", "Seguir un intervalo y cantidad definidos según horas de operación del equipo", "Aplicar solo una vez, al momento de instalar el rodamiento"], correct: 1, tip: "Relubricar 'a ojo' es una de las causas más comunes de sobrellenado y sobrecalentamiento." },
+    { text: "¿Qué es el 'falso brinelling' en un rodamiento?", difficulty: 3, options: ["Marcas permanentes causadas por micro-vibración durante transporte o almacenamiento sin giro", "Un tipo de acabado superficial de fábrica", "Un método de relubricación por vibración"], correct: 0, tip: "El falso brinelling ocurre cuando un equipo vibra en tránsito con el rodamiento detenido, dañando la pista sin que gire." },
+    { text: "¿Qué práctica ayuda a aflojar un rodamiento oxidado o agarrotado antes de extraerlo?", difficulty: 3, options: ["Aplicar calor moderado y controlado, nunca llama directa sobre el rodamiento", "Golpearlo repetidamente con un martillo de acero", "Sumergirlo en agua fría de inmediato"], correct: 0, tip: "La llama directa puede alterar la dureza del acero del rodamiento y arruinarlo para siempre." },
+    { text: "¿Qué se verifica al medir el 'run-out' (excentricidad) de un rodamiento ya montado?", difficulty: 3, options: ["El nivel de ruido ambiental de la planta", "Que el giro sea concéntrico, sin desviaciones radiales excesivas", "La temperatura de operación del sistema"], correct: 1, tip: "Un run-out excesivo genera vibración y desgaste prematuro aunque el rodamiento esté bien lubricado." },
+    { text: "¿Para qué se agrega un deflector (flinger) adicional a un rodamiento en ambientes con mucha agua o polvo?", difficulty: 3, options: ["Para reforzar la protección contra contaminantes, además del sello principal", "Para aumentar la velocidad máxima de giro", "Para reemplazar la necesidad de lubricación"], correct: 0, tip: "Un deflector desvía el agua y el polvo antes de que lleguen al sello principal del rodamiento." },
+    { text: "¿Qué ventaja ofrece un rodamiento híbrido con bolas de cerámica frente a uno totalmente de acero?", difficulty: 3, options: ["Menor peso y fricción, permitiendo mayores velocidades de giro", "Mayor resistencia a la corrosión que el acero, pero menor velocidad", "Menor costo de fabricación en todos los casos"], correct: 0, tip: "Las bolas de cerámica (nitruro de silicio) pesan hasta 40% menos que las de acero equivalentes." },
+    { text: "¿En qué se diferencia el 'brinelling' verdadero del 'falso brinelling'?", difficulty: 3, options: ["El verdadero se produce por sobrecarga estática o impacto, no por vibración en reposo", "Son exactamente el mismo fenómeno con distinto nombre", "El verdadero solo ocurre en rodamientos de agujas"], correct: 0, tip: "El brinelling verdadero deja marcas visibles espaciadas según la posición de las bolas al recibir el impacto." },
+    { text: "¿Qué busca aplicar una 'precarga' al montar un par de rodamientos de contacto angular?", difficulty: 3, options: ["Aumentar el ruido del conjunto de forma intencional", "Eliminar la holgura axial y mejorar la rigidez del conjunto", "Reducir la vida útil calculada del rodamiento"], correct: 1, tip: "La precarga se usa en husillos de precisión para lograr rigidez y exactitud en el posicionamiento." },
+    { text: "¿Qué ventaja tiene un rodamiento de bolas de doble hilera frente a uno de una sola hilera?", difficulty: 1, options: ["Mayor capacidad de carga radial en un espacio axial similar", "Menor precio en todos los casos", "Elimina la necesidad de lubricación"], correct: 0, tip: "Un rodamiento de doble hilera puede reemplazar a dos rodamientos simples montados en paralelo." },
+    { text: "¿Por qué no se debe agregar grasa adicional a un rodamiento sellado de fábrica (2RS o ZZ)?", difficulty: 1, options: ["Porque ya viene con la cantidad óptima calculada para toda su vida útil", "Porque el sello no lo permite físicamente", "Porque la grasa adicional cambia el color del rodamiento"], correct: 0, tip: "Los sellos 2RS y ZZ no están diseñados para relubricación externa: vienen prelubricados de fábrica." },
+    { text: "¿Qué indica el factor de velocidad n·dm al seleccionar el método de lubricación de un rodamiento?", difficulty: 3, options: ["El color recomendado para el rodamiento", "Si conviene usar grasa o aceite según la velocidad y el tamaño del rodamiento", "El torque necesario para montarlo"], correct: 1, tip: "A mayor factor n·dm, más probable que se necesite lubricación por aceite en lugar de grasa." },
+    { text: "¿Dónde se debe consultar la cantidad y tipo de grasa recomendada para relubricar un rodamiento?", difficulty: 1, options: ["En la ficha técnica o manual del fabricante del equipo o del rodamiento", "En cualquier envase de grasa disponible en el almacén", "No existe una referencia formal, se estima a criterio propio"], correct: 0, tip: "Usar la grasa o cantidad incorrecta por no consultar la ficha técnica es un error común y costoso." }
   ],
   tpt_retenes: [
     { text: "¿Qué función cumple una correa de transmisión en un equipo industrial?", difficulty: 1, options: ["Filtrar partículas del aceite", "Enfriar el motor del equipo", "Transmitir potencia entre poleas mediante fricción"], correct: 2, tip: "Una correa bien tensada puede durar el doble que una mal tensada." },
     { text: "¿Cuál de estas marcas es reconocida por fabricar correas industriales y agrícolas?", difficulty: 1, options: ["3M", "Milwaukee", "Optibelt"], correct: 2, tip: "Optibelt fabrica correas en Alemania desde 1872, una de las marcas más antiguas del sector." },
-    { text: "¿Qué tipo de correa se usa comúnmente en aplicaciones agrícolas de alta exigencia?", difficulty: 2, options: ["Cinta adhesiva industrial", "Correa plana de cuero", "Correa trapezoidal reforzada"], correct: 2, tip: "El deslizamiento de una correa genera calor y reduce la eficiencia hasta un 10%." },
-    { text: "¿Qué puede causar el deslizamiento de una correa en las poleas?", difficulty: 2, options: ["Uso de EPP incorrecto", "Exceso de lubricación", "Falta de tensión adecuada"], correct: 2, tip: "Un tensiómetro portátil cuesta poco y evita fallas costosas por mala tensión." },
+    { text: "¿Qué tipo de correa se usa comúnmente en aplicaciones agrícolas de alta exigencia?", difficulty: 1, options: ["Cinta adhesiva industrial", "Correa plana de cuero", "Correa trapezoidal reforzada"], correct: 2, tip: "El deslizamiento de una correa genera calor y reduce la eficiencia hasta un 10%." },
+    { text: "¿Qué puede causar el deslizamiento de una correa en las poleas?", difficulty: 1, options: ["Uso de EPP incorrecto", "Exceso de lubricación", "Falta de tensión adecuada"], correct: 2, tip: "Un tensiómetro portátil cuesta poco y evita fallas costosas por mala tensión." },
     { text: "¿Qué instrumento se usa para medir la tensión correcta de una correa?", difficulty: 2, options: ["Tensiómetro de correas", "Viscosímetro", "Torquímetro"], correct: 0, tip: "Una correa floja pierde potencia; una muy tensa destruye los rodamientos de las poleas." },
     { text: "¿Qué efecto tiene una correa demasiado floja?", difficulty: 2, options: ["Desliza y pierde eficiencia de transmisión", "Se rompe instantáneamente", "Mejora el rendimiento"], correct: 0, tip: "Siempre verificá la alineación de poleas antes de tensar una correa nueva." },
     { text: "¿Qué efecto tiene una correa demasiado tensa?", difficulty: 2, options: ["Sobrecarga en rodamientos y ejes", "Reduce el ruido del equipo", "No tiene ningún efecto"], correct: 0, tip: "Gates inventó la correa de distribución automotriz en 1945." },
@@ -683,29 +699,44 @@ const QUESTIONS = {
     { text: "¿Qué puede causar el desgaste prematuro de una polea?", difficulty: 2, options: ["Uso de guantes de seguridad", "Exceso de pintura", "Desalineación con la correa"], correct: 2, tip: "La sobrecarga en un acople se transmite a rodamientos y sellos, acortando su vida." },
     { text: "¿Qué material es común en la fabricación de poleas industriales?", difficulty: 1, options: ["Caucho vulcanizado", "Hierro fundido o acero", "Vidrio templado"], correct: 1, tip: "Las poleas SKF están balanceadas de fábrica para minimizar vibraciones." },
     { text: "¿Qué se debe verificar en una polea antes de instalar una correa nueva?", difficulty: 2, options: ["Que tenga el mismo color que la correa", "Que no tenga desgaste en la garganta ni esté dañada", "Que esté oxidada"], correct: 1, tip: "Una polea desalineada desgasta la correa de forma irregular y reduce su vida." },
-    { text: "¿Qué efecto tiene una polea desbalanceada en el sistema?", difficulty: 2, options: ["Mejora la transmisión de potencia", "Genera vibración excesiva", "Reduce el ruido del equipo"], correct: 1, tip: "El hierro fundido es el material más común en poleas industriales por su buena amortiguación." },
-    { text: "¿Qué tipo de polea se usa para variar la velocidad de transmisión?", difficulty: 2, options: ["Polea fija estándar", "Polea decorativa", "Polea variable o de diámetro ajustable"], correct: 2, tip: "Verificá la garganta de la polea con una galga: si está desgastada, la correa no asienta bien." },
-    { text: "¿Qué instrumento ayuda a verificar el balanceo de una polea?", difficulty: 2, options: ["Calibrador pie de metro", "Balanceadora dinámica o analizador de vibraciones", "Torquímetro"], correct: 1, tip: "Una polea desbalanceada genera vibraciones que se sienten incluso a distancia." },
-    { text: "¿Qué puede pasar si una polea está mal alineada con su par?", difficulty: 2, options: ["Ningún efecto", "Desgaste irregular de la correa", "Mejora la vida útil de la correa"], correct: 1, tip: "Las poleas variables permiten ajustar la velocidad sin cambiar motor ni reductor." },
+    { text: "¿Qué efecto tiene una polea desbalanceada en el sistema?", difficulty: 3, options: ["Mejora la transmisión de potencia", "Genera vibración excesiva", "Reduce el ruido del equipo"], correct: 1, tip: "El hierro fundido es el material más común en poleas industriales por su buena amortiguación." },
+    { text: "¿Qué tipo de polea se usa para variar la velocidad de transmisión?", difficulty: 3, options: ["Polea fija estándar", "Polea decorativa", "Polea variable o de diámetro ajustable"], correct: 2, tip: "Verificá la garganta de la polea con una galga: si está desgastada, la correa no asienta bien." },
+    { text: "¿Qué instrumento ayuda a verificar el balanceo de una polea?", difficulty: 3, options: ["Calibrador pie de metro", "Balanceadora dinámica o analizador de vibraciones", "Torquímetro"], correct: 1, tip: "Una polea desbalanceada genera vibraciones que se sienten incluso a distancia." },
+    { text: "¿Qué puede pasar si una polea está mal alineada con su par?", difficulty: 3, options: ["Ningún efecto", "Desgaste irregular de la correa", "Mejora la vida útil de la correa"], correct: 1, tip: "Las poleas variables permiten ajustar la velocidad sin cambiar motor ni reductor." },
     { text: "¿Cuál es la función principal de un retén (sello) en un equipo rotativo?", difficulty: 1, options: ["Evitar fugas de lubricante y el ingreso de contaminantes", "Transmitir potencia entre ejes", "Medir la velocidad de giro"], correct: 0, tip: "Un analizador de vibraciones portátil puede verificar el balanceo de poleas in situ." },
     { text: "¿Cuál de estas marcas es reconocida por la fabricación de retenes automotrices?", difficulty: 1, options: ["SABO", "Tsubaki", "Milwaukee"], correct: 0, tip: "La desalineación entre poleas es la causa #1 de desgaste prematuro en correas." },
     { text: "¿Qué material es común en el labio de un retén?", difficulty: 1, options: ["Caucho nitrilo (NBR) o Vitón", "Vidrio templado", "Acero inoxidable"], correct: 0, tip: "Los retenes evitan que el lubricante se escape y que la suciedad entre al equipo." },
-    { text: "¿Qué puede dañar un retén al momento de instalarlo?", difficulty: 2, options: ["Limpiar el eje antes de montarlo", "Usar una herramienta de instalación adecuada", "Golpearlo directamente o rayar el eje"], correct: 2, tip: "SABO es el mayor fabricante de retenes de América Latina, con sede en Brasil." },
+    { text: "¿Qué puede dañar un retén al momento de instalarlo?", difficulty: 3, options: ["Limpiar el eje antes de montarlo", "Usar una herramienta de instalación adecuada", "Golpearlo directamente o rayar el eje"], correct: 2, tip: "SABO es el mayor fabricante de retenes de América Latina, con sede en Brasil." },
     { text: "¿Cuál de estas marcas, junto con ARCA, SAV y THO, comercializa retenes o sellos?", difficulty: 1, options: ["Muhashi", "PIX", "Drives"], correct: 0, tip: "El caucho nitrilo (NBR) resiste aceites y grasas hasta aproximadamente 100°C." },
-    { text: "¿Por qué se recomienda reemplazar el retén cada vez que se desarma un equipo?", difficulty: 2, options: ["Porque pierde sus propiedades de sellado al retirarlo", "Porque cambia de color", "No es necesario, siempre se reutiliza"], correct: 0, tip: "Un retén golpeado durante la instalación pierde su capacidad de sellado desde el primer día." },
-    { text: "¿Qué indica una fuga de aceite en la zona de un retén?", difficulty: 2, options: ["Funcionamiento óptimo del equipo", "Exceso de lubricación correcta", "Posible desgaste o falla del sello"], correct: 2, tip: "Muhashi fabrica retenes de alta calidad para el mercado automotriz e industrial." },
-    { text: "¿Qué se debe revisar en el eje antes de montar un retén nuevo?", difficulty: 2, options: ["Que esté pintado", "Que tenga óxido visible", "Que no tenga rayaduras en la zona de contacto"], correct: 2, tip: "Cada vez que desmontás un retén, se recomienda usar uno nuevo: no se reutilizan." },
-    { text: "¿Qué herramienta ayuda a instalar un retén sin dañar su labio?", difficulty: 2, options: ["Un martillo de acero directo", "Un soplete", "Un instalador o prensa adecuada"], correct: 2, tip: "Una fuga de aceite en la zona del retén no siempre es culpa del retén: el eje puede estar rayado." },
-    { text: "¿Qué tipo de retén se usa en ambientes con altas temperaturas?", difficulty: 2, options: ["Retén de cuero natural", "Retén con labio de Vitón (FKM)", "Retén sin labio"], correct: 1, tip: "Verificá que el eje no tenga rayaduras antes de montar un retén: una sola raya causa fuga." },
-    { text: "¿Qué función cumple el resorte (garter spring) en algunos retenes?", difficulty: 2, options: ["Filtrar partículas del aceite", "Mantener la presión del labio contra el eje", "Enfriar el sistema"], correct: 1, tip: "Un instalador adecuado protege el labio del retén durante el montaje." },
-    { text: "¿Qué puede causar el endurecimiento y agrietamiento de un retén con el tiempo?", difficulty: 2, options: ["Uso de la grasa correcta", "Exposición a temperaturas extremas o envejecimiento del material", "Limpieza regular del equipo"], correct: 1, tip: "El Vitón (FKM) soporta temperaturas hasta 200°C, ideal para aplicaciones exigentes." },
-    { text: "¿Qué se debe verificar en el alojamiento antes de instalar un retén?", difficulty: 2, options: ["Que esté limpio y sin rebabas", "Que tenga pintura fresca", "Que esté a alta temperatura"], correct: 0, tip: "El resorte (garter spring) mantiene presión constante del labio contra el eje." },
+    { text: "¿Por qué se recomienda reemplazar el retén cada vez que se desarma un equipo?", difficulty: 3, options: ["Porque pierde sus propiedades de sellado al retirarlo", "Porque cambia de color", "No es necesario, siempre se reutiliza"], correct: 0, tip: "Un retén golpeado durante la instalación pierde su capacidad de sellado desde el primer día." },
+    { text: "¿Qué indica una fuga de aceite en la zona de un retén?", difficulty: 3, options: ["Funcionamiento óptimo del equipo", "Exceso de lubricación correcta", "Posible desgaste o falla del sello"], correct: 2, tip: "Muhashi fabrica retenes de alta calidad para el mercado automotriz e industrial." },
+    { text: "¿Qué se debe revisar en el eje antes de montar un retén nuevo?", difficulty: 3, options: ["Que esté pintado", "Que tenga óxido visible", "Que no tenga rayaduras en la zona de contacto"], correct: 2, tip: "Cada vez que desmontás un retén, se recomienda usar uno nuevo: no se reutilizan." },
+    { text: "¿Qué herramienta ayuda a instalar un retén sin dañar su labio?", difficulty: 3, options: ["Un martillo de acero directo", "Un soplete", "Un instalador o prensa adecuada"], correct: 2, tip: "Una fuga de aceite en la zona del retén no siempre es culpa del retén: el eje puede estar rayado." },
+    { text: "¿Qué tipo de retén se usa en ambientes con altas temperaturas?", difficulty: 3, options: ["Retén de cuero natural", "Retén con labio de Vitón (FKM)", "Retén sin labio"], correct: 1, tip: "Verificá que el eje no tenga rayaduras antes de montar un retén: una sola raya causa fuga." },
+    { text: "¿Qué función cumple el resorte (garter spring) en algunos retenes?", difficulty: 3, options: ["Filtrar partículas del aceite", "Mantener la presión del labio contra el eje", "Enfriar el sistema"], correct: 1, tip: "Un instalador adecuado protege el labio del retén durante el montaje." },
+    { text: "¿Qué puede causar el endurecimiento y agrietamiento de un retén con el tiempo?", difficulty: 3, options: ["Uso de la grasa correcta", "Exposición a temperaturas extremas o envejecimiento del material", "Limpieza regular del equipo"], correct: 1, tip: "El Vitón (FKM) soporta temperaturas hasta 200°C, ideal para aplicaciones exigentes." },
+    { text: "¿Qué se debe verificar en el alojamiento antes de instalar un retén?", difficulty: 3, options: ["Que esté limpio y sin rebabas", "Que tenga pintura fresca", "Que esté a alta temperatura"], correct: 0, tip: "El resorte (garter spring) mantiene presión constante del labio contra el eje." },
     { text: "¿Cuál es la función de una cruceta en un sistema de transmisión automotriz?", difficulty: 1, options: ["Medir la temperatura del motor", "Sellar el sistema de lubricación", "Permitir el movimiento angular entre ejes cardánicos"], correct: 2, tip: "El endurecimiento del caucho por calor es una falla gradual que se previene con el retén correcto." },
     { text: "¿Cuál de estas marcas es reconocida por fabricar crucetas automotrices?", difficulty: 1, options: ["Optibelt", "GMB", "3M"], correct: 1, tip: "Un alojamiento con rebabas puede dañar la carcasa metálica del retén durante el montaje." },
     { text: "¿Qué otra marca, junto a GMB, es reconocida en crucetas automotrices?", difficulty: 1, options: ["Muhashi", "PIX", "STAHL"], correct: 2, tip: "Las crucetas GMB y STAHL permiten ángulos de trabajo en ejes cardánicos de hasta 25°." },
-    { text: "¿Qué síntoma común indica el desgaste de una cruceta?", difficulty: 2, options: ["Ningún síntoma perceptible", "Vibración o ruido al acelerar o desacelerar", "Mejora en la suavidad de marcha"], correct: 1, tip: "La vibración al acelerar/desacelerar es síntoma clásico de cruceta desgastada." },
-    { text: "¿Qué se debe verificar al reemplazar una cruceta?", difficulty: 2, options: ["Que esté pintada", "Que tenga el mismo color que el eje", "Que quede correctamente lubricada y sin holgura"], correct: 2, tip: "STAHL fabrica crucetas de alta resistencia para vehículos pesados y maquinaria agrícola." },
-    { text: "¿Qué puede pasar si se sigue operando con una cruceta desgastada?", difficulty: 2, options: ["Riesgo de rotura del eje cardán", "Ningún riesgo relevante", "Mejora del rendimiento del vehículo"], correct: 0, tip: "Una cruceta desgastada que no se cambia puede romper el eje cardán completo." }
+    { text: "¿Qué síntoma común indica el desgaste de una cruceta?", difficulty: 3, options: ["Ningún síntoma perceptible", "Vibración o ruido al acelerar o desacelerar", "Mejora en la suavidad de marcha"], correct: 1, tip: "La vibración al acelerar/desacelerar es síntoma clásico de cruceta desgastada." },
+    { text: "¿Qué se debe verificar al reemplazar una cruceta?", difficulty: 3, options: ["Que esté pintada", "Que tenga el mismo color que el eje", "Que quede correctamente lubricada y sin holgura"], correct: 2, tip: "STAHL fabrica crucetas de alta resistencia para vehículos pesados y maquinaria agrícola." },
+    { text: "¿Qué puede pasar si se sigue operando con una cruceta desgastada?", difficulty: 3, options: ["Riesgo de rotura del eje cardán", "Ningún riesgo relevante", "Mejora del rendimiento del vehículo"], correct: 0, tip: "Una cruceta desgastada que no se cambia puede romper el eje cardán completo." },
+    { text: "¿Qué indica el perfil o sección (por ejemplo A, B o C) de una correa trapezoidal?", difficulty: 1, options: ["El ancho y la altura de la correa, que deben coincidir con la garganta de la polea", "El color oficial del fabricante", "La cantidad de años de garantía del producto"], correct: 0, tip: "Usar una correa de sección incorrecta hace que no asiente bien en la garganta de la polea y patine." },
+    { text: "¿Qué ventaja ofrece una correa poli-V (multicanal) frente a varias correas en V individuales?", difficulty: 3, options: ["Mayor flexibilidad, menor espacio y transmisión más uniforme entre canales", "Mayor deslizamiento entre poleas", "Necesita menos tensión que cualquier otra correa"], correct: 0, tip: "Las correas poli-V se usan mucho en motores y compresores donde el espacio es limitado." },
+    { text: "¿En qué se diferencia una desalineación paralela de una angular entre dos poleas?", difficulty: 3, options: ["La paralela desplaza los ejes en direcciones opuestas; la angular forma un ángulo entre ellos", "Son exactamente lo mismo con distinto nombre", "La angular solo ocurre en cadenas, nunca en correas"], correct: 0, tip: "Ambos tipos de desalineación generan desgaste irregular, pero se corrigen de forma distinta." },
+    { text: "¿Qué función cumple un tensor automático (idler) en un sistema de correas?", difficulty: 1, options: ["Mantener la tensión adecuada de forma constante, sin ajuste manual", "Reemplazar la necesidad de alinear las poleas", "Filtrar partículas del aire cerca de la correa"], correct: 0, tip: "Un tensor automático compensa el estiramiento natural de la correa durante su vida útil." },
+    { text: "¿Qué efecto tiene el contacto de una correa con aceite o grasa de forma prolongada?", difficulty: 3, options: ["Mejora su adherencia a la polea", "Deteriora el caucho, lo hincha y reduce su capacidad de tracción", "No tiene ningún efecto sobre el material"], correct: 1, tip: "Una fuga de aceite cerca de una transmisión por correas puede arruinar la correa en pocas semanas." },
+    { text: "¿Qué representa el 'paso' de una cadena de rodillos?", difficulty: 1, options: ["La distancia entre los centros de dos pasadores consecutivos", "El ancho total de la cadena", "El número de piñones que puede mover"], correct: 0, tip: "El paso de la cadena debe coincidir exactamente con el paso de los piñones (sprockets)." },
+    { text: "¿Para qué sirve el eslabón maestro (master link) de una cadena de arrastre?", difficulty: 3, options: ["Permite montar o desmontar la cadena sin herramientas especiales de prensado", "Aumenta la resistencia total de la cadena al doble", "Reemplaza la necesidad de lubricación en ese punto"], correct: 0, tip: "El eslabón maestro debe instalarse con el clip de seguridad orientado en el sentido correcto de giro." },
+    { text: "¿Qué es el 'efecto poligonal' (chordal action) en una transmisión por cadena?", difficulty: 3, options: ["Una variación de velocidad instantánea causada por la geometría poligonal de la cadena sobre el piñón", "Un defecto exclusivo de cadenas oxidadas", "Un método para medir el desgaste de la cadena"], correct: 0, tip: "El efecto poligonal es más notorio en piñones con pocos dientes, generando vibración a baja velocidad." },
+    { text: "¿Qué característica tiene un acople de engranajes (gear coupling)?", difficulty: 1, options: ["Transmite alto torque y suele requerir lubricación interna", "Solo se usa para cargas muy livianas", "No permite ningún tipo de desalineamiento"], correct: 0, tip: "Los acoples de engranajes se usan en aplicaciones de muy alto torque, como molinos y trenes de laminación." },
+    { text: "¿Cuándo se prefiere un acople rígido tipo bridas frente a uno tipo manguito?", difficulty: 3, options: ["Cuando se requiere facilidad de desmontaje sin mover los equipos de su posición", "Nunca se usa en aplicaciones industriales", "Solo en ejes de diámetro menor a 5 mm"], correct: 0, tip: "Un acople de bridas permite separar los ejes aflojando pernos, sin desplazar los equipos conectados." },
+    { text: "¿Qué característica tiene un retén de doble labio?", difficulty: 1, options: ["Un labio retiene el lubricante y el otro excluye contaminantes externos", "Tiene el doble de vida útil que uno de un labio siempre", "Solo se usa en aplicaciones sin lubricación"], correct: 0, tip: "El retén de doble labio se usa en ambientes con polvo o agua abundante, además de lubricante interno." },
+    { text: "¿Hacia qué lado debe orientarse el labio principal de un retén con resorte (garter spring) al montarlo?", difficulty: 3, options: ["Hacia el lado del lubricante que debe retener", "Siempre hacia el exterior, sin importar la aplicación", "No tiene una orientación específica"], correct: 0, tip: "Montar un retén al revés hace que no selle correctamente, aunque parezca instalado bien." },
+    { text: "¿Qué límite es importante respetar en el labio de un retén radial de alta velocidad?", difficulty: 3, options: ["La velocidad periférica máxima recomendada por el fabricante", "El color del caucho del labio", "El número de vueltas que dio en el empaque"], correct: 0, tip: "Superar la velocidad periférica máxima genera calor excesivo y desgaste acelerado del labio." },
+    { text: "¿En qué se diferencia una cruceta (junta cardán) de una junta homocinética?", difficulty: 3, options: ["La junta homocinética mantiene velocidad angular constante; la cruceta puede generar variaciones en ángulos altos", "Son exactamente el mismo componente", "La cruceta se usa solo en bicicletas"], correct: 0, tip: "Las juntas homocinéticas se usan en semiejes delanteros donde el ángulo de trabajo es mayor." },
+    { text: "¿Qué ventaja ofrece una polea de aluminio frente a una de hierro fundido en ambientes húmedos o corrosivos?", difficulty: 1, options: ["Menor peso y mejor resistencia a la corrosión", "Mayor capacidad de carga en todos los casos", "Menor costo de fabricación siempre"], correct: 0, tip: "El aluminio no se oxida como el hierro fundido, aunque puede sufrir corrosión galvánica en ciertos contactos." }
   ],
   lubricacion: [
     { text: "¿Cuál es la función principal de un lubricante?", difficulty: 1, options: ["Reducir la fricción y el desgaste entre superficies", "Aumentar la temperatura del sistema", "Sellar fugas eléctricas"], correct: 0, tip: "La lubricación correcta puede reducir el consumo energético de una planta hasta un 5%." },
@@ -745,29 +776,44 @@ const QUESTIONS = {
     { text: "¿Qué tipo de contaminante busca controlar principalmente un respirador de aire tipo PureGuard para depósitos de aceite?", difficulty: 2, options: ["El ruido ambiental", "La temperatura del motor", "El polvo y la humedad ambiental"], correct: 2, tip: "Los respiradores PureGuard cambian de color cuando se saturan: es tu indicador visual." },
     { text: "¿Qué indica la saturación de un cartucho desecante en un respirador de tanque?", difficulty: 2, options: ["Que el sistema está funcionando de forma óptima", "Que debe reemplazarse para seguir protegiendo el sistema", "Que el aceite debe cambiarse de inmediato"], correct: 1, tip: "Cuando el desecante cambia de color, debe reemplazarse para seguir protegiendo el sistema." },
     { text: "¿Qué ventaja ofrece un carro de filtración portátil (como los de línea PureGuard) para mantenimiento de lubricantes?", difficulty: 1, options: ["Aumenta la viscosidad del aceite", "Permite limpiar o transferir aceite reduciendo su nivel de contaminación", "Cambia el color del lubricante"], correct: 1, tip: "Un carro de filtración portátil puede limpiar aceite usado y devolverlo a niveles de limpieza óptimos." },
-    { text: "¿Por qué es importante controlar la limpieza (código ISO 4406) del aceite en un sistema?", difficulty: 2, options: ["Porque define el color del aceite", "Porque no tiene relación con la vida útil del equipo", "Porque la contaminación acelera el desgaste de componentes"], correct: 2, tip: "El código ISO 4406 mide partículas de 4, 6 y 14 micras por mililitro de aceite." },
-    { text: "¿Qué se recomienda instalar en los puntos de llenado de un depósito para evitar contaminación?", difficulty: 2, options: ["Una simple tela sobre la boca del depósito", "Ningún elemento adicional", "Filtros o tapas de llenado con filtración"], correct: 2, tip: "Los filtros de llenado evitan que entre suciedad cada vez que se agrega aceite al sistema." },
-    { text: "¿Qué elemento protege un sistema lubricado del ingreso de contaminantes por la respiración térmica del tanque?", difficulty: 2, options: ["Un torquímetro", "Un respirador o filtro de aire tipo PureGuard", "Un termómetro infrarrojo"], correct: 1, tip: "Un respirador de aire filtra partículas tan pequeñas como 3 micras del aire que entra al tanque." },
+    { text: "¿Por qué es importante controlar la limpieza (código ISO 4406) del aceite en un sistema?", difficulty: 3, options: ["Porque define el color del aceite", "Porque no tiene relación con la vida útil del equipo", "Porque la contaminación acelera el desgaste de componentes"], correct: 2, tip: "El código ISO 4406 mide partículas de 4, 6 y 14 micras por mililitro de aceite." },
+    { text: "¿Qué se recomienda instalar en los puntos de llenado de un depósito para evitar contaminación?", difficulty: 3, options: ["Una simple tela sobre la boca del depósito", "Ningún elemento adicional", "Filtros o tapas de llenado con filtración"], correct: 2, tip: "Los filtros de llenado evitan que entre suciedad cada vez que se agrega aceite al sistema." },
+    { text: "¿Qué elemento protege un sistema lubricado del ingreso de contaminantes por la respiración térmica del tanque?", difficulty: 3, options: ["Un torquímetro", "Un respirador o filtro de aire tipo PureGuard", "Un termómetro infrarrojo"], correct: 1, tip: "Un respirador de aire filtra partículas tan pequeñas como 3 micras del aire que entra al tanque." },
     { text: "¿Qué beneficio tiene reducir el contenido de agua en un aceite mediante un sistema de purificación?", difficulty: 1, options: ["Disminuye el riesgo de corrosión y oxidación", "Elimina la necesidad de análisis de aceite", "Aumenta la viscosidad de forma permanente"], correct: 0, tip: "Eliminar el agua del aceite reduce la corrosión interna y prolonga la vida del lubricante." },
-    { text: "¿Qué práctica ayuda a mantener la efectividad de un sistema de protección de pureza del lubricante?", difficulty: 2, options: ["Ignorar el mantenimiento de los filtros", "Revisar y reemplazar los elementos filtrantes según lo programado", "Retirar los filtros para mayor flujo de aceite"], correct: 1, tip: "Los elementos filtrantes deben cambiarse según el plan: un filtro saturado deja pasar contaminantes." },
-    { text: "¿Qué mide un contador de partículas usado junto a sistemas de filtración como PureGuard?", difficulty: 2, options: ["El color del aceite", "La temperatura del lubricante", "La cantidad y tamaño de partículas sólidas en el aceite"], correct: 2, tip: "Un contador de partículas portátil cuesta menos que una sola falla por contaminación." },
-    { text: "¿Qué riesgo se reduce al usar sistemas de protección de pureza en tambores de almacenamiento de aceite?", difficulty: 2, options: ["El costo del lubricante", "El ingreso de contaminantes durante el almacenamiento y trasvase", "El tiempo de entrega del proveedor"], correct: 1, tip: "Proteger los tambores de aceite con tapas y respiradores evita contaminación antes de usarlos." },
+    { text: "¿Qué práctica ayuda a mantener la efectividad de un sistema de protección de pureza del lubricante?", difficulty: 3, options: ["Ignorar el mantenimiento de los filtros", "Revisar y reemplazar los elementos filtrantes según lo programado", "Retirar los filtros para mayor flujo de aceite"], correct: 1, tip: "Los elementos filtrantes deben cambiarse según el plan: un filtro saturado deja pasar contaminantes." },
+    { text: "¿Qué mide un contador de partículas usado junto a sistemas de filtración como PureGuard?", difficulty: 3, options: ["El color del aceite", "La temperatura del lubricante", "La cantidad y tamaño de partículas sólidas en el aceite"], correct: 2, tip: "Un contador de partículas portátil cuesta menos que una sola falla por contaminación." },
+    { text: "¿Qué riesgo se reduce al usar sistemas de protección de pureza en tambores de almacenamiento de aceite?", difficulty: 3, options: ["El costo del lubricante", "El ingreso de contaminantes durante el almacenamiento y trasvase", "El tiempo de entrega del proveedor"], correct: 1, tip: "Proteger los tambores de aceite con tapas y respiradores evita contaminación antes de usarlos." },
     { text: "¿Qué objetivo general persigue una estrategia de gestión de contaminación de lubricantes?", difficulty: 1, options: ["Reducir la frecuencia de los análisis de aceite", "Aumentar el consumo de lubricante", "Prolongar la vida útil de los equipos y reducir fallas por contaminación"], correct: 2, tip: "Una buena gestión de contaminación puede reducir las fallas mecánicas hasta en un 70%." },
     { text: "¿Qué tipo de producto comercializa la marca JNP dentro de la categoría de lubricación?", difficulty: 1, options: ["Cascos de seguridad", "Correas industriales", "Líquido de frenos"], correct: 2, tip: "JNP es la marca propia de FINILAGER para líquidos de frenos." },
     { text: "¿Cuál es la función principal de un líquido de frenos?", difficulty: 1, options: ["Enfriar el motor del vehículo", "Transmitir la presión hidráulica para accionar el sistema de frenado", "Lubricar la caja de cambios"], correct: 1, tip: "El líquido de frenos transmite la presión del pedal a las pastillas con precisión hidráulica." },
-    { text: "¿Qué propiedad es crítica en un líquido de frenos, como el de la línea JNP?", difficulty: 2, options: ["Una viscosidad muy alta como una grasa", "Un alto punto de ebullición", "Un color llamativo"], correct: 1, tip: "Un punto de ebullición alto evita que el líquido hierva y genere burbujas de vapor (fading)." },
-    { text: "¿Qué puede pasar si un líquido de frenos absorbe humedad del ambiente?", difficulty: 2, options: ["No tiene ningún efecto", "Reduce su punto de ebullición y puede afectar el frenado", "Mejora su rendimiento"], correct: 1, tip: "El líquido de frenos absorbe aproximadamente 3% de humedad por año de uso." },
-    { text: "¿Por qué se recomienda no dejar mucho tiempo abierto un envase de líquido de frenos?", difficulty: 2, options: ["Porque se evapora de inmediato", "Porque es higroscópico y absorbe humedad del aire", "Porque cambia de color al instante"], correct: 1, tip: "Un envase abierto de líquido de frenos puede absorber suficiente humedad en días para perder efectividad." },
-    { text: "¿Qué tipo de material puede dañarse si se usa un líquido de frenos incorrecto?", difficulty: 2, options: ["Los neumáticos", "El chasis metálico del vehículo", "Los sellos y componentes de caucho del sistema de frenos"], correct: 2, tip: "El líquido de frenos incorrecto puede hinchar o deteriorar los sellos de caucho del sistema." },
-    { text: "¿Qué se debe verificar antes de rellenar un sistema de frenos con líquido JNP?", difficulty: 2, options: ["Que sea el más barato disponible", "Que el envase tenga el color correcto", "Que sea compatible con la especificación (DOT) requerida por el fabricante"], correct: 2, tip: "Siempre verificá la clasificación DOT requerida antes de rellenar: DOT 3, DOT 4 o DOT 5.1." },
-    { text: "¿Qué significa la clasificación DOT en los líquidos de frenos?", difficulty: 2, options: ["Un estándar que define el punto de ebullición y propiedades mínimas del fluido", "El nombre comercial del fabricante", "El país de origen del producto"], correct: 0, tip: "DOT 4 tiene un punto de ebullición mínimo de 230°C seco y 155°C húmedo." },
-    { text: "¿Qué riesgo existe al mezclar líquidos de frenos de especificaciones distintas?", difficulty: 2, options: ["Mejoran su punto de ebullición", "Pueden perder propiedades y afectar el rendimiento del sistema de frenado", "No existe ningún riesgo"], correct: 1, tip: "Mezclar DOT 3 con DOT 4 es posible pero reduce el punto de ebullición del DOT 4." },
-    { text: "¿Qué precaución de seguridad se debe tener al manipular líquido de frenos?", difficulty: 2, options: ["Debe manipularse con las manos húmedas", "Evitar el contacto con la piel y superficies pintadas, ya que puede dañarlas", "No es necesaria ninguna precaución especial"], correct: 1, tip: "El líquido de frenos es corrosivo para la pintura: limpiá inmediatamente cualquier salpicadura." },
+    { text: "¿Qué propiedad es crítica en un líquido de frenos, como el de la línea JNP?", difficulty: 3, options: ["Una viscosidad muy alta como una grasa", "Un alto punto de ebullición", "Un color llamativo"], correct: 1, tip: "Un punto de ebullición alto evita que el líquido hierva y genere burbujas de vapor (fading)." },
+    { text: "¿Qué puede pasar si un líquido de frenos absorbe humedad del ambiente?", difficulty: 3, options: ["No tiene ningún efecto", "Reduce su punto de ebullición y puede afectar el frenado", "Mejora su rendimiento"], correct: 1, tip: "El líquido de frenos absorbe aproximadamente 3% de humedad por año de uso." },
+    { text: "¿Por qué se recomienda no dejar mucho tiempo abierto un envase de líquido de frenos?", difficulty: 3, options: ["Porque se evapora de inmediato", "Porque es higroscópico y absorbe humedad del aire", "Porque cambia de color al instante"], correct: 1, tip: "Un envase abierto de líquido de frenos puede absorber suficiente humedad en días para perder efectividad." },
+    { text: "¿Qué tipo de material puede dañarse si se usa un líquido de frenos incorrecto?", difficulty: 3, options: ["Los neumáticos", "El chasis metálico del vehículo", "Los sellos y componentes de caucho del sistema de frenos"], correct: 2, tip: "El líquido de frenos incorrecto puede hinchar o deteriorar los sellos de caucho del sistema." },
+    { text: "¿Qué se debe verificar antes de rellenar un sistema de frenos con líquido JNP?", difficulty: 3, options: ["Que sea el más barato disponible", "Que el envase tenga el color correcto", "Que sea compatible con la especificación (DOT) requerida por el fabricante"], correct: 2, tip: "Siempre verificá la clasificación DOT requerida antes de rellenar: DOT 3, DOT 4 o DOT 5.1." },
+    { text: "¿Qué significa la clasificación DOT en los líquidos de frenos?", difficulty: 3, options: ["Un estándar que define el punto de ebullición y propiedades mínimas del fluido", "El nombre comercial del fabricante", "El país de origen del producto"], correct: 0, tip: "DOT 4 tiene un punto de ebullición mínimo de 230°C seco y 155°C húmedo." },
+    { text: "¿Qué riesgo existe al mezclar líquidos de frenos de especificaciones distintas?", difficulty: 3, options: ["Mejoran su punto de ebullición", "Pueden perder propiedades y afectar el rendimiento del sistema de frenado", "No existe ningún riesgo"], correct: 1, tip: "Mezclar DOT 3 con DOT 4 es posible pero reduce el punto de ebullición del DOT 4." },
+    { text: "¿Qué precaución de seguridad se debe tener al manipular líquido de frenos?", difficulty: 3, options: ["Debe manipularse con las manos húmedas", "Evitar el contacto con la piel y superficies pintadas, ya que puede dañarlas", "No es necesaria ninguna precaución especial"], correct: 1, tip: "El líquido de frenos es corrosivo para la pintura: limpiá inmediatamente cualquier salpicadura." },
     { text: "¿Qué indica un cambio de color oscuro en el líquido de frenos en servicio?", difficulty: 1, options: ["Que se acaba de rellenar", "Posible contaminación o degradación por humedad y uso", "Que el sistema de frenos está en perfecto estado"], correct: 1, tip: "Un líquido de frenos oscuro indica degradación por humedad y uso prolongado." },
     { text: "¿Cada cuánto se recomienda generalmente revisar o cambiar el líquido de frenos?", difficulty: 1, options: ["Solo cuando el sistema de frenos falla por completo", "Nunca, no requiere revisión", "Según el intervalo indicado por el fabricante del vehículo o equipo"], correct: 2, tip: "La mayoría de fabricantes recomiendan cambiar el líquido de frenos cada 2 años." },
-    { text: "¿Qué se debe hacer con un envase de líquido de frenos una vez abierto?", difficulty: 2, options: ["Dejarlo destapado para que se airee", "Guardarlo junto a una fuente de calor directa", "Cerrarlo bien y almacenarlo para minimizar la absorción de humedad"], correct: 2, tip: "Cerrá bien el envase de líquido de frenos inmediatamente después de usarlo." },
+    { text: "¿Qué se debe hacer con un envase de líquido de frenos una vez abierto?", difficulty: 3, options: ["Dejarlo destapado para que se airee", "Guardarlo junto a una fuente de calor directa", "Cerrarlo bien y almacenarlo para minimizar la absorción de humedad"], correct: 2, tip: "Cerrá bien el envase de líquido de frenos inmediatamente después de usarlo." },
     { text: "¿Qué componentes del sistema de frenos protege principalmente un líquido de frenos en buen estado?", difficulty: 1, options: ["Los sellos, pistones y válvulas del sistema hidráulico", "Las pastillas de freno únicamente", "Los neumáticos del vehículo"], correct: 0, tip: "Un líquido de frenos en buen estado protege pistones, sellos y válvulas del sistema." },
-    { text: "¿Qué consecuencia tiene usar un líquido de frenos vencido o contaminado?", difficulty: 2, options: ["Riesgo de falla en el frenado y daño a componentes del sistema", "Ningún riesgo relevante", "Mejora en la respuesta del pedal de freno"], correct: 0, tip: "Usar líquido de frenos vencido puede causar pérdida parcial o total de frenado." }
+    { text: "¿Qué consecuencia tiene usar un líquido de frenos vencido o contaminado?", difficulty: 3, options: ["Riesgo de falla en el frenado y daño a componentes del sistema", "Ningún riesgo relevante", "Mejora en la respuesta del pedal de freno"], correct: 0, tip: "Usar líquido de frenos vencido puede causar pérdida parcial o total de frenado." },
+    { text: "¿Cuál es la base de grasa más común utilizada en aplicaciones industriales de uso general?", difficulty: 1, options: ["Grasa base de litio", "Grasa base de silicona pura", "Grasa base de grafito puro"], correct: 0, tip: "La grasa de litio representa más del 50% del consumo mundial de grasas industriales." },
+    { text: "¿Qué riesgo existe al mezclar grasas con bases espesantes distintas (por ejemplo litio y poliurea)?", difficulty: 3, options: ["Pueden volverse incompatibles y perder su consistencia o propiedades", "Siempre mejoran su rendimiento combinadas", "No existe ningún riesgo de incompatibilidad"], correct: 0, tip: "Antes de cambiar de grasa en un punto de lubricación, hay que verificar la compatibilidad entre bases." },
+    { text: "¿Qué ventaja ofrece un sistema de lubricación centralizada frente a la lubricación manual?", difficulty: 1, options: ["Aplica dosis constantes y programadas sin depender de la intervención manual", "Elimina por completo la necesidad de usar lubricante", "Solo funciona con líquido de frenos"], correct: 0, tip: "Un sistema centralizado puede lubricar decenas de puntos simultáneamente con la dosis exacta." },
+    { text: "¿Qué indica el 'punto de goteo' (dropping point) de una grasa?", difficulty: 3, options: ["La temperatura a la que pierde su consistencia y se vuelve líquida", "La viscosidad de la grasa a temperatura ambiente", "El color que adquiere con el uso"], correct: 0, tip: "Operar cerca del punto de goteo hace que la grasa se derrame y deje de proteger el punto de lubricación." },
+    { text: "¿Qué evalúa una prueba de oxidación como el RPVOT en un aceite?", difficulty: 3, options: ["La resistencia del aceite a oxidarse y su vida útil residual", "El color exacto del lubricante", "La cantidad de aditivos EP presentes"], correct: 0, tip: "El RPVOT mide cuántos minutos resiste el aceite antes de oxidarse bajo condiciones controladas." },
+    { text: "¿En qué se diferencia un aceite lubricante de base mineral de uno sintético?", difficulty: 1, options: ["El mineral se obtiene del refinado del petróleo; el sintético se fabrica mediante procesos químicos", "Son exactamente el mismo producto con distinto nombre comercial", "El sintético siempre es de menor calidad"], correct: 0, tip: "Los aceites sintéticos suelen tener mejor comportamiento en temperaturas extremas que los minerales." },
+    { text: "¿Qué es una carta o mapa de lubricación en una planta industrial?", difficulty: 3, options: ["Un documento que define el lubricante, la cantidad y la frecuencia para cada punto del equipo", "Un catálogo de precios de lubricantes", "Un registro de asistencia del personal de mantenimiento"], correct: 0, tip: "La carta de lubricación evita errores comunes como usar el lubricante incorrecto en un punto crítico." },
+    { text: "¿Qué grado NLGI de grasa es el más utilizado en rodamientos de uso general?", difficulty: 3, options: ["NLGI 2", "NLGI 000", "NLGI 6"], correct: 0, tip: "NLGI 2 tiene una consistencia similar a la de la mantequilla de maní a temperatura ambiente." },
+    { text: "¿Qué se debe verificar en la etiqueta de un tambor de aceite antes de usarlo?", difficulty: 1, options: ["El lote, la fecha de fabricación y la especificación técnica del producto", "Solo el peso del tambor vacío", "El color de la tapa únicamente"], correct: 0, tip: "Verificar el lote y la fecha ayuda a aplicar el sistema FIFO y evitar usar producto vencido." },
+    { text: "¿Qué efecto produce la aireación (aire atrapado) en un aceite hidráulico?", difficulty: 3, options: ["Reduce la lubricidad y puede generar cavitación en bombas y válvulas", "Mejora la transmisión de presión del sistema", "No tiene ningún efecto sobre el sistema"], correct: 0, tip: "La aireación puede reconocerse por un aceite espumoso o de aspecto lechoso en el depósito." },
+    { text: "¿Por qué se recomienda filtrar un aceite nuevo antes de cargarlo a un sistema, aunque venga sellado de fábrica?", difficulty: 3, options: ["Porque puede contener partículas del proceso de fabricación o transporte por encima del nivel de limpieza requerido", "Porque todos los aceites nuevos están contaminados con agua", "No es necesario, el aceite nuevo siempre está perfectamente limpio"], correct: 0, tip: "El nivel de limpieza de un aceite 'nuevo de fábrica' suele ser más bajo del que exige un sistema hidráulico moderno." },
+    { text: "¿Qué función cumple un embudo con filtro al trasvasar lubricante desde un tambor a un equipo?", difficulty: 2, options: ["Evitar el ingreso de partículas y contaminantes durante el trasvase", "Aumentar la viscosidad del aceite", "Medir la cantidad exacta de litros trasvasados"], correct: 0, tip: "Un trasvase sin filtro es una de las formas más comunes de contaminar un lubricante limpio." },
+    { text: "¿Qué ventaja tiene una grasa de litio complejo frente a una de litio simple?", difficulty: 3, options: ["Mayor resistencia a altas temperaturas y mejor estabilidad mecánica", "Menor costo en todos los casos", "Es incompatible con cualquier tipo de rodamiento"], correct: 0, tip: "Las grasas de litio complejo pueden soportar temperaturas de hasta 150-160°C de forma continua." },
+    { text: "¿Por qué el líquido de frenos, como la línea JNP, no debe usarse como lubricante general de mantenimiento?", difficulty: 2, options: ["Porque está formulado para transmitir presión hidráulica, no para reducir fricción entre superficies", "Porque es más caro que cualquier aceite industrial", "Porque no existe diferencia real entre ambos productos"], correct: 0, tip: "Usar líquido de frenos como lubricante puede dañar sellos y superficies que no fueron diseñadas para ese fluido." },
+    { text: "¿Qué puede indicar la presencia de partículas de hierro o cobre en un análisis de aceite?", difficulty: 3, options: ["Desgaste de componentes metálicos específicos dentro del equipo", "Que el aceite está listo para desecharse sin importar el resultado", "Que el lubricante tiene el color correcto"], correct: 0, tip: "Las partículas de cobre suelen indicar desgaste en bujes o cojinetes; las de hierro, en engranajes o rodamientos." }
   ],
   equipos_herramientas: [
     { text: "¿Para qué se utiliza un extractor mecánico de rodamientos?", difficulty: 1, options: ["Para retirar rodamientos u otras piezas ajustadas sin dañarlas", "Para proteger los oídos del ruido", "Para medir la viscosidad del aceite"], correct: 0, tip: "Un extractor mecánico aplica fuerza uniforme y evita daños que causaría un martillo." },
@@ -780,9 +826,9 @@ const QUESTIONS = {
     { text: "¿Por qué se recomienda usar herramientas de montaje específicas para rodamientos en lugar de un martillo?", difficulty: 2, options: ["Para evitar daños en las pistas y elementos rodantes", "Porque son más económicas siempre", "Porque no requieren capacitación"], correct: 0, tip: "Golpear un rodamiento con martillo puede crear microfisuras invisibles que causan falla prematura." },
     { text: "¿Qué es un calibre o galga de espesores?", difficulty: 1, options: ["Un sistema de alineación láser", "Una herramienta para medir pequeñas separaciones o huelgos", "Un tipo de protección auditiva"], correct: 1, tip: "Una galga de espesores puede medir separaciones desde 0.02mm hasta 1mm con gran precisión." },
     { text: "¿Qué función cumple un extractor de tres patas?", difficulty: 1, options: ["Retirar poleas, rodamientos o engranajes de un eje de forma uniforme", "Cortar correas industriales", "Aplicar grasa en puntos de lubricación"], correct: 0, tip: "Un extractor de 3 patas aplica fuerza en 3 puntos equidistantes para un desmontaje uniforme." },
-    { text: "¿Qué precaución se debe tener al usar un calentador por inducción en un rodamiento?", difficulty: 2, options: ["Calentarlo lo más posible para acelerar el montaje", "No es necesaria ninguna precaución", "No superar la temperatura máxima recomendada por el fabricante"], correct: 2, tip: "Nunca superes 120°C al calentar un rodamiento por inducción: dañarías la grasa interna." },
-    { text: "¿Qué herramienta ayuda a verificar la alineación entre dos ejes acoplados?", difficulty: 2, options: ["Sistema de alineación láser", "Respirador de partículas", "Amoladora angular"], correct: 0, tip: "Un sistema de alineación láser puede reducir el consumo energético de un motor hasta un 7%." },
-    { text: "¿Qué mide un medidor de espesor de película de grasa o aceite?", difficulty: 2, options: ["La temperatura ambiente", "El nivel de ruido del equipo", "La cantidad de lubricante presente en una superficie"], correct: 2, tip: "Las herramientas de precisión SKF, NSK y FAG están diseñadas específicamente para rodamientos." },
+    { text: "¿Qué precaución se debe tener al usar un calentador por inducción en un rodamiento?", difficulty: 3, options: ["Calentarlo lo más posible para acelerar el montaje", "No es necesaria ninguna precaución", "No superar la temperatura máxima recomendada por el fabricante"], correct: 2, tip: "Nunca superes 120°C al calentar un rodamiento por inducción: dañarías la grasa interna." },
+    { text: "¿Qué herramienta ayuda a verificar la alineación entre dos ejes acoplados?", difficulty: 3, options: ["Sistema de alineación láser", "Respirador de partículas", "Amoladora angular"], correct: 0, tip: "Un sistema de alineación láser puede reducir el consumo energético de un motor hasta un 7%." },
+    { text: "¿Qué mide un medidor de espesor de película de grasa o aceite?", difficulty: 3, options: ["La temperatura ambiente", "El nivel de ruido del equipo", "La cantidad de lubricante presente en una superficie"], correct: 2, tip: "Las herramientas de precisión SKF, NSK y FAG están diseñadas específicamente para rodamientos." },
     { text: "¿Qué beneficio ofrece usar herramientas de marca especializada, como SKF, NSK o FAG, para montaje de precisión?", difficulty: 1, options: ["Mayor exactitud y menor riesgo de dañar el componente", "Un color más atractivo", "Menor necesidad de mantenimiento del operario"], correct: 0, tip: "Una herramienta descalibrada puede dar lecturas falsas y llevar a decisiones incorrectas." },
     { text: "¿Qué se debe revisar en una herramienta de medición antes de usarla?", difficulty: 1, options: ["Que esté calibrada y en buen estado", "Que tenga el logo visible", "Que sea la más nueva del almacén"], correct: 0, tip: "Calibrar instrumentos de medición al menos una vez al año garantiza lecturas confiables." },
     { text: "¿Qué tipo de protección ofrece un casco de seguridad 3M (protección craneal)?", difficulty: 1, options: ["Proteger la cabeza de impactos y caída de objetos", "Proteger los oídos del ruido", "Filtrar partículas del aire"], correct: 0, tip: "El casco de seguridad 3M puede absorber impactos de hasta 5 kg cayendo desde 1 metro." },
@@ -791,45 +837,60 @@ const QUESTIONS = {
     { text: "¿Qué tipo de daño previene la protección auditiva 3M en ambientes ruidosos?", difficulty: 1, options: ["Pérdida auditiva por exposición prolongada al ruido", "Daño en la vista", "Problemas respiratorios"], correct: 0, tip: "La exposición a ruido mayor a 85 dB sin protección causa daño auditivo irreversible." },
     { text: "¿Qué es una línea de vida 3M en trabajos en altura?", difficulty: 1, options: ["Un sistema de sujeción que evita caídas graves", "Un cable eléctrico de la herramienta", "Una manguera de aire comprimido"], correct: 0, tip: "Una línea de vida 3M puede soportar la fuerza de una caída de hasta 1.8 metros." },
     { text: "¿Qué elemento se debe verificar antes de usar un arnés de seguridad 3M?", difficulty: 1, options: ["Que sea de la talla más grande disponible", "Que no tenga cortes, desgaste ni piezas dañadas", "Que combine con el uniforme"], correct: 1, tip: "Inspeccioná el arnés antes de cada uso: una costura dañada puede significar la diferencia." },
-    { text: "¿Qué tipo de respirador 3M se usa para partículas finas como polvo metálico?", difficulty: 2, options: ["Tapones auditivos", "Respirador con filtro para partículas", "Guantes de cuero"], correct: 1, tip: "Los respiradores de partículas 3M filtran el 95% (N95) o 99% (N99) de partículas en el aire." },
+    { text: "¿Qué tipo de respirador 3M se usa para partículas finas como polvo metálico?", difficulty: 3, options: ["Tapones auditivos", "Respirador con filtro para partículas", "Guantes de cuero"], correct: 1, tip: "Los respiradores de partículas 3M filtran el 95% (N95) o 99% (N99) de partículas en el aire." },
     { text: "¿Qué busca el uso de protección auditiva 3M en planta?", difficulty: 1, options: ["Aumentar la comunicación entre operarios", "Reducir el calor corporal", "Reducir el riesgo de hipoacusia laboral"], correct: 2, tip: "La hipoacusia laboral es irreversible: una vez perdida la audición, no se recupera." },
-    { text: "¿Qué se debe hacer con un casco de seguridad 3M que sufrió un impacto fuerte?", difficulty: 2, options: ["Pintarlo de otro color", "Seguir usándolo sin problema", "Retirarlo de servicio aunque no tenga daño visible"], correct: 2, tip: "Un casco que recibió un impacto fuerte debe retirarse aunque no tenga daño visible." },
-    { text: "¿Qué tipo de lente de protección 3M se recomienda para trabajos de esmerilado?", difficulty: 2, options: ["Gafas o careta con protección contra partículas de alta velocidad", "Ningún tipo, no es necesario", "Lentes de sol comunes"], correct: 0, tip: "Las caretas faciales protegen contra salpicaduras químicas además de partículas sólidas." },
+    { text: "¿Qué se debe hacer con un casco de seguridad 3M que sufrió un impacto fuerte?", difficulty: 3, options: ["Pintarlo de otro color", "Seguir usándolo sin problema", "Retirarlo de servicio aunque no tenga daño visible"], correct: 2, tip: "Un casco que recibió un impacto fuerte debe retirarse aunque no tenga daño visible." },
+    { text: "¿Qué tipo de lente de protección 3M se recomienda para trabajos de esmerilado?", difficulty: 3, options: ["Gafas o careta con protección contra partículas de alta velocidad", "Ningún tipo, no es necesario", "Lentes de sol comunes"], correct: 0, tip: "Las caretas faciales protegen contra salpicaduras químicas además de partículas sólidas." },
     { text: "¿Qué elemento conecta al trabajador con la línea de vida 3M en trabajos en altura?", difficulty: 1, options: ["Una cuerda cualquiera sin certificación", "El arnés y su mosquetón o conector", "Un cinturón común"], correct: 1, tip: "El mosquetón del arnés debe tener doble seguro para evitar aperturas accidentales." },
     { text: "¿Por qué es importante la limpieza y el mantenimiento de los EPP 3M?", difficulty: 1, options: ["No es relevante para su funcionamiento", "Para asegurar que sigan cumpliendo su función de protección", "Solo por estética del equipo"], correct: 1, tip: "Los EPP limpios y bien mantenidos protegen mejor y duran más tiempo." },
     { text: "¿Qué se debe verificar en un tapón u orejera 3M antes de usarlo?", difficulty: 1, options: ["Que esté limpio y en buen estado para un sellado efectivo", "Que sea el más económico disponible", "Que tenga el mismo color que el casco"], correct: 0, tip: "Los tapones auditivos deben ajustar bien: un tapón mal colocado reduce su protección un 50%." },
-    { text: "¿Qué tipo de protección respiratoria 3M se necesita en un espacio con déficit de oxígeno?", difficulty: 2, options: ["Equipo autónomo de respiración", "Un simple filtro de partículas", "Ninguna protección especial"], correct: 0, tip: "En espacios confinados con falta de oxígeno, solo un equipo autónomo (SCBA) es seguro." },
+    { text: "¿Qué tipo de protección respiratoria 3M se necesita en un espacio con déficit de oxígeno?", difficulty: 3, options: ["Equipo autónomo de respiración", "Un simple filtro de partículas", "Ninguna protección especial"], correct: 0, tip: "En espacios confinados con falta de oxígeno, solo un equipo autónomo (SCBA) es seguro." },
     { text: "¿Qué elemento reduce el riesgo en trabajos en altura además de usar línea de vida?", difficulty: 1, options: ["Trabajar más rápido para terminar antes", "Un punto de anclaje certificado y procedimiento de trabajo seguro", "Evitar el uso de casco"], correct: 1, tip: "Un punto de anclaje para trabajo en altura debe soportar al menos 2,268 kg (5,000 lbs)." },
     { text: "¿Qué tipo de herramienta Milwaukee es un rotomartillo?", difficulty: 1, options: ["Un instrumento de protección auditiva", "Una herramienta de medición de torque", "Una herramienta para perforar con o sin percusión en concreto y mampostería"], correct: 2, tip: "Milwaukee fue pionera en crear el primer taladro portátil de una sola mano en 1935." },
     { text: "¿Qué ventaja ofrece una herramienta Milwaukee inalámbrica frente a una con cable?", difficulty: 1, options: ["Mayor movilidad al no depender de una toma eléctrica", "Menor necesidad de mantenimiento de batería", "Mayor potencia en todos los casos"], correct: 0, tip: "Las baterías M18 de Milwaukee son intercambiables entre más de 250 herramientas." },
     { text: "¿Qué se debe revisar en la batería de una herramienta Milwaukee inalámbrica antes de usarla?", difficulty: 1, options: ["Su carga y el estado de los contactos", "Su fecha de fabricación únicamente", "Su color y diseño"], correct: 0, tip: "Una batería de ion-litio Milwaukee puede cargarse más de 1,000 veces en su vida útil." },
     { text: "¿Qué función cumple una llave de impacto eléctrica Milwaukee?", difficulty: 1, options: ["Medir la viscosidad de un lubricante", "Aflojar o ajustar pernos y tuercas con alto torque", "Cortar tubería metálica"], correct: 1, tip: "Las llaves de impacto eléctricas pueden aplicar torques de más de 1,000 Nm." },
-    { text: "¿Qué precaución se debe tomar al usar una amoladora angular Milwaukee?", difficulty: 2, options: ["Retirar la guarda de protección para mayor velocidad", "Usar protección ocular y verificar que el disco esté en buen estado", "Usarla sin ningún tipo de protección"], correct: 1, tip: "Siempre usá protección ocular con amoladora: los discos giran a más de 10,000 RPM." },
+    { text: "¿Qué precaución se debe tomar al usar una amoladora angular Milwaukee?", difficulty: 3, options: ["Retirar la guarda de protección para mayor velocidad", "Usar protección ocular y verificar que el disco esté en buen estado", "Usarla sin ningún tipo de protección"], correct: 1, tip: "Siempre usá protección ocular con amoladora: los discos giran a más de 10,000 RPM." },
     { text: "¿Qué es una atornilladora de impacto Milwaukee?", difficulty: 1, options: ["Un tipo de protección respiratoria", "Un instrumento para medir alineación", "Una herramienta que combina rotación y golpes para ajustar tornillos con firmeza"], correct: 2, tip: "Una atornilladora de impacto combina golpes axiales con rotación para mayor fuerza sin fatiga." },
     { text: "¿Qué se debe hacer antes de cambiar el accesorio (broca, disco, punta) de una herramienta eléctrica?", difficulty: 1, options: ["Cambiarlo mientras sigue en marcha para ahorrar tiempo", "Apagarla y, si es posible, retirar la batería o desconectarla", "No es necesario ningún cuidado"], correct: 1, tip: "Siempre retirá la batería antes de cambiar accesorios en una herramienta inalámbrica." },
     { text: "¿Qué mantenimiento básico prolonga la vida útil de una herramienta Milwaukee?", difficulty: 1, options: ["Usarla sin pausas para evitar que se enfríe", "Limpieza regular y almacenamiento adecuado", "Dejarla siempre conectada a la batería"], correct: 1, tip: "Limpiar las herramientas después de cada uso previene acumulación de polvo en el motor." },
-    { text: "¿Qué característica identifica a las herramientas de una misma plataforma de batería Milwaukee?", difficulty: 1, options: ["Que solo sirven para una tarea específica", "Que son todas del mismo color", "Que comparten el mismo sistema de baterías intercambiables"], correct: 2, tip: "La plataforma M18 FUEL de Milwaukee usa motores brushless que duran hasta 10 veces más." },
-    { text: "¿Qué riesgo existe al usar una herramienta eléctrica con el cable o carcasa dañados?", difficulty: 2, options: ["Ningún riesgo relevante", "Mejora en el rendimiento", "Riesgo de choque eléctrico"], correct: 2, tip: "Una herramienta con cable dañado puede causar electrocución o incendio." },
-    { text: "¿Para qué se usa una sierra caladora Milwaukee?", difficulty: 1, options: ["Para hacer cortes curvos o precisos en distintos materiales", "Para medir torque en pernos", "Para proteger la vista del operario"], correct: 0, tip: "La sierra caladora Milwaukee permite cambiar hojas sin herramientas adicionales." },
-    { text: "¿Qué se debe verificar antes de usar una herramienta Milwaukee por primera vez?", difficulty: 1, options: ["Leer el manual y revisar su estado general", "Usarla directamente sin revisión", "Prestarla a un compañero primero"], correct: 0, tip: "Leer el manual antes de usar una herramienta nueva previene accidentes y daños al equipo." },
-    { text: "¿Qué tipo de herramienta Milwaukee se usa para cortar tubería metálica de forma rápida?", difficulty: 1, options: ["Torquímetro", "Calibrador pie de metro", "Sierra sable o cortadora eléctrica"], correct: 2, tip: "Las sierras sable Milwaukee pueden cortar metal, madera y PVC con la hoja adecuada." },
-    { text: "¿Por qué se recomienda usar el accesorio correcto para cada herramienta eléctrica?", difficulty: 1, options: ["Para evitar daños en la herramienta y accidentes", "Porque todos los accesorios son intercambiables sin riesgo", "No tiene importancia real"], correct: 0, tip: "Usar el accesorio incorrecto puede dañar la herramienta y provocar accidentes graves." },
-    { text: "¿Qué se debe hacer con una herramienta eléctrica que se sobrecalienta durante el uso?", difficulty: 2, options: ["Seguir usándola hasta terminar la tarea", "Sumergirla en agua para enfriarla", "Detener su uso y dejar que se enfríe o revisarla"], correct: 2, tip: "Si una herramienta se sobrecalienta, detenerla y dejar enfriar protege el motor y la batería." },
-    { text: "¿Qué busca el alineamiento de ejes en un equipo rotativo, servicio del departamento de ingeniería y confiabilidad?", difficulty: 2, options: ["Cambiar el color del acople", "Reducir vibraciones y desgaste prematuro por desalineación", "Aumentar la temperatura de operación"], correct: 1, tip: "La alineación láser de ejes puede realizarse en menos de 30 minutos por un técnico capacitado." },
-    { text: "¿Qué es el monitoreo de condición en mantenimiento?", difficulty: 1, options: ["Un cambio de aceite programado", "El seguimiento continuo de variables como vibración y temperatura para detectar fallas", "Una limpieza general de la planta"], correct: 1, tip: "El monitoreo de condición permite pasar de mantenimiento reactivo a proactivo." },
-    { text: "¿Qué diferencia al mantenimiento predictivo del correctivo?", difficulty: 1, options: ["Son exactamente lo mismo", "El correctivo siempre es más económico", "El predictivo anticipa fallas antes de que ocurran; el correctivo repara después de la falla"], correct: 2, tip: "El mantenimiento predictivo puede reducir los costos de mantenimiento hasta un 30%." },
-    { text: "¿Qué variable se mide comúnmente en el monitoreo de condición de un rodamiento?", difficulty: 2, options: ["Presión de neumáticos", "Color de la pintura", "Vibración"], correct: 2, tip: "La vibración es el indicador más usado en monitoreo de condición de equipos rotativos." },
-    { text: "¿Qué ventaja ofrece el mantenimiento predictivo frente al correctivo?", difficulty: 1, options: ["Reduce paradas no programadas y costos de reparación", "Aumenta el riesgo de fallas súbitas", "Elimina por completo la necesidad de mantenimiento"], correct: 0, tip: "El predictivo ahorra dinero: reparar antes de la falla cuesta hasta 10 veces menos que después." },
-    { text: "¿Qué servicio ofrece el montaje profesional de rodamientos y acoples en una planta?", difficulty: 1, options: ["Instalación con herramientas y procedimientos que evitan daños prematuros", "Solo la venta del componente sin instalación", "Pintura del equipo tras la instalación"], correct: 0, tip: "El montaje profesional de rodamientos puede duplicar su vida útil respecto a un montaje improvisado." },
-    { text: "¿Qué busca la confiabilidad en lubricantes dentro de un programa de mantenimiento?", difficulty: 1, options: ["Evitar cualquier tipo de lubricación", "Comprar siempre el lubricante más barato", "Asegurar el lubricante correcto, limpio y en la cantidad adecuada en cada punto"], correct: 2, tip: "La confiabilidad en lubricantes busca el lubricante correcto, limpio y en la cantidad justa." },
-    { text: "¿Qué tipo de mantenimiento se aplica cuando un equipo ya falló?", difficulty: 1, options: ["Mantenimiento predictivo", "Mantenimiento basado en condición", "Mantenimiento correctivo"], correct: 2, tip: "El mantenimiento correctivo es el más caro: incluye daños colaterales y pérdida de producción." },
-    { text: "¿Qué información entrega un análisis de vibraciones en un diagnóstico predictivo?", difficulty: 2, options: ["El precio de reposición del equipo", "El color del lubricante usado", "Indicios de desalineación, desbalanceo o desgaste de rodamientos"], correct: 2, tip: "Un espectro de vibraciones revela si la causa es desbalanceo, desalineación o falla de rodamiento." },
-    { text: "¿Qué objetivo tiene un servicio de instalación de cadenas y acoples por especialistas?", difficulty: 1, options: ["Garantizar el montaje correcto y prolongar la vida útil del componente", "Eliminar la necesidad de mantenimiento futuro", "Reducir el precio de compra del componente"], correct: 0, tip: "La instalación correcta de cadenas y acoples evita vibraciones que dañan toda la línea." },
-    { text: "¿Qué es un plan de mantenimiento basado en confiabilidad (RCM)?", difficulty: 2, options: ["Una estrategia que prioriza tareas de mantenimiento según el riesgo y criticidad del equipo", "Un catálogo de repuestos disponibles", "Un manual de seguridad general"], correct: 0, tip: "RCM (Reliability Centered Maintenance) prioriza tareas según el riesgo real de cada equipo." },
-    { text: "¿Qué beneficio aporta el monitoreo de condición a largo plazo en una planta?", difficulty: 2, options: ["Aumenta el consumo energético del equipo", "Permite planificar intervenciones antes de una falla mayor", "Elimina la necesidad de personal técnico"], correct: 1, tip: "El monitoreo continuo con sensores IoT permite detectar cambios en tiempo real, 24/7." },
-    { text: "¿Qué servicio ayuda a detectar el desalineamiento entre motor y equipo conducido?", difficulty: 2, options: ["Limpieza general del área", "Alineamiento láser de precisión", "Cambio de color del acople"], correct: 1, tip: "Un alineamiento láser de precisión puede reducir la vibración de un equipo en más del 80%." },
-    { text: "¿Qué rol cumple un departamento de ingeniería y confiabilidad en una empresa industrial?", difficulty: 1, options: ["Definir el uniforme del personal", "Encargarse únicamente de la limpieza de planta", "Optimizar la disponibilidad y vida útil de los equipos mediante buenas prácticas"], correct: 2, tip: "El departamento de confiabilidad es el puente entre mantenimiento, producción e ingeniería." },
-    { text: "¿Qué tipo de mantenimiento busca prevenir fallas antes de que ocurran, basándose en el estado real del equipo?", difficulty: 1, options: ["Mantenimiento correctivo", "Ningún tipo de mantenimiento es necesario", "Mantenimiento predictivo"], correct: 2, tip: "El mantenimiento basado en condición interviene solo cuando el equipo lo necesita, no por calendario." }
+    { text: "¿Qué característica identifica a las herramientas de una misma plataforma de batería Milwaukee?", difficulty: 2, options: ["Que solo sirven para una tarea específica", "Que son todas del mismo color", "Que comparten el mismo sistema de baterías intercambiables"], correct: 2, tip: "La plataforma M18 FUEL de Milwaukee usa motores brushless que duran hasta 10 veces más." },
+    { text: "¿Qué riesgo existe al usar una herramienta eléctrica con el cable o carcasa dañados?", difficulty: 3, options: ["Ningún riesgo relevante", "Mejora en el rendimiento", "Riesgo de choque eléctrico"], correct: 2, tip: "Una herramienta con cable dañado puede causar electrocución o incendio." },
+    { text: "¿Para qué se usa una sierra caladora Milwaukee?", difficulty: 2, options: ["Para hacer cortes curvos o precisos en distintos materiales", "Para medir torque en pernos", "Para proteger la vista del operario"], correct: 0, tip: "La sierra caladora Milwaukee permite cambiar hojas sin herramientas adicionales." },
+    { text: "¿Qué se debe verificar antes de usar una herramienta Milwaukee por primera vez?", difficulty: 2, options: ["Leer el manual y revisar su estado general", "Usarla directamente sin revisión", "Prestarla a un compañero primero"], correct: 0, tip: "Leer el manual antes de usar una herramienta nueva previene accidentes y daños al equipo." },
+    { text: "¿Qué tipo de herramienta Milwaukee se usa para cortar tubería metálica de forma rápida?", difficulty: 2, options: ["Torquímetro", "Calibrador pie de metro", "Sierra sable o cortadora eléctrica"], correct: 2, tip: "Las sierras sable Milwaukee pueden cortar metal, madera y PVC con la hoja adecuada." },
+    { text: "¿Por qué se recomienda usar el accesorio correcto para cada herramienta eléctrica?", difficulty: 2, options: ["Para evitar daños en la herramienta y accidentes", "Porque todos los accesorios son intercambiables sin riesgo", "No tiene importancia real"], correct: 0, tip: "Usar el accesorio incorrecto puede dañar la herramienta y provocar accidentes graves." },
+    { text: "¿Qué se debe hacer con una herramienta eléctrica que se sobrecalienta durante el uso?", difficulty: 3, options: ["Seguir usándola hasta terminar la tarea", "Sumergirla en agua para enfriarla", "Detener su uso y dejar que se enfríe o revisarla"], correct: 2, tip: "Si una herramienta se sobrecalienta, detenerla y dejar enfriar protege el motor y la batería." },
+    { text: "¿Qué busca el alineamiento de ejes en un equipo rotativo, servicio del departamento de ingeniería y confiabilidad?", difficulty: 3, options: ["Cambiar el color del acople", "Reducir vibraciones y desgaste prematuro por desalineación", "Aumentar la temperatura de operación"], correct: 1, tip: "La alineación láser de ejes puede realizarse en menos de 30 minutos por un técnico capacitado." },
+    { text: "¿Qué es el monitoreo de condición en mantenimiento?", difficulty: 2, options: ["Un cambio de aceite programado", "El seguimiento continuo de variables como vibración y temperatura para detectar fallas", "Una limpieza general de la planta"], correct: 1, tip: "El monitoreo de condición permite pasar de mantenimiento reactivo a proactivo." },
+    { text: "¿Qué diferencia al mantenimiento predictivo del correctivo?", difficulty: 2, options: ["Son exactamente lo mismo", "El correctivo siempre es más económico", "El predictivo anticipa fallas antes de que ocurran; el correctivo repara después de la falla"], correct: 2, tip: "El mantenimiento predictivo puede reducir los costos de mantenimiento hasta un 30%." },
+    { text: "¿Qué variable se mide comúnmente en el monitoreo de condición de un rodamiento?", difficulty: 3, options: ["Presión de neumáticos", "Color de la pintura", "Vibración"], correct: 2, tip: "La vibración es el indicador más usado en monitoreo de condición de equipos rotativos." },
+    { text: "¿Qué ventaja ofrece el mantenimiento predictivo frente al correctivo?", difficulty: 2, options: ["Reduce paradas no programadas y costos de reparación", "Aumenta el riesgo de fallas súbitas", "Elimina por completo la necesidad de mantenimiento"], correct: 0, tip: "El predictivo ahorra dinero: reparar antes de la falla cuesta hasta 10 veces menos que después." },
+    { text: "¿Qué servicio ofrece el montaje profesional de rodamientos y acoples en una planta?", difficulty: 2, options: ["Instalación con herramientas y procedimientos que evitan daños prematuros", "Solo la venta del componente sin instalación", "Pintura del equipo tras la instalación"], correct: 0, tip: "El montaje profesional de rodamientos puede duplicar su vida útil respecto a un montaje improvisado." },
+    { text: "¿Qué busca la confiabilidad en lubricantes dentro de un programa de mantenimiento?", difficulty: 2, options: ["Evitar cualquier tipo de lubricación", "Comprar siempre el lubricante más barato", "Asegurar el lubricante correcto, limpio y en la cantidad adecuada en cada punto"], correct: 2, tip: "La confiabilidad en lubricantes busca el lubricante correcto, limpio y en la cantidad justa." },
+    { text: "¿Qué tipo de mantenimiento se aplica cuando un equipo ya falló?", difficulty: 2, options: ["Mantenimiento predictivo", "Mantenimiento basado en condición", "Mantenimiento correctivo"], correct: 2, tip: "El mantenimiento correctivo es el más caro: incluye daños colaterales y pérdida de producción." },
+    { text: "¿Qué información entrega un análisis de vibraciones en un diagnóstico predictivo?", difficulty: 3, options: ["El precio de reposición del equipo", "El color del lubricante usado", "Indicios de desalineación, desbalanceo o desgaste de rodamientos"], correct: 2, tip: "Un espectro de vibraciones revela si la causa es desbalanceo, desalineación o falla de rodamiento." },
+    { text: "¿Qué objetivo tiene un servicio de instalación de cadenas y acoples por especialistas?", difficulty: 2, options: ["Garantizar el montaje correcto y prolongar la vida útil del componente", "Eliminar la necesidad de mantenimiento futuro", "Reducir el precio de compra del componente"], correct: 0, tip: "La instalación correcta de cadenas y acoples evita vibraciones que dañan toda la línea." },
+    { text: "¿Qué es un plan de mantenimiento basado en confiabilidad (RCM)?", difficulty: 3, options: ["Una estrategia que prioriza tareas de mantenimiento según el riesgo y criticidad del equipo", "Un catálogo de repuestos disponibles", "Un manual de seguridad general"], correct: 0, tip: "RCM (Reliability Centered Maintenance) prioriza tareas según el riesgo real de cada equipo." },
+    { text: "¿Qué beneficio aporta el monitoreo de condición a largo plazo en una planta?", difficulty: 3, options: ["Aumenta el consumo energético del equipo", "Permite planificar intervenciones antes de una falla mayor", "Elimina la necesidad de personal técnico"], correct: 1, tip: "El monitoreo continuo con sensores IoT permite detectar cambios en tiempo real, 24/7." },
+    { text: "¿Qué servicio ayuda a detectar el desalineamiento entre motor y equipo conducido?", difficulty: 3, options: ["Limpieza general del área", "Alineamiento láser de precisión", "Cambio de color del acople"], correct: 1, tip: "Un alineamiento láser de precisión puede reducir la vibración de un equipo en más del 80%." },
+    { text: "¿Qué rol cumple un departamento de ingeniería y confiabilidad en una empresa industrial?", difficulty: 2, options: ["Definir el uniforme del personal", "Encargarse únicamente de la limpieza de planta", "Optimizar la disponibilidad y vida útil de los equipos mediante buenas prácticas"], correct: 2, tip: "El departamento de confiabilidad es el puente entre mantenimiento, producción e ingeniería." },
+    { text: "¿Qué tipo de mantenimiento busca prevenir fallas antes de que ocurran, basándose en el estado real del equipo?", difficulty: 2, options: ["Mantenimiento correctivo", "Ningún tipo de mantenimiento es necesario", "Mantenimiento predictivo"], correct: 2, tip: "El mantenimiento basado en condición interviene solo cuando el equipo lo necesita, no por calendario." },
+    { text: "¿Para qué se utiliza un multímetro en tareas básicas de mantenimiento eléctrico?", difficulty: 2, options: ["Para medir voltaje, corriente y continuidad en circuitos eléctricos", "Para medir la viscosidad de un lubricante", "Para alinear ejes acoplados"], correct: 0, tip: "Un multímetro es una de las herramientas más básicas y versátiles en cualquier taller de mantenimiento." },
+    { text: "¿Para qué se utiliza un endoscopio o boroscopio industrial?", difficulty: 3, options: ["Para inspeccionar visualmente el interior de un equipo sin necesidad de desarmarlo por completo", "Para medir la temperatura de un rodamiento", "Para aplicar torque controlado a un perno"], correct: 0, tip: "Un boroscopio puede detectar daños internos en engranajes o cilindros sin desmontar el equipo." },
+    { text: "¿Qué se debe considerar al elegir guantes de seguridad 3M para una tarea específica?", difficulty: 2, options: ["El tipo de riesgo presente: corte, químico, abrasión o calor", "Solo la talla disponible en el almacén", "El color que combine con el uniforme"], correct: 0, tip: "No todos los guantes protegen igual: un guante para calor no necesariamente protege contra cortes." },
+    { text: "¿Qué mide un calibrador pie de metro (vernier)?", difficulty: 3, options: ["Dimensiones externas, internas y de profundidad con alta precisión", "La temperatura de una superficie", "El torque aplicado a un perno"], correct: 0, tip: "Un calibrador pie de metro puede medir con precisión de hasta 0.02 mm en modelos estándar." },
+    { text: "¿Cuál es la diferencia principal entre una llave dinamométrica y una llave de impacto?", difficulty: 2, options: ["La dinamométrica aplica un torque preciso y controlado; la de impacto prioriza la rapidez", "Son exactamente la misma herramienta con distinto nombre", "La de impacto no puede usarse en pernos grandes"], correct: 0, tip: "Para el ajuste final según especificación del fabricante, siempre se recomienda una llave dinamométrica." },
+    { text: "¿Qué permite detectar la termografía infrarroja aplicada a tableros eléctricos?", difficulty: 3, options: ["Puntos calientes por conexiones flojas o sobrecargadas antes de que fallen", "El nivel de ruido del tablero", "La viscosidad del aceite del transformador"], correct: 0, tip: "Una conexión eléctrica floja puede mostrar una diferencia de varios grados frente a sus vecinas en una imagen térmica." },
+    { text: "¿Qué diferencia a un taladro percutor Milwaukee de un taladro atornillador estándar?", difficulty: 2, options: ["El percutor añade un golpeteo axial para perforar materiales duros como concreto", "El atornillador estándar siempre es más potente", "No existe ninguna diferencia real entre ambos"], correct: 0, tip: "El modo percutor combina rotación con miles de golpes por minuto para perforar mampostería." },
+    { text: "¿Qué protección adicional ofrece una careta de soldar frente a unas gafas de seguridad estándar?", difficulty: 3, options: ["Protege contra la radiación UV e infrarroja del arco de soldadura, además de partículas", "Ninguna, cumplen exactamente la misma función", "Solo protege del ruido generado durante la soldadura"], correct: 0, tip: "Mirar un arco de soldadura sin protección adecuada puede causar 'quemadura de flash' en los ojos en segundos." },
+    { text: "¿Qué aporta el análisis de aceite dentro de un programa de monitoreo de condición?", difficulty: 3, options: ["Complementa la vibración y el ultrasonido, revelando desgaste y contaminación desde el lubricante", "Reemplaza por completo la necesidad de análisis de vibraciones", "Solo sirve para verificar el color del lubricante"], correct: 0, tip: "Un programa de monitoreo completo combina vibración, ultrasonido, termografía y análisis de aceite." },
+    { text: "¿Qué protección adicional ofrece una careta facial 3M frente a unas simples gafas de seguridad?", difficulty: 2, options: ["Protege también contra salpicaduras químicas y partículas de mayor tamaño en toda la cara", "Reemplaza la necesidad de usar casco", "Filtra el aire que se respira"], correct: 0, tip: "Una careta facial se usa junto con gafas de seguridad, no en lugar de ellas, para doble protección." },
+    { text: "¿Qué función cumple el calzado de seguridad con puntera de acero o composite?", difficulty: 3, options: ["Proteger los pies de impactos y objetos pesados que puedan caer", "Mejorar la velocidad de caminata del operario", "Aislar del ruido ambiental"], correct: 0, tip: "Un calzado de seguridad certificado puede resistir el impacto de un objeto de varios kilos sin lesionar el pie." },
+    { text: "¿Para qué se usa un detector de gases portátil antes de ingresar a un espacio confinado?", difficulty: 3, options: ["Para verificar niveles de oxígeno y presencia de gases tóxicos o explosivos antes de entrar", "Para medir la temperatura del ambiente", "Para calcular el torque necesario en el trabajo"], correct: 0, tip: "Un detector de gases debe calibrarse periódicamente para garantizar lecturas confiables." },
+    { text: "¿Qué indica el sistema de LED de carga en una batería M18 Milwaukee?", difficulty: 2, options: ["El nivel de carga restante de la batería", "El torque disponible de la herramienta", "La temperatura ambiente de trabajo"], correct: 0, tip: "Revisar el indicador de carga antes de iniciar una tarea evita interrupciones por batería agotada." },
+    { text: "¿Qué busca un análisis de criticidad de equipos dentro de un programa de confiabilidad?", difficulty: 3, options: ["Priorizar qué equipos requieren mayor atención de monitoreo según su impacto en la operación", "Determinar el color con que se pintará cada equipo", "Elegir el proveedor más económico de repuestos"], correct: 0, tip: "Un equipo crítico puede justificar sensores permanentes; uno no crítico puede monitorearse con rondas periódicas." },
+    { text: "¿En qué se diferencia una amoladora recta de una amoladora angular Milwaukee?", difficulty: 3, options: ["La recta se usa para trabajos de precisión con accesorios montados en línea; la angular para corte y desbaste con disco perpendicular", "Son exactamente la misma herramienta con distinto nombre comercial", "La recta solo puede usarse con batería, nunca con cable"], correct: 0, tip: "La amoladora recta es común en trabajos de pulido y desbarbado de piezas pequeñas." }
   ]
 };
 
@@ -838,6 +899,60 @@ let currentCat = 'rodamientos';
 let launchedQIds = new Set(); // preguntas del banco ya usadas en esta sesión de partida
 let unsubGame = null;
 let questionCounter = 0;
+let currentPlayers = {}; // último snapshot de game.players, para saber cuántos participantes hay
+let currentMeta = {}; // último snapshot de game.meta (incluye el bloque de preguntas asignado por categoría)
+
+/* ---------- bloques de 15 preguntas por partida ----------
+   Cada categoría tiene 75 preguntas (25 básicas + 25 intermedias + 25 avanzadas).
+   Cada partida usa un bloque de 15 (5 básicas + 5 intermedias + 5 avanzadas), en ese
+   orden. Hay 5 bloques posibles por categoría (75 / 15 = 5); un contador persistente
+   en Firebase (categoryCycle/{categoria}/nextBlock) va rotando 0→1→2→3→4→0→... cada
+   vez que una partida nueva "estrena" esa categoría, así cada partida trae preguntas
+   distintas hasta agotar las 75, y ahí vuelve a empezar desde el bloque 1. */
+const CATEGORY_BLOCK_SIZE = 15;
+const CATEGORY_TIER_SIZE = 5; // 5 básicas + 5 intermedias + 5 avanzadas = 15
+const CATEGORY_BLOCK_COUNT = 5; // 75 preguntas / 15 por bloque
+const pendingBlockAssignments = new Set();
+
+function getCategoryBlockIndices(cat, blockIndex) {
+  const list = QUESTIONS[cat] || [];
+  const tiers = { 1: [], 2: [], 3: [] };
+  list.forEach((q, idx) => {
+    const d = (q.difficulty === 1 || q.difficulty === 3) ? q.difficulty : 2;
+    tiers[d].push(idx);
+  });
+  const start = blockIndex * CATEGORY_TIER_SIZE;
+  return [
+    ...tiers[1].slice(start, start + CATEGORY_TIER_SIZE),
+    ...tiers[2].slice(start, start + CATEGORY_TIER_SIZE),
+    ...tiers[3].slice(start, start + CATEGORY_TIER_SIZE),
+  ];
+}
+
+async function ensureCategoryBlockAssigned(cat) {
+  if (!currentGameCode || pendingBlockAssignments.has(cat)) return;
+  const yaAsignado = currentMeta && currentMeta.categoryBlocks && typeof currentMeta.categoryBlocks[cat] === 'number';
+  if (yaAsignado) return;
+  pendingBlockAssignments.add(cat);
+  try {
+    // Transacción atómica sobre el contador global de esa categoría: evita que dos
+    // anfitriones creando partidas al mismo tiempo terminen con el mismo bloque.
+    const cycleRef = DB.ref('categoryCycle/' + cat);
+    const result = await cycleRef.transaction(current => {
+      const cur = (current && typeof current.nextBlock === 'number') ? current.nextBlock : 0;
+      return { nextBlock: (cur + 1) % CATEGORY_BLOCK_COUNT };
+    });
+    let assigned = 0;
+    if (result && result.committed && result.snapshot && typeof result.snapshot.nextBlock === 'number') {
+      assigned = (result.snapshot.nextBlock - 1 + CATEGORY_BLOCK_COUNT) % CATEGORY_BLOCK_COUNT;
+    }
+    await DB.ref('liveGames/' + currentGameCode + '/meta/categoryBlocks/' + cat).set(assigned);
+  } catch (e) {
+    console.error('No se pudo asignar el bloque de preguntas para la categoría', cat, e);
+  } finally {
+    pendingBlockAssignments.delete(cat);
+  }
+}
 
 const screens = {
   setup: document.getElementById('screenSetup'),
@@ -909,6 +1024,8 @@ document.getElementById('whatsappLinkBtn').addEventListener('click', () => {
 /* ---------- panel de control: jugadores + puntuación ---------- */
 function handleGameUpdate(game) {
   if (!game) return;
+  currentMeta = game.meta || {};
+  currentPlayers = game.players || {};
   renderPlayers(game.players || {});
   renderScoreboard(game.players || {});
   const finished = game.gameStatus === 'finished';
@@ -962,6 +1079,7 @@ document.querySelectorAll('.cat-btn').forEach(btn => {
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentCat = btn.dataset.cat;
+    ensureCategoryBlockAssigned(currentCat);
     renderBankList();
   });
 });
@@ -969,14 +1087,31 @@ document.querySelector('.cat-btn[data-cat="rodamientos"]').classList.add('active
 
 function renderBankList() {
   const wrap = document.getElementById('bankQuestionsList');
+  const infoBox = document.getElementById('bankBlockInfo');
   const list = QUESTIONS[currentCat] || [];
   const LEVEL_LABELS = { 1: '🟢 Básica', 2: '🟡 Intermedia', 3: '🔴 Avanzada' };
-  // Ordenamos por dificultad (básica primero) conservando el índice original,
-  // que es el que usa launchBankQuestion para identificar la pregunta exacta.
-  const withIdx = list.map((q, idx) => ({ q, idx }));
-  withIdx.sort((a, b) => (a.q.difficulty || 2) - (b.q.difficulty || 2));
 
-  wrap.innerHTML = withIdx.map(({ q, idx }) => {
+  const blockIndex = (currentMeta && currentMeta.categoryBlocks && typeof currentMeta.categoryBlocks[currentCat] === 'number')
+    ? currentMeta.categoryBlocks[currentCat]
+    : null;
+
+  if (blockIndex === null) {
+    infoBox.textContent = '';
+    wrap.innerHTML = '<div class="empty-note">Preparando las 15 preguntas de esta categoría para esta partida…</div>';
+    ensureCategoryBlockAssigned(currentCat);
+    return;
+  }
+
+  infoBox.textContent = 'Bloque ' + (blockIndex + 1) + ' de ' + CATEGORY_BLOCK_COUNT +
+    ' — 15 preguntas de esta partida (de más simples a más complejas). Al terminarse los 5 bloques, se vuelve a empezar desde el 1.';
+
+  // El bloque ya viene ordenado: primero las 5 básicas, luego las 5 intermedias,
+  // luego las 5 avanzadas — el mismo índice original (idx) sigue usando
+  // launchBankQuestion para identificar la pregunta exacta.
+  const indices = getCategoryBlockIndices(currentCat, blockIndex);
+
+  wrap.innerHTML = indices.map(idx => {
+    const q = list[idx];
     const qid = currentCat + '_' + idx;
     const used = launchedQIds.has(qid);
     const levelLabel = LEVEL_LABELS[q.difficulty || 2];
@@ -1008,42 +1143,89 @@ document.getElementById('tabCustomBtn').addEventListener('click', () => {
 });
 
 /* ---------- lanzar pregunta ---------- */
-let activeCorrectIndex = null; // solo vive en memoria del anfitrión, nunca se escribe a la DB compartida
-let reopenTimerHandle = null;  // setInterval de la cuenta regresiva de 10s al reabrir tras una respuesta incorrecta
+const ANSWER_WINDOW_MS = 20000; // 20 segundos para que todos respondan
+let activeCorrectIndex = null; // solo vive en memoria del anfitrión hasta que se resuelve la ronda
+let answerTimerHandle = null;  // setInterval de la cuenta regresiva de 20s de la pregunta activa
 
-function clearReopenTimer() {
-  if (reopenTimerHandle) { clearInterval(reopenTimerHandle); reopenTimerHandle = null; }
+// Puntaje por velocidad: se divide la ventana de 20s en 4 cuartos.
+// Solo aplica si la respuesta fue correcta; una respuesta incorrecta sigue restando 1 punto parejo.
+function pointsForElapsed(elapsedMs) {
+  if (elapsedMs <= 5000) return 4;
+  if (elapsedMs <= 10000) return 3;
+  if (elapsedMs <= 15000) return 2;
+  return 1; // 15s-20s (o cualquier caso límite por diferencia de reloj)
 }
 
-function startReopenTimer(q) {
+function clearAnswerTimer() {
+  if (answerTimerHandle) { clearInterval(answerTimerHandle); answerTimerHandle = null; }
+}
+
+function startAnswerTimer(q) {
   const box = document.getElementById('reopenTimerBox');
   const secEl = document.getElementById('reopenTimerSeconds');
-  const deadline = q.reopenDeadline;
+  const deadline = q.deadline;
   const qId = q.qId;
   box.classList.remove('hidden');
   const tick = () => {
     const msLeft = deadline - Date.now();
     const secs = Math.max(0, Math.ceil(msLeft / 1000));
     secEl.textContent = secs;
-    box.classList.toggle('urgent', secs <= 3);
+    box.classList.toggle('urgent', secs <= 5);
     if (msLeft <= 0) {
-      clearReopenTimer();
-      expireReopenWindow(qId, deadline);
+      clearAnswerTimer();
+      resolveQuestion(qId, deadline);
     }
   };
   tick();
-  reopenTimerHandle = setInterval(tick, 250);
+  answerTimerHandle = setInterval(tick, 250);
 }
 
-// se cumplieron los 10s del reabierto y nadie respondió a tiempo: se cierra la ronda
-// como "todos fallaron" (transacción guardada para no pisar una respuesta que llegó justo a tiempo)
-async function expireReopenWindow(qId, deadline) {
+// se cumplieron los 20 segundos: se cierra la pregunta, se revela la opción
+// correcta y se suma/resta el puntaje de cada participante según lo que haya
+// respondido (transacción guardada para no resolver dos veces la misma ronda
+// ni pisar una pregunta que ya haya cambiado).
+async function resolveQuestion(qId, deadline) {
   const qRef = DB.ref('liveGames/' + currentGameCode + '/question');
-  await qRef.transaction(current => {
+  const result = await qRef.transaction(current => {
     if (!current || current.qId !== qId) return; // la pregunta ya cambió
-    if (current.status !== 'open' || current.reopenDeadline !== deadline) return; // ya no aplica
-    return Object.assign({}, current, { status: 'resolved_wrong_all', lockedBy: null, reopenDeadline: null });
+    if (current.status !== 'open' || current.deadline !== deadline) return; // ya no aplica
+    return Object.assign({}, current, { status: 'resolved', correctIndex: activeCorrectIndex });
   });
+  if (!result.committed) return;
+
+  const answers = (result.snapshot && result.snapshot.answers) || {};
+  const launchedAt = (result.snapshot && result.snapshot.launchedAt) || deadline - ANSWER_WINDOW_MS;
+  for (const [pid, ans] of Object.entries(answers)) {
+    const isCorrect = !!(ans && ans.optionIndex === activeCorrectIndex);
+    const elapsedMs = (ans && typeof ans.answeredAt === 'number') ? (ans.answeredAt - launchedAt) : ANSWER_WINDOW_MS;
+    const delta = isCorrect ? pointsForElapsed(elapsedMs) : -1;
+    const playerRef = DB.ref('liveGames/' + currentGameCode + '/players/' + pid);
+    try {
+      const p = await playerRef.once();
+      const curScore = (p && typeof p.score === 'number') ? p.score : 0;
+      await playerRef.update({ score: curScore + delta });
+    } catch (e) {
+      console.error('No se pudo actualizar el puntaje del jugador', pid, e);
+    }
+    try {
+      await DB.ref('globalPlayers/' + pid).transaction(gp => {
+        if (!gp) return gp; // si no existe perfil global, no crear uno vacío
+        gp.totalScore = (gp.totalScore || 0) + delta;
+        gp.categoriesPlayed = gp.categoriesPlayed || {};
+        gp.categoriesPlayed[currentCat] = true;
+        gp.attemptCount = (gp.attemptCount || 0) + 1; // cuenta toda respuesta, correcta o no
+        if (isCorrect) {
+          gp.correctCount = (gp.correctCount || 0) + 1;
+          gp.correctTimeSumSec = (gp.correctTimeSumSec || 0) + (elapsedMs / 1000); // para el tiempo promedio del ranking
+        } else {
+          gp.wrongCount = (gp.wrongCount || 0) + 1;
+        }
+        return gp;
+      });
+    } catch (e) {
+      console.error('No se pudo actualizar el perfil global del jugador', pid, e);
+    }
+  }
 }
 
 async function launchBankQuestion(cat, idx) {
@@ -1053,15 +1235,16 @@ async function launchBankQuestion(cat, idx) {
   activeCorrectIndex = q.correct;
   launchedQIds.add(qid);
   questionCounter++;
+  const launchedAt = Date.now();
   await DB.ref('liveGames/' + currentGameCode + '/question').set({
     qId: 'q' + questionCounter + '_' + qid,
     status: 'open',
     categoryLabel: CATEGORY_LABELS[cat] || cat,
     text: q.text,
     options: q.options,
-    lockedBy: null,
-    failedPlayers: {},
-    resolvedWinner: null,
+    launchedAt: launchedAt,
+    deadline: launchedAt + ANSWER_WINDOW_MS,
+    answers: {},
   });
 }
 
@@ -1074,15 +1257,16 @@ document.getElementById('launchCustomBtn').addEventListener('click', async () =>
   if (!text || !a || !b || !c) { showError('Completá la pregunta y las tres opciones.'); return; }
   activeCorrectIndex = correct;
   questionCounter++;
+  const launchedAt = Date.now();
   await DB.ref('liveGames/' + currentGameCode + '/question').set({
     qId: 'qcustom' + questionCounter,
     status: 'open',
     categoryLabel: 'Personalizada',
     text: text,
     options: [a, b, c],
-    lockedBy: null,
-    failedPlayers: {},
-    resolvedWinner: null,
+    launchedAt: launchedAt,
+    deadline: launchedAt + ANSWER_WINDOW_MS,
+    answers: {},
   });
   document.getElementById('customQText').value = '';
   document.getElementById('customOptA').value = '';
@@ -1092,7 +1276,7 @@ document.getElementById('launchCustomBtn').addEventListener('click', async () =>
 
 /* ---------- render de la pregunta activa (estado en vivo) ---------- */
 function renderActiveQuestion(q) {
-  clearReopenTimer();
+  clearAnswerTimer();
 
   const pickerBox = document.getElementById('pickerBox');
   const activeBox = document.getElementById('activeBox');
@@ -1121,130 +1305,44 @@ function renderActiveQuestion(q) {
   const lockedBox = document.getElementById('lockedReviewBox');
   const resolvedBox = document.getElementById('resolvedBox');
   const allFailedBox = document.getElementById('allFailedBox');
-  [waitingBox, lockedBox, resolvedBox, allFailedBox].forEach(b => b.classList.add('hidden'));
+  [lockedBox, allFailedBox].forEach(b => b.classList.add('hidden'));
 
   const cancelBtn = document.getElementById('cancelQuestionBtn');
-  const resolved = (q.status === 'resolved_correct' || q.status === 'resolved_wrong_all');
+  const resolved = q.status === 'resolved';
   cancelBtn.textContent = resolved ? 'Siguiente pregunta →' : 'Cancelar / volver a elegir pregunta';
-  // mientras la pregunta está resuelta, este botón ya alcanza para pasar a la próxima;
-  // el botón "Cerrar pregunta" dentro del bloque "todos fallaron" hace lo mismo, se deja
-  // como acción explícita adicional en ese caso puntual.
   cancelBtn.classList.toggle('primary', resolved);
   cancelBtn.classList.toggle('secondary', !resolved);
 
+  const answeredCount = Object.keys(q.answers || {}).length;
+  const totalPlayers = Object.keys(currentPlayers || {}).length;
+
   if (q.status === 'open') {
+    resolvedBox.classList.add('hidden');
     waitingBox.classList.remove('hidden');
-    const reopenTimerBox = document.getElementById('reopenTimerBox');
-    const waitingText = document.getElementById('waitingLockText');
-    const waitingSub = document.getElementById('waitingLockSub');
-    if (q.reopenDeadline) {
-      waitingText.textContent = 'Se reabrió la pregunta — responden los demás participantes';
-      waitingSub.textContent = 'Quien falló queda bloqueado. Los demás tienen 10 segundos para tocar una opción.';
-      startReopenTimer(q);
-    } else {
-      waitingText.textContent = 'Pregunta lanzada — esperando que alguien responda...';
-      waitingSub.textContent = 'El primero en tocar una opción se bloquea automáticamente.';
-      reopenTimerBox.classList.add('hidden');
-    }
-  } else if (q.status === 'locked' && q.lockedBy) {
-    lockedBox.classList.remove('hidden');
-    const letter = letters[q.lockedBy.optionIndex];
-    const optText = (q.options || [])[q.lockedBy.optionIndex] || '';
-    document.getElementById('lockedWho').textContent = q.lockedBy.name + ' tocó primero';
-    document.getElementById('lockedWhat').textContent = 'Eligió: ' + letter + ') ' + optText;
-  } else if (q.status === 'resolved_correct') {
+    document.getElementById('waitingLockText').textContent = 'Pregunta lanzada — todos pueden responder';
+    document.getElementById('waitingLockSub').textContent = answeredCount + ' de ' + totalPlayers + ' participantes ya respondieron.';
+    startAnswerTimer(q);
+  } else if (q.status === 'resolved') {
+    waitingBox.classList.add('hidden');
     resolvedBox.classList.remove('hidden');
-    document.getElementById('resolvedIcon').textContent = '🏆';
-    document.getElementById('resolvedText').textContent = (q.resolvedWinner ? q.resolvedWinner.name : '') + ' acertó. Ronda cerrada.';
-  } else if (q.status === 'resolved_wrong_all') {
-    allFailedBox.classList.remove('hidden');
+    const answers = q.answers || {};
+    let correctCount = 0, wrongCount = 0;
+    Object.values(answers).forEach(a => { if (a && a.optionIndex === q.correctIndex) correctCount++; else wrongCount++; });
+    const noAnswerCount = Math.max(0, totalPlayers - Object.keys(answers).length);
+    document.getElementById('resolvedIcon').textContent = '🏁';
+    document.getElementById('resolvedText').textContent =
+      correctCount + ' acertaron, ' + wrongCount + ' fallaron' +
+      (noAnswerCount ? ', ' + noAnswerCount + ' no respondieron' : '') + '.';
   }
 }
 
-/* ---------- juicio del anfitrión: correcto / incorrecto ---------- */
-document.getElementById('markCorrectBtn').addEventListener('click', async () => {
-  const qRef = DB.ref('liveGames/' + currentGameCode + '/question');
-  const q = await qRef.once();
-  if (!q || q.status !== 'locked' || !q.lockedBy) return;
-  const winnerId = q.lockedBy.playerId;
-  const winnerName = q.lockedBy.name;
-
-  const playerRef = DB.ref('liveGames/' + currentGameCode + '/players/' + winnerId);
-  const p = await playerRef.once();
-  const curScore = (p && typeof p.score === 'number') ? p.score : 0;
-  await playerRef.update({ score: curScore + 1 });
-
-  // Reflejar también en el perfil histórico global del jugador (para el ranking y niveles)
-  try {
-    await DB.ref('globalPlayers/' + winnerId).transaction(gp => {
-      if (!gp) return gp; // si no existe perfil global, no crear uno vacío
-      gp.totalScore = (gp.totalScore || 0) + 1;
-      gp.correctCount = (gp.correctCount || 0) + 1;
-      gp.categoriesPlayed = gp.categoriesPlayed || {};
-      gp.categoriesPlayed[currentCat] = true;
-      return gp;
-    });
-  } catch (e) {
-    console.error('No se pudo actualizar el perfil global del jugador', winnerId, e);
-  }
-
-  await qRef.update({ status: 'resolved_correct', resolvedWinner: { playerId: winnerId, name: winnerName } });
-  activeCorrectIndex = null;
-});
-
-document.getElementById('markWrongBtn').addEventListener('click', async () => {
-  const qRef = DB.ref('liveGames/' + currentGameCode + '/question');
-  const q = await qRef.once();
-  if (!q || q.status !== 'locked' || !q.lockedBy) return;
-  const failedId = q.lockedBy.playerId;
-
-  const playerRef = DB.ref('liveGames/' + currentGameCode + '/players/' + failedId);
-  const p = await playerRef.once();
-  const curScore = (p && typeof p.score === 'number') ? p.score : 0;
-  await playerRef.update({ score: curScore - 1 });
-
-  // Reflejar también en el perfil histórico global del jugador
-  try {
-    await DB.ref('globalPlayers/' + failedId).transaction(gp => {
-      if (!gp) return gp;
-      gp.totalScore = (gp.totalScore || 0) - 1;
-      gp.wrongCount = (gp.wrongCount || 0) + 1;
-      gp.categoriesPlayed = gp.categoriesPlayed || {};
-      gp.categoriesPlayed[currentCat] = true;
-      return gp;
-    });
-  } catch (e) {
-    console.error('No se pudo actualizar el perfil global del jugador', failedId, e);
-  }
-
-  const newFailed = Object.assign({}, q.failedPlayers || {}, { [failedId]: true });
-
-  // ¿queda algún participante que todavía no falló esta pregunta?
-  const allPlayers = await DB.ref('liveGames/' + currentGameCode + '/players').once();
-  const remaining = Object.keys(allPlayers || {}).filter(pid => !newFailed[pid]);
-
-  if (remaining.length > 0) {
-    await qRef.update({ status: 'open', lockedBy: null, failedPlayers: newFailed, reopenDeadline: Date.now() + 10000 });
-  } else {
-    await qRef.update({ status: 'resolved_wrong_all', lockedBy: null, failedPlayers: newFailed, reopenDeadline: null });
-  }
-});
-
-/* ---------- revelar respuesta / cerrar tras que todos fallen ---------- */
-document.getElementById('revealAnswerBtn').addEventListener('click', async () => {
-  if (activeCorrectIndex === null) return;
-  const qRef = DB.ref('liveGames/' + currentGameCode + '/question');
-  await qRef.update({ revealCorrectIndex: activeCorrectIndex });
-  showOk('Respuesta revelada a los participantes.');
-});
-
-document.getElementById('closeQuestionBtn').addEventListener('click', async () => {
-  const qRef = DB.ref('liveGames/' + currentGameCode + '/question');
-  await qRef.set({ status: 'idle' });
-  activeCorrectIndex = null;
-});
-
+/* ---------- cancelar pregunta / pasar a la siguiente ----------
+   La resolución (quién acertó, quién falló, puntajes) ahora es automática
+   al cumplirse el cronómetro de 20s — ver resolveQuestion() más arriba.
+   Este botón sirve para: (a) cancelar una pregunta antes de tiempo, o
+   (b) una vez resuelta, pasar a elegir la siguiente. */
 document.getElementById('cancelQuestionBtn').addEventListener('click', async () => {
+  clearAnswerTimer();
   const qRef = DB.ref('liveGames/' + currentGameCode + '/question');
   await qRef.set({ status: 'idle' });
   activeCorrectIndex = null;
@@ -1259,6 +1357,7 @@ document.getElementById('finalizeCancelBtn').addEventListener('click', () => {
 });
 document.getElementById('finalizeConfirmBtn').addEventListener('click', async () => {
   try {
+    clearAnswerTimer();
     // se cierra cualquier pregunta que haya quedado abierta antes de finalizar
     await DB.ref('liveGames/' + currentGameCode + '/question').set({ status: 'idle' });
     await DB.ref('liveGames/' + currentGameCode + '/gameStatus').set('finished');
