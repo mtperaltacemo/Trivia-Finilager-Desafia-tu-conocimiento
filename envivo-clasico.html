@@ -495,6 +495,24 @@ function createMockDb() {
 
 const DB = isMockMode() ? createMockDb() : createFirebaseDb();
 
+/* ============================================================
+   HORA DEL SERVIDOR (corrige el desfase de reloj entre celular/PC)
+   Cada dispositivo (el celular del anfitrión, la compu del jugador) puede
+   tener el reloj unos segundos adelantado o atrasado. Si cada uno calculara
+   el tiempo restante con su propio Date.now(), la barra de 20s se ve
+   desincronizada entre pantallas. Firebase expone '.info/serverTimeOffset':
+   la diferencia entre el reloj del servidor y el del dispositivo. Sumando
+   ese offset a Date.now() en ambos archivos, todos calculan el mismo
+   "ahora" real, sin importar cómo esté puesto el reloj de cada aparato.
+   En modo mock (?mock=1) no hay servidor real, así que el offset queda en
+   0 (no hace falta corregir nada entre pestañas del mismo navegador).
+   ============================================================ */
+let serverTimeOffsetMs = 0;
+DB.ref('.info/serverTimeOffset').onValue(offset => {
+  serverTimeOffsetMs = (typeof offset === 'number') ? offset : 0;
+});
+function serverNow() { return Date.now() + serverTimeOffsetMs; }
+
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str == null ? '' : String(str);
@@ -745,7 +763,7 @@ function startQuestionTimer(deadline) {
   // La barra se contrae de forma continua y pareja hasta el deadline exacto
   // (vía transición CSS) en vez de un número que salta cada segundo — así
   // se sigue viendo con el rabillo del ojo mientras se piensa la respuesta.
-  const msLeftNow = Math.max(0, deadline - Date.now());
+  const msLeftNow = Math.max(0, deadline - serverNow());
   fill.style.transition = 'none';
   fill.style.width = (msLeftNow / ANSWER_WINDOW_MS * 100) + '%';
   void fill.offsetWidth; // fuerza reflow para que el ancho inicial se aplique antes de animar
@@ -753,7 +771,7 @@ function startQuestionTimer(deadline) {
   fill.style.width = '0%';
 
   const tick = () => {
-    const msLeft = deadline - Date.now();
+    const msLeft = deadline - serverNow();
     fill.classList.toggle('warn', msLeft <= ANSWER_WINDOW_MS / 2);
     fill.classList.toggle('urgent', msLeft <= 5000);
     if (msLeft <= 0) clearQuestionTimer();
@@ -807,7 +825,7 @@ async function attemptAnswer(optionIndex) {
   try {
     await DB.ref('liveGames/' + GAME_CODE + '/question/answers/' + player.id).set({
       optionIndex: optionIndex,
-      answeredAt: Date.now(),
+      answeredAt: serverNow(),
     });
   } catch (e) {
     console.error('No se pudo registrar tu respuesta:', e);
