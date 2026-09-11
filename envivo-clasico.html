@@ -130,6 +130,9 @@
 
   .quiz-cat-label { font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--blue-light); font-weight:700; margin-bottom:6px; text-align:center; }
   .question-text { font-size:19px; font-weight:700; line-height:1.4; margin:4px 0 16px; font-family:'Space Grotesk',sans-serif; text-align:center; }
+  .q-timer-box { text-align:center; font-weight:700; font-size:14px; color:var(--yellow); margin-bottom:10px; letter-spacing:.02em; font-family:'Space Grotesk',sans-serif; }
+  .q-timer-box.urgent { color:var(--danger); }
+  .kahoot-tile.picked { opacity:1 !important; outline:3px solid var(--text); }
 
   .opt-review { display:grid; gap:8px; margin-bottom:16px; }
   .opt-review-row {
@@ -312,21 +315,10 @@
     <div class="score-strip"><span id="qPlayerName"></span><span><b id="qScore">0</b> pts</span></div>
     <div class="card">
       <div class="quiz-cat-label" id="qCatLabel"></div>
+      <div class="q-timer-box" id="qTimerBox">⏱ Quedan <span id="qTimerSeconds">20</span>s</div>
       <div class="question-text" id="qText"></div>
       <div class="kahoot-tiles" id="qOptions"></div>
-      <p class="muted" style="font-size:12.5px; text-align:center; margin-top:10px;">⚡ El primero en tocar la opción correcta gana el punto. Si te equivocás, la pregunta se reabre para los demás.</p>
-    </div>
-  </div>
-
-  <!-- LOCKED / WAITING FOR HOST VERDICT -->
-  <div id="screenLocked" class="hidden">
-    <div class="score-strip"><span id="lkPlayerName"></span><span><b id="lkScore">0</b> pts</span></div>
-    <div class="card">
-      <div class="status-box">
-        <div class="status-icon" id="lkIcon">⏳</div>
-        <div class="status-text" id="lkStatusText">Esperando el veredicto del anfitrión...</div>
-        <div class="status-sub" id="lkStatusSub">Tocaste una opción. El anfitrión va a marcar si fue correcta.</div>
-      </div>
+      <p class="muted" id="qAnsweredNote" style="font-size:12.5px; text-align:center; margin-top:10px;">Tocá una opción. Todos pueden responder — el tiempo sigue corriendo para los demás.</p>
     </div>
   </div>
 
@@ -546,7 +538,6 @@ const screens = {
   playerRank: document.getElementById('screenPlayerRank'),
   waiting: document.getElementById('screenWaiting'),
   question: document.getElementById('screenQuestion'),
-  locked: document.getElementById('screenLocked'),
   leaderboard: document.getElementById('screenLeaderboard'),
   finished: document.getElementById('screenFinished'),
 };
@@ -671,7 +662,7 @@ async function joinGame() {
       globalPlayerContact = contact;
       await DB.ref('globalPlayers/' + globalPlayerId).set({
         name: globalPlayerName, contact: globalPlayerContact, createdAt: Date.now(),
-        totalScore: 0, categoriesPlayed: {}, correctCount: 0, wrongCount: 0, noAnswerCount: 0, correctTimeSumSec: 0,
+        totalScore: 0, categoriesPlayed: {}, correctCount: 0, wrongCount: 0, noAnswerCount: 0, correctTimeSumSec: 0, attemptCount: 0,
       });
     }
 
@@ -716,120 +707,135 @@ function handleGameUpdate(game) {
   setScoreEverywhere(typeof me.score === 'number' ? me.score : 0);
   setNameEverywhere(player.name);
 
-  if (game.gameStatus === 'finished') { showFinishedScreen(game); return; }
+  if (game.gameStatus === 'finished') { clearQuestionTimer(); showFinishedScreen(game); return; }
 
   const q = game.question;
-  if (!q || q.status === 'idle') { showScreen('waiting'); return; }
-
-  const iLocked = q.lockedBy && q.lockedBy.playerId === player.id;
-  const iFailed = q.failedPlayers && q.failedPlayers[player.id];
+  if (!q || q.status === 'idle') { clearQuestionTimer(); showScreen('waiting'); return; }
 
   if (q.status === 'open') {
-    if (iFailed) {
-      // ya fallé esta pregunta; espero a que otro la responda o se resuelva
-      showWaitingForOthers();
-    } else {
-      renderQuestionScreen(q);
-    }
+    renderQuestionScreen(q);
     return;
   }
 
-  if (q.status === 'locked') {
-    if (iLocked) {
-      showLockedScreen();
-    } else {
-      showWaitingForVerdict(q.lockedBy.name);
-    }
-    return;
-  }
-
-  if (q.status === 'resolved_correct' || q.status === 'resolved_wrong_all') {
+  if (q.status === 'resolved') {
+    clearQuestionTimer();
     showRoundResultScreen(game, q);
     return;
   }
 }
 
-function showWaitingForOthers() {
-  showScreen('locked');
-  document.getElementById('lkIcon').textContent = '🙈';
-  document.getElementById('lkStatusText').textContent = 'Ya la intentaste';
-  document.getElementById('lkStatusSub').textContent = 'Esperá a que otro participante responda esta pregunta.';
+/* ---------- cronómetro de 20s: todos pueden responder mientras corre ---------- */
+function clearQuestionTimer() {
+  if (qTimerHandle) { clearInterval(qTimerHandle); qTimerHandle = null; }
 }
-
-function showWaitingForVerdict(name) {
-  showScreen('locked');
-  document.getElementById('lkIcon').textContent = '⏳';
-  document.getElementById('lkStatusText').textContent = name + ' tocó primero';
-  document.getElementById('lkStatusSub').textContent = 'El anfitrión está revisando su respuesta...';
-}
-
-function showLockedScreen() {
-  showScreen('locked');
-  document.getElementById('lkIcon').textContent = '⏳';
-  document.getElementById('lkStatusText').textContent = 'Esperando el veredicto del anfitrión...';
-  document.getElementById('lkStatusSub').textContent = 'Tocaste una opción. El anfitrión va a marcar si fue correcta.';
+function startQuestionTimer(deadline) {
+  clearQuestionTimer();
+  const box = document.getElementById('qTimerBox');
+  const secEl = document.getElementById('qTimerSeconds');
+  const tick = () => {
+    const msLeft = deadline - Date.now();
+    const secs = Math.max(0, Math.ceil(msLeft / 1000));
+    secEl.textContent = secs;
+    box.classList.toggle('urgent', secs <= 5);
+    if (msLeft <= 0) clearQuestionTimer();
+  };
+  tick();
+  qTimerHandle = setInterval(tick, 250);
 }
 
 function renderQuestionScreen(q) {
   showScreen('question');
-  const catLabelEl = document.getElementById('qCatLabel');
-  catLabelEl.textContent = q.categoryLabel || '';
+  document.getElementById('qCatLabel').textContent = q.categoryLabel || '';
   document.getElementById('qText').textContent = q.text;
+
+  const myAnswer = (q.answers && q.answers[player.id]) || null;
   const wrap = document.getElementById('qOptions');
   wrap.innerHTML = '';
   const shapes = ['▲', '◆', '●'];
   (q.options || []).forEach((opt, idx) => {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'kahoot-tile tile-' + idx;
+    const picked = myAnswer && myAnswer.optionIndex === idx;
+    btn.className = 'kahoot-tile tile-' + idx + (picked ? ' picked' : '');
     btn.innerHTML = '<span class="kahoot-shape">' + shapes[idx] + '</span><span>' + escapeHtml(opt) + '</span>';
-    btn.addEventListener('click', () => attemptAnswer(idx));
+    if (myAnswer) {
+      btn.disabled = true;
+    } else {
+      btn.addEventListener('click', () => attemptAnswer(idx));
+    }
     wrap.appendChild(btn);
   });
+
+  const note = document.getElementById('qAnsweredNote');
+  if (note) {
+    note.textContent = myAnswer
+      ? 'Ya respondiste. Esperá a que termine el tiempo para ver el resultado.'
+      : 'Tocá una opción. Todos pueden responder — el tiempo sigue corriendo para los demás.';
+  }
+
+  startQuestionTimer(q.deadline);
 }
 
 async function attemptAnswer(optionIndex) {
-  document.querySelectorAll('#qOptions .kahoot-tile').forEach(b => b.disabled = true);
-  const qRef = DB.ref('liveGames/' + GAME_CODE + '/question');
-  // Transacción atómica: solo el PRIMER toque que llega gana el bloqueo (lockedBy),
-  // sin importar cuántos jugadores toquen casi al mismo tiempo.
-  await qRef.transaction(current => {
-    if (!current || current.status !== 'open') return; // ya no está abierta, no hacemos nada
-    if (current.lockedBy) return; // otro ya la tomó primero
-    current.lockedBy = { playerId: player.id, name: player.name, optionIndex: optionIndex };
-    current.status = 'locked';
-    return current;
+  // Una vez que tocás una opción queda fija: se deshabilitan los botones al toque,
+  // antes de esperar la escritura a Firebase, para que no se pueda tocar dos veces.
+  document.querySelectorAll('#qOptions .kahoot-tile').forEach((b, idx) => {
+    b.disabled = true;
+    if (idx === optionIndex) b.classList.add('picked');
   });
+  const note = document.getElementById('qAnsweredNote');
+  if (note) note.textContent = 'Ya respondiste. Esperá a que termine el tiempo para ver el resultado.';
+  try {
+    await DB.ref('liveGames/' + GAME_CODE + '/question/answers/' + player.id).set({
+      optionIndex: optionIndex,
+      answeredAt: Date.now(),
+    });
+  } catch (e) {
+    console.error('No se pudo registrar tu respuesta:', e);
+  }
+}
+
+// Puntaje por velocidad: se divide la ventana de 20s en 4 cuartos.
+// Solo aplica si la respuesta fue correcta; una respuesta incorrecta resta 1 punto parejo.
+function pointsForElapsed(elapsedMs) {
+  if (elapsedMs <= 5000) return 4;
+  if (elapsedMs <= 10000) return 3;
+  if (elapsedMs <= 15000) return 2;
+  return 1;
 }
 
 function showRoundResultScreen(game, q) {
   showScreen('leaderboard');
-  const iWasWinner = q.resolvedWinner && q.resolvedWinner.playerId === player.id;
-  const iWasLocked = q.lockedBy && q.lockedBy.playerId === player.id;
+  const myAnswer = (q.answers && q.answers[player.id]) || null;
+  const correctIndex = q.correctIndex;
+  const correctText = (q.options || [])[correctIndex] || '';
 
   const icon = document.getElementById('lbIcon');
   const title = document.getElementById('lbTitle');
   const sub = document.getElementById('lbSub');
   const ptsEl = document.getElementById('lbPoints');
 
-  if (q.status === 'resolved_correct' && iWasWinner) {
+  if (!myAnswer) {
+    icon.textContent = '⌛';
+    title.className = 'rb-title bad';
+    title.textContent = 'No respondiste a tiempo';
+    sub.textContent = 'La respuesta correcta era: ' + correctText;
+    ptsEl.textContent = '+0';
+  } else if (myAnswer.optionIndex === correctIndex) {
+    const launchedAt = (typeof q.launchedAt === 'number') ? q.launchedAt : (q.deadline - 20000);
+    const elapsedMs = myAnswer.answeredAt - launchedAt;
+    const pts = pointsForElapsed(elapsedMs);
     icon.textContent = '🎉';
     title.className = 'rb-title good';
-    title.textContent = '¡Correcto! Fuiste el más rápido';
+    title.textContent = '¡Correcto! Felicidades, sigue así';
     sub.textContent = '';
-    ptsEl.textContent = '+1';
-  } else if (q.status === 'resolved_correct') {
-    icon.textContent = '👀';
+    ptsEl.textContent = '+' + pts;
+  } else {
+    icon.textContent = '❌';
     title.className = 'rb-title bad';
-    title.textContent = (q.resolvedWinner ? q.resolvedWinner.name : 'Otro participante') + ' respondió primero';
-    sub.textContent = '';
-    ptsEl.textContent = '+0';
-  } else if (q.status === 'resolved_wrong_all') {
-    icon.textContent = '🤔';
-    title.className = 'rb-title bad';
-    title.textContent = 'Nadie acertó esta vez';
-    sub.textContent = 'El anfitrión va a decir la respuesta correcta en voz alta.';
-    ptsEl.textContent = iWasLocked ? '-1' : '+0';
+    title.textContent = 'Incorrecto';
+    sub.textContent = 'La respuesta correcta era: ' + correctText;
+    ptsEl.textContent = '-1';
   }
 
   const list = document.getElementById('lbList');
@@ -843,7 +849,7 @@ function showRoundResultScreen(game, q) {
   }).join('');
   const lbExplainer = document.getElementById('lbScoreExplainer');
   if (lbExplainer) {
-    lbExplainer.innerHTML = '🎮 El primero en tocar la opción correcta suma +1 punto. Una respuesta incorrecta resta 1 punto.';
+    lbExplainer.innerHTML = '🎮 Mientras más rápido acertás, más puntos ganás: +4 en los primeros 5s, +3 del 6 al 10, +2 del 11 al 15, +1 del 16 al 20. Una respuesta incorrecta resta 1 punto. No responder no cambia tu puntaje.';
   }
 }
 
@@ -875,7 +881,7 @@ function showFinishedScreen(game) {
   }).join('');
   const fExplainer = document.getElementById('fScoreExplainer');
   if (fExplainer) {
-    fExplainer.innerHTML = '🎮 El primero en tocar la opción correcta suma +1 punto. Una respuesta incorrecta resta 1 punto.';
+    fExplainer.innerHTML = '🎮 Mientras más rápido acertás, más puntos ganás: +4 en los primeros 5s, +3 del 6 al 10, +2 del 11 al 15, +1 del 16 al 20. Una respuesta incorrecta resta 1 punto.';
   }
 }
 
@@ -941,12 +947,24 @@ async function rankedListForLevel(levelKey) {
     const lvl = playerLevel(gp);
     return lvl && lvl.key === levelKey;
   });
+  // Desempate cuando dos participantes del mismo nivel tienen el mismo puntaje total:
+  // 1) menor tiempo promedio por respuesta correcta gana, 2) si también empatan,
+  // más intentos totales (preguntas respondidas) gana, 3) si aún empatan, más
+  // categorías distintas jugadas gana.
   inLevel.sort((a, b) => {
     const scoreDiff = (b[1].totalScore || 0) - (a[1].totalScore || 0);
     if (scoreDiff !== 0) return scoreDiff;
+
     const avgA = a[1].correctCount > 0 ? (a[1].correctTimeSumSec / a[1].correctCount) : 999;
     const avgB = b[1].correctCount > 0 ? (b[1].correctTimeSumSec / b[1].correctCount) : 999;
-    return avgA - avgB;
+    if (avgA !== avgB) return avgA - avgB;
+
+    const attemptsDiff = (b[1].attemptCount || 0) - (a[1].attemptCount || 0);
+    if (attemptsDiff !== 0) return attemptsDiff;
+
+    const catsA = a[1].categoriesPlayed ? Object.keys(a[1].categoriesPlayed).length : 0;
+    const catsB = b[1].categoriesPlayed ? Object.keys(b[1].categoriesPlayed).length : 0;
+    return catsB - catsA;
   });
   return inLevel;
 }
@@ -966,13 +984,14 @@ async function loadPlayerHistoricRanking(levelKey) {
       const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : ('#' + (idx + 1));
       const avgTime = gp.correctCount > 0 ? (gp.correctTimeSumSec / gp.correctCount).toFixed(1) + 's' : '—';
       const catsCount = gp.categoriesPlayed ? Object.keys(gp.categoriesPlayed).length : 0;
+      const attempts = gp.attemptCount || 0;
       const meTag = isMe ? '<span class="me-tag">(VOS)</span>' : '';
       const rowClasses = ['final-rank-row', isMe ? 'me' : ''].filter(Boolean).join(' ');
       return '<div class="' + rowClasses + '" style="flex-direction:column; align-items:stretch;">' +
         '<div style="display:flex; justify-content:space-between; align-items:center;">' +
         '<span class="final-rank-pos">' + medal + '</span><span class="final-rank-name">' + escapeHtml(gp.name || '') + meTag + '</span><span class="final-rank-score">' + (gp.totalScore || 0) + ' pts</span>' +
         '</div>' +
-        '<div class="muted" style="font-size:11px; margin-top:2px;">' + catsCount + ' categoría' + (catsCount === 1 ? '' : 's') + ' &nbsp;·&nbsp; ⏱ prom. ' + avgTime + '</div>' +
+        '<div class="muted" style="font-size:11px; margin-top:2px;">' + catsCount + ' categoría' + (catsCount === 1 ? '' : 's') + ' &nbsp;·&nbsp; ' + attempts + ' intento' + (attempts === 1 ? '' : 's') + ' &nbsp;·&nbsp; ⏱ prom. ' + avgTime + '</div>' +
         '</div>';
     }).join('');
   } catch (e) {
