@@ -139,6 +139,14 @@
     font-size:13.5px; color:#fff; cursor:pointer; text-align:center;
   }
   .cat-btn.active { outline:3px solid var(--yellow); outline-offset:-3px; }
+  .diff-row { display:flex; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+  .diff-row-label { font-size:12.5px; color:var(--muted); margin-right:2px; }
+  .diff-btn {
+    border:1.5px solid rgba(255,255,255,0.12); border-radius:999px; padding:7px 14px;
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px;
+    background:var(--panel); color:var(--muted); cursor:pointer; transition:all .15s ease;
+  }
+  .diff-btn.active { background:var(--yellow); color:#1a1400; border-color:var(--yellow); }
   .level-tab.active-tab { background:var(--blue-light); color:#08321F; border-color:var(--blue-light); }
   .cat-rodamientos { background:var(--cat-red); }
   .cat-tpt_retenes { background:var(--cat-yellow); color:#3A2D00; }
@@ -289,6 +297,12 @@
       </div>
 
       <div id="bankPanel">
+        <div class="diff-row" id="diffSelector">
+          <span class="diff-row-label">Nivel de preguntas:</span>
+          <button class="diff-btn" data-level="1" type="button">🟢 Básico</button>
+          <button class="diff-btn" data-level="2" type="button">🟡 Intermedio</button>
+          <button class="diff-btn" data-level="3" type="button">🔴 Experto</button>
+        </div>
         <div class="cat-grid">
           <button class="cat-btn cat-rodamientos" data-cat="rodamientos" type="button">Rodamientos</button>
           <button class="cat-btn cat-tpt_retenes" data-cat="tpt_retenes" type="button">TPT y Retenes</button>
@@ -926,57 +940,83 @@ let questionCounter = 0;
 let currentPlayers = {}; // último snapshot de game.players, para saber cuántos participantes hay
 let currentMeta = {}; // último snapshot de game.meta (incluye el bloque de preguntas asignado por categoría)
 
-/* ---------- bloques de 15 preguntas por partida ----------
+/* ---------- nivel de dificultad elegido por el anfitrión + bloques por nivel ----------
    Cada categoría tiene 75 preguntas (25 básicas + 25 intermedias + 25 avanzadas).
-   Cada partida usa un bloque de 15 (5 básicas + 5 intermedias + 5 avanzadas), en ese
-   orden. Hay 5 bloques posibles por categoría (75 / 15 = 5); un contador persistente
-   en Firebase (categoryCycle/{categoria}/nextBlock) va rotando 0→1→2→3→4→0→... cada
-   vez que una partida nueva "estrena" esa categoría, así cada partida trae preguntas
-   distintas hasta agotar las 75, y ahí vuelve a empezar desde el bloque 1. */
-const CATEGORY_BLOCK_SIZE = 15;
-const CATEGORY_TIER_SIZE = 5; // 5 básicas + 5 intermedias + 5 avanzadas = 15
-const CATEGORY_BLOCK_COUNT = 5; // 75 preguntas / 15 por bloque
+   El anfitrión elige el NIVEL (básico / intermedio / experto) que se va a usar para
+   lanzar preguntas — al empezar la partida y en cualquier momento después, incluso a
+   mitad de partida (se aplica desde la próxima pregunta que lance). Dentro del nivel
+   elegido, cada partida usa un bloque de 5 preguntas de esa dificultad. Hay 5 bloques
+   posibles por nivel por categoría (25 / 5 = 5); un contador persistente en Firebase
+   (categoryCycleByLevel/{categoria}/{nivel}/nextBlock) va rotando 0→1→2→3→4→0→... cada
+   vez que una partida nueva "estrena" esa combinación categoría+nivel, así no se repiten
+   preguntas hasta agotar las 25 de ese nivel, y ahí vuelve a empezar desde el bloque 1.
+   El bloque asignado para cada nivel se guarda por separado, así si el anfitrión cambia
+   de nivel y vuelve, encuentra el mismo bloque que ya tenía en esa partida. */
+const CATEGORY_TIER_SIZE = 5; // preguntas por bloque dentro de un mismo nivel
+const LEVEL_BLOCK_COUNT = 5; // 25 preguntas por nivel / 5 por bloque
+const LEVEL_LABELS = { 1: '🟢 Básico', 2: '🟡 Intermedio', 3: '🔴 Experto' };
+let currentLevel = 2; // nivel activo por defecto: Intermedio
 const pendingBlockAssignments = new Set();
 
-function getCategoryBlockIndices(cat, blockIndex) {
+function getTierBlockIndices(cat, level, blockIndex) {
   const list = QUESTIONS[cat] || [];
-  const tiers = { 1: [], 2: [], 3: [] };
+  const tierIdxs = [];
   list.forEach((q, idx) => {
     const d = (q.difficulty === 1 || q.difficulty === 3) ? q.difficulty : 2;
-    tiers[d].push(idx);
+    if (d === level) tierIdxs.push(idx);
   });
   const start = blockIndex * CATEGORY_TIER_SIZE;
-  return [
-    ...tiers[1].slice(start, start + CATEGORY_TIER_SIZE),
-    ...tiers[2].slice(start, start + CATEGORY_TIER_SIZE),
-    ...tiers[3].slice(start, start + CATEGORY_TIER_SIZE),
-  ];
+  return tierIdxs.slice(start, start + CATEGORY_TIER_SIZE);
 }
 
-async function ensureCategoryBlockAssigned(cat) {
-  if (!currentGameCode || pendingBlockAssignments.has(cat)) return;
-  const yaAsignado = currentMeta && currentMeta.categoryBlocks && typeof currentMeta.categoryBlocks[cat] === 'number';
+async function ensureLevelBlockAssigned(cat, level) {
+  if (!currentGameCode) return;
+  const key = cat + '_' + level;
+  if (pendingBlockAssignments.has(key)) return;
+  const yaAsignado = currentMeta && currentMeta.categoryBlocks && currentMeta.categoryBlocks[cat] &&
+    typeof currentMeta.categoryBlocks[cat][level] === 'number';
   if (yaAsignado) return;
-  pendingBlockAssignments.add(cat);
+  pendingBlockAssignments.add(key);
   try {
-    // Transacción atómica sobre el contador global de esa categoría: evita que dos
+    // Transacción atómica sobre el contador global de esa categoría+nivel: evita que dos
     // anfitriones creando partidas al mismo tiempo terminen con el mismo bloque.
-    const cycleRef = DB.ref('categoryCycle/' + cat);
+    const cycleRef = DB.ref('categoryCycleByLevel/' + cat + '/' + level);
     const result = await cycleRef.transaction(current => {
       const cur = (current && typeof current.nextBlock === 'number') ? current.nextBlock : 0;
-      return { nextBlock: (cur + 1) % CATEGORY_BLOCK_COUNT };
+      return { nextBlock: (cur + 1) % LEVEL_BLOCK_COUNT };
     });
     let assigned = 0;
     if (result && result.committed && result.snapshot && typeof result.snapshot.nextBlock === 'number') {
-      assigned = (result.snapshot.nextBlock - 1 + CATEGORY_BLOCK_COUNT) % CATEGORY_BLOCK_COUNT;
+      assigned = (result.snapshot.nextBlock - 1 + LEVEL_BLOCK_COUNT) % LEVEL_BLOCK_COUNT;
     }
-    await DB.ref('liveGames/' + currentGameCode + '/meta/categoryBlocks/' + cat).set(assigned);
+    await DB.ref('liveGames/' + currentGameCode + '/meta/categoryBlocks/' + cat + '/' + level).set(assigned);
   } catch (e) {
-    console.error('No se pudo asignar el bloque de preguntas para la categoría', cat, e);
+    console.error('No se pudo asignar el bloque de preguntas para', cat, 'nivel', level, e);
   } finally {
-    pendingBlockAssignments.delete(cat);
+    pendingBlockAssignments.delete(key);
   }
 }
+
+function renderLevelSelector() {
+  document.querySelectorAll('.diff-btn').forEach(b => {
+    b.classList.toggle('active', Number(b.dataset.level) === currentLevel);
+  });
+}
+
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const level = Number(btn.dataset.level);
+    if (level === currentLevel) return;
+    currentLevel = level;
+    renderLevelSelector();
+    renderBankList();
+    if (currentGameCode) {
+      try { await DB.ref('liveGames/' + currentGameCode + '/meta/currentLevel').set(level); }
+      catch (e) { console.error('No se pudo guardar el nivel elegido', e); }
+    }
+  });
+});
+renderLevelSelector();
 
 const screens = {
   setup: document.getElementById('screenSetup'),
@@ -1049,6 +1089,8 @@ document.getElementById('whatsappLinkBtn').addEventListener('click', () => {
 function handleGameUpdate(game) {
   if (!game) return;
   currentMeta = game.meta || {};
+  currentLevel = (currentMeta && typeof currentMeta.currentLevel === 'number') ? currentMeta.currentLevel : currentLevel;
+  renderLevelSelector();
   currentPlayers = game.players || {};
   renderPlayers(game.players || {});
   renderScoreboard(game.players || {});
@@ -1103,7 +1145,7 @@ document.querySelectorAll('.cat-btn').forEach(btn => {
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentCat = btn.dataset.cat;
-    ensureCategoryBlockAssigned(currentCat);
+    ensureLevelBlockAssigned(currentCat, currentLevel);
     renderBankList();
   });
 });
@@ -1113,35 +1155,31 @@ function renderBankList() {
   const wrap = document.getElementById('bankQuestionsList');
   const infoBox = document.getElementById('bankBlockInfo');
   const list = QUESTIONS[currentCat] || [];
-  const LEVEL_LABELS = { 1: '🟢 Básica', 2: '🟡 Intermedia', 3: '🔴 Avanzada' };
 
-  const blockIndex = (currentMeta && currentMeta.categoryBlocks && typeof currentMeta.categoryBlocks[currentCat] === 'number')
-    ? currentMeta.categoryBlocks[currentCat]
+  const blockIndex = (currentMeta && currentMeta.categoryBlocks && currentMeta.categoryBlocks[currentCat] &&
+    typeof currentMeta.categoryBlocks[currentCat][currentLevel] === 'number')
+    ? currentMeta.categoryBlocks[currentCat][currentLevel]
     : null;
 
   if (blockIndex === null) {
     infoBox.textContent = '';
-    wrap.innerHTML = '<div class="empty-note">Preparando las 15 preguntas de esta categoría para esta partida…</div>';
-    ensureCategoryBlockAssigned(currentCat);
+    wrap.innerHTML = '<div class="empty-note">Preparando las preguntas de nivel ' + LEVEL_LABELS[currentLevel] + ' para esta partida…</div>';
+    ensureLevelBlockAssigned(currentCat, currentLevel);
     return;
   }
 
-  infoBox.textContent = 'Bloque ' + (blockIndex + 1) + ' de ' + CATEGORY_BLOCK_COUNT +
-    ' — 15 preguntas de esta partida (de más simples a más complejas). Al terminarse los 5 bloques, se vuelve a empezar desde el 1.';
+  infoBox.textContent = LEVEL_LABELS[currentLevel] + ' — bloque ' + (blockIndex + 1) + ' de ' + LEVEL_BLOCK_COUNT +
+    ' (5 preguntas de este nivel). Podés cambiar de nivel cuando quieras, incluso a mitad de partida: se aplica desde la próxima pregunta que lances.';
 
-  // El bloque ya viene ordenado: primero las 5 básicas, luego las 5 intermedias,
-  // luego las 5 avanzadas — el mismo índice original (idx) sigue usando
-  // launchBankQuestion para identificar la pregunta exacta.
-  const indices = getCategoryBlockIndices(currentCat, blockIndex);
+  const indices = getTierBlockIndices(currentCat, currentLevel, blockIndex);
 
   wrap.innerHTML = indices.map(idx => {
     const q = list[idx];
     const qid = currentCat + '_' + idx;
     const used = launchedQIds.has(qid);
-    const levelLabel = LEVEL_LABELS[q.difficulty || 2];
     return `<div class="q-pick-row${used ? ' used' : ''}" data-qid="${qid}" data-idx="${idx}">
       <span class="qtxt">${escapeHtml(q.text)}</span>
-      <span class="q-pick-badge">${used ? 'ya usada' : levelLabel}</span>
+      <span class="q-pick-badge">${used ? 'ya usada' : LEVEL_LABELS[currentLevel]}</span>
     </div>`;
   }).join('');
   wrap.querySelectorAll('.q-pick-row').forEach(row => {
