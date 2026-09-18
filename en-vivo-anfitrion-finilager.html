@@ -329,7 +329,7 @@
       </div>
 
       <div id="allFailedBox" class="hidden">
-        <p class="muted center" style="font-size:13.5px; margin-bottom:12px;">Todos los que intentaron fallaron esta pregunta.</p>
+        <p class="muted center" style="font-size:13.5px; margin-bottom:12px;" id="allFailedText">Todos los que intentaron fallaron esta pregunta.</p>
         <div class="grid2">
           <button class="secondary" id="revealAnswerBtn" type="button">Revelar respuesta a jugadores</button>
           <button class="primary" id="closeQuestionBtn" type="button">Cerrar pregunta</button>
@@ -784,6 +784,7 @@ async function launchBankQuestion(cat, idx) {
     lockedBy: null,
     failedPlayers: {},
     resolvedWinner: null,
+    reopenDeadline: Date.now() + 10000,
   });
 }
 
@@ -805,6 +806,7 @@ document.getElementById('launchCustomBtn').addEventListener('click', async () =>
     lockedBy: null,
     failedPlayers: {},
     resolvedWinner: null,
+    reopenDeadline: Date.now() + 10000,
   });
   document.getElementById('customQText').value = '';
   document.getElementById('customOptA').value = '';
@@ -860,8 +862,14 @@ function renderActiveQuestion(q) {
     const waitingText = document.getElementById('waitingLockText');
     const waitingSub = document.getElementById('waitingLockSub');
     if (q.reopenDeadline) {
-      waitingText.textContent = 'Se reabrió la pregunta — responden los demás participantes';
-      waitingSub.textContent = 'Quien falló queda bloqueado. Los demás tienen 10 segundos para tocar una opción.';
+      const hasFailed = q.failedPlayers && Object.keys(q.failedPlayers).length > 0;
+      if (hasFailed) {
+        waitingText.textContent = 'Se reabrió la pregunta — responden los demás participantes';
+        waitingSub.textContent = 'Quien falló queda bloqueado. Los demás tienen que tocar una opción antes de que se acabe el tiempo.';
+      } else {
+        waitingText.textContent = 'Pregunta lanzada — esperando que alguien responda...';
+        waitingSub.textContent = 'El primero en tocar una opción se bloquea automáticamente. Tocá rápido, el tiempo corre.';
+      }
       startReopenTimer(q);
     } else {
       waitingText.textContent = 'Pregunta lanzada — esperando que alguien responda...';
@@ -880,6 +888,10 @@ function renderActiveQuestion(q) {
     document.getElementById('resolvedText').textContent = (q.resolvedWinner ? q.resolvedWinner.name : '') + ' acertó. Ronda cerrada.';
   } else if (q.status === 'resolved_wrong_all') {
     allFailedBox.classList.remove('hidden');
+    const noOneTried = !q.failedPlayers || Object.keys(q.failedPlayers).length === 0;
+    document.getElementById('allFailedText').textContent = noOneTried
+      ? 'Se acabó el tiempo y nadie respondió esta pregunta.'
+      : 'Todos los que intentaron fallaron esta pregunta.';
   }
 }
 
