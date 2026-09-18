@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Desafiando tu Conocimiento — FINILAGER — Modo Relámpago (Jugador)</title>
+<title>Desafiando tu Conocimiento — FINILAGER — Modo Clásico (Jugador)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
@@ -196,7 +196,7 @@
   .final-rank-name .me-tag { font-size:10.5px; color:var(--good); font-weight:700; margin-left:6px; letter-spacing:.04em; }
   .final-rank-score { font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--good); font-size:16px; }
 
-  /* ---------- Modo Relámpago ---------- */
+  /* ---------- estilos varios ---------- */
   .settings-row { display:flex; flex-wrap:wrap; gap:10px 18px; margin:6px 0 4px; }
   .settings-row label { display:flex; align-items:center; gap:7px; font-size:13.5px; color:var(--text); font-weight:500; margin:0; cursor:pointer; }
   .settings-row input[type="checkbox"] { width:17px; height:17px; accent-color:var(--bg-red); cursor:pointer; margin:0; }
@@ -252,7 +252,7 @@
     <div class="brand-logo-credit" aria-hidden="true"></div>
   </div>
   <h1 class="page-title">FINILAGER</h1>
-  <p class="page-subtitle">Modo Relámpago ⚡ · En vivo</p>
+  <p class="page-subtitle">Modo Clásico 🕹</p>
   <div class="live-pill-wrap"><span class="live-pill"><span class="live-dot"></span> EN VIVO</span></div>
 
   <div id="errBanner" class="err-box hidden"></div>
@@ -260,9 +260,9 @@
   <!-- JOIN -->
   <div id="screenJoin">
     <div class="card">
-      <h3 style="margin-bottom:4px;">Unite al Modo Relámpago</h3>
+      <h3 style="margin-bottom:4px;">Unite al Modo Clásico</h3>
       <p class="muted" style="font-size:13px; margin:0 0 10px;">Código: <b id="joinCodeLabel" style="color:var(--text);">----</b></p>
-      <p class="muted" style="font-size:12.5px; margin:0 0 16px;">⚡ Acá todos responden a la vez con cronómetro y el puntaje se calcula solo: el que acierta más rápido, suma más.</p>
+      <p class="muted" style="font-size:12.5px; margin:0 0 16px;">🕹 El anfitrión lanza las preguntas una por una. El primero en tocar la opción correcta suma un punto; si te equivocás, restás uno.</p>
       <button class="secondary" id="viewRankBeforeJoinBtn" type="button" style="width:100%; margin-bottom:14px;">🏆 Ver ranking de desafiantes</button>
 
       <label for="playerNameInput">Tu nombre completo</label>
@@ -294,22 +294,6 @@
 
 
   <!-- VOTE: elegir categoría antes de empezar -->
-  <div id="screenVote" class="hidden">
-    <div class="score-strip"><span id="votePlayerName"></span></div>
-    <div class="card">
-      <h3 style="margin-bottom:4px;">¿Con qué categoría querés jugar?</h3>
-      <p class="muted" style="font-size:13px; margin:0 0 14px;">Tu voto cuenta para decidir el modo de esta partida. Cuando todos hayan votado, arranca el juego.</p>
-      <div class="vote-options" id="voteOptions">
-        <button type="button" class="vote-option" data-cat="rodamientos" style="border-color:#e2685a; color:#e2685a;">Rodamientos</button>
-        <button type="button" class="vote-option" data-cat="tpt_retenes" style="border-color:#5ec8e8; color:#5ec8e8;">TPT y Retenes</button>
-        <button type="button" class="vote-option" data-cat="lubricacion" style="border-color:#f0c419; color:#f0c419;">Lubricación</button>
-        <button type="button" class="vote-option" data-cat="equipos_herramientas" style="border-color:#4caf6d; color:#4caf6d;">Equipos y Herramientas</button>
-        <button type="button" class="vote-option" data-cat="mixed" style="border-color:#9b7fd4; color:#9b7fd4;">Mezclado (todas las categorías)</button>
-      </div>
-      <div class="status-sub" id="voteConfirmedNote" style="margin-top:14px; display:none;">✓ Voto registrado. Esperando a los demás participantes...</div>
-    </div>
-  </div>
-
   <!-- WAITING -->
   <div id="screenWaiting" class="hidden">
     <div class="score-strip"><span id="waitPlayerName"></span><span><b id="waitScore">0</b> pts</span></div>
@@ -317,7 +301,7 @@
     <div class="card">
       <div class="status-box">
         <div class="status-icon">⏳</div>
-        <div class="status-text">Esperando a que el anfitrión inicie el Modo Relámpago...</div>
+        <div class="status-text">Esperando a que el anfitrión lance una pregunta...</div>
         <div class="status-sub">Dejá esta pantalla abierta. Empieza en cualquier momento.</div>
       </div>
     </div>
@@ -330,26 +314,19 @@
       <div class="quiz-cat-label" id="qCatLabel"></div>
       <div class="question-text" id="qText"></div>
       <div class="kahoot-tiles" id="qOptions"></div>
-      <div class="timer-wrap">
-        <div class="timer-track"><div class="timer-fill" id="qTimerFill"></div></div>
-      </div>
-      <div class="timer-label" id="qTimerLabel">20s</div>
+      <p class="muted" style="font-size:12.5px; text-align:center; margin-top:10px;">⚡ El primero en tocar la opción correcta gana el punto. Si te equivocás, la pregunta se reabre para los demás.</p>
     </div>
   </div>
 
-  <!-- LOCKED / WAITING FOR REVEAL -->
+  <!-- LOCKED / WAITING FOR HOST VERDICT -->
   <div id="screenLocked" class="hidden">
     <div class="score-strip"><span id="lkPlayerName"></span><span><b id="lkScore">0</b> pts</span></div>
     <div class="card">
       <div class="status-box">
-        <div class="status-icon">✅</div>
-        <div class="status-text">¡Respuesta enviada!</div>
-        <div class="status-sub">Esperando a que termine el tiempo para ver el resultado...</div>
+        <div class="status-icon" id="lkIcon">⏳</div>
+        <div class="status-text" id="lkStatusText">Esperando el veredicto del anfitrión...</div>
+        <div class="status-sub" id="lkStatusSub">Tocaste una opción. El anfitrión va a marcar si fue correcta.</div>
       </div>
-      <div class="timer-wrap">
-        <div class="timer-track"><div class="timer-fill" id="lkTimerFill"></div></div>
-      </div>
-      <div class="timer-label" id="lkTimerLabel">20s</div>
     </div>
   </div>
 
@@ -374,7 +351,7 @@
     <div class="card">
       <div class="final-banner">
         <div class="final-icon">🏁</div>
-        <div class="final-title" id="fTitle">¡Modo Relámpago finalizado!</div>
+        <div class="final-title" id="fTitle">¡Modo Clásico finalizado!</div>
       </div>
       <div class="podium-wrap" id="podiumWrap"></div>
       <div class="final-rank-heading">Ranking final — todos los participantes</div>
@@ -567,7 +544,6 @@ let qTimerHandle = null;
 const screens = {
   join: document.getElementById('screenJoin'),
   playerRank: document.getElementById('screenPlayerRank'),
-  vote: document.getElementById('screenVote'),
   waiting: document.getElementById('screenWaiting'),
   question: document.getElementById('screenQuestion'),
   locked: document.getElementById('screenLocked'),
@@ -700,56 +676,27 @@ async function joinGame() {
     }
 
     // Prefijo propio ("liveplayer:kahoot:") para que la identidad de un jugador en el
-    // Modo Kahoot no choque con la del Modo Clásico si comparten el mismo código de partida.
-    const storageKey = 'liveplayer:kahoot:' + GAME_CODE;
+    // Prefijo propio ("liveplayer:clasico:") para que la identidad de un jugador en el
+    // Modo Clásico no choque con la del Modo Relámpago si comparten el mismo código de partida.
+    const storageKey = 'liveplayer:clasico:' + GAME_CODE;
     const playerId = globalPlayerId;
     player = { id: playerId, name: globalPlayerName, globalId: globalPlayerId };
     sessionStorage.setItem(storageKey, JSON.stringify(player));
     localStorage.setItem('retadoresGlobalPlayer', JSON.stringify({ id: globalPlayerId, name: globalPlayerName, contact: globalPlayerContact }));
 
-    const playerRef = DB.ref('kahootGames/' + GAME_CODE + '/players/' + playerId);
+    const playerRef = DB.ref('liveGames/' + GAME_CODE + '/players/' + playerId);
     await playerRef.update({ name: globalPlayerName, joinedAt: Date.now() });
     const existing = await playerRef.once();
     if (!existing || typeof existing.score !== 'number') {
       await playerRef.update({ score: 0 });
     }
 
-    DB.ref('kahootGames/' + GAME_CODE).onValue(handleGameUpdate);
+    DB.ref('liveGames/' + GAME_CODE).onValue(handleGameUpdate);
   } catch (err) {
-    console.error('Error al entrar al Modo Relámpago:', err);
+    console.error('Error al entrar al Modo Clásico:', err);
     showError('No se pudo conectar con la partida. Revisá tu conexión a internet. Detalle: ' + (err && err.message ? err.message : err));
     joinBtn.disabled = false;
   }
-}
-
-let myVoteCat = null;
-document.querySelectorAll('.vote-option').forEach(btn => {
-  btn.addEventListener('click', async () => {
-    if (!player) return;
-    const cat = btn.dataset.cat;
-    myVoteCat = cat;
-    document.querySelectorAll('.vote-option').forEach(b => {
-      b.classList.toggle('selected', b === btn);
-      b.disabled = true;
-    });
-    document.getElementById('voteConfirmedNote').style.display = 'block';
-    try {
-      await DB.ref('kahootGames/' + GAME_CODE + '/votes/' + player.id).set(cat);
-    } catch (e) {
-      console.error('Error al votar:', e);
-    }
-  });
-});
-
-function renderVoteScreen(game) {
-  showScreen('vote');
-  const myVote = game.votes && game.votes[player.id];
-  document.querySelectorAll('.vote-option').forEach(b => {
-    const isMine = myVote && b.dataset.cat === myVote;
-    b.classList.toggle('selected', !!isMine);
-    b.disabled = !!myVote;
-  });
-  document.getElementById('voteConfirmedNote').style.display = myVote ? 'block' : 'none';
 }
 
 function setScoreEverywhere(score) {
@@ -769,131 +716,120 @@ function handleGameUpdate(game) {
   setScoreEverywhere(typeof me.score === 'number' ? me.score : 0);
   setNameEverywhere(player.name);
 
-  const status = game.status || 'lobby';
-  if (status === 'voting') { renderVoteScreen(game); return; }
-  if (status === 'lobby') { clearQuestionTimer(); showScreen('waiting'); return; }
-  if (status === 'finished') { clearQuestionTimer(); showFinishedScreen(game); return; }
+  if (game.gameStatus === 'finished') { showFinishedScreen(game); return; }
 
-  const round = game.round;
-  if (!round) {
-    clearQuestionTimer();
-    showScreen('waiting');
-    const banner = document.getElementById('winningCatBanner');
-    if (game.winningCategory) {
-      const label = VOTE_CATEGORY_LABELS_PLAYER[game.winningCategory] || '';
-      const color = CATEGORY_COLORS[game.winningCategory] || '';
-      banner.innerHTML = '<div style="font-weight:700; font-size:16px;">🎉 Ganó: <span style="color:' + color + ';">' + escapeHtml(label) + '</span></div>';
-      banner.classList.remove('hidden');
+  const q = game.question;
+  if (!q || q.status === 'idle') { showScreen('waiting'); return; }
+
+  const iLocked = q.lockedBy && q.lockedBy.playerId === player.id;
+  const iFailed = q.failedPlayers && q.failedPlayers[player.id];
+
+  if (q.status === 'open') {
+    if (iFailed) {
+      // ya fallé esta pregunta; espero a que otro la responda o se resuelva
+      showWaitingForOthers();
     } else {
-      banner.classList.add('hidden');
+      renderQuestionScreen(q);
     }
     return;
   }
 
-  const myAnswer = game.answers && game.answers[player.id];
-  const answeredThisRound = myAnswer && myAnswer.qId === round.qId;
-
-  if (status === 'playing') {
-    if (answeredThisRound) {
-      showLockedScreen(round);
+  if (q.status === 'locked') {
+    if (iLocked) {
+      showLockedScreen();
     } else {
-      renderQuestionScreen(round);
+      showWaitingForVerdict(q.lockedBy.name);
     }
     return;
   }
-  if (status === 'leaderboard') {
-    clearQuestionTimer();
-    showLeaderboardScreen(game, round, myAnswer);
+
+  if (q.status === 'resolved_correct' || q.status === 'resolved_wrong_all') {
+    showRoundResultScreen(game, q);
     return;
   }
 }
 
-function renderQuestionScreen(round) {
+function showWaitingForOthers() {
+  showScreen('locked');
+  document.getElementById('lkIcon').textContent = '🙈';
+  document.getElementById('lkStatusText').textContent = 'Ya la intentaste';
+  document.getElementById('lkStatusSub').textContent = 'Esperá a que otro participante responda esta pregunta.';
+}
+
+function showWaitingForVerdict(name) {
+  showScreen('locked');
+  document.getElementById('lkIcon').textContent = '⏳';
+  document.getElementById('lkStatusText').textContent = name + ' tocó primero';
+  document.getElementById('lkStatusSub').textContent = 'El anfitrión está revisando su respuesta...';
+}
+
+function showLockedScreen() {
+  showScreen('locked');
+  document.getElementById('lkIcon').textContent = '⏳';
+  document.getElementById('lkStatusText').textContent = 'Esperando el veredicto del anfitrión...';
+  document.getElementById('lkStatusSub').textContent = 'Tocaste una opción. El anfitrión va a marcar si fue correcta.';
+}
+
+function renderQuestionScreen(q) {
   showScreen('question');
   const catLabelEl = document.getElementById('qCatLabel');
-  catLabelEl.textContent = round.categoryLabel || '';
-  catLabelEl.style.color = CATEGORY_COLORS[round.categoryKey] || '';
-  document.getElementById('qText').textContent = round.text;
+  catLabelEl.textContent = q.categoryLabel || '';
+  document.getElementById('qText').textContent = q.text;
   const wrap = document.getElementById('qOptions');
   wrap.innerHTML = '';
   const shapes = ['▲', '◆', '●'];
-  (round.options || []).forEach((opt, idx) => {
+  (q.options || []).forEach((opt, idx) => {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'kahoot-tile tile-' + idx;
     btn.innerHTML = '<span class="kahoot-shape">' + shapes[idx] + '</span><span>' + escapeHtml(opt) + '</span>';
-    btn.addEventListener('click', () => attemptAnswer(round.qId, idx));
+    btn.addEventListener('click', () => attemptAnswer(idx));
     wrap.appendChild(btn);
   });
-  startQuestionTimer(round.endsAt, round.startedAt, 'qTimerFill', 'qTimerLabel');
 }
 
-function startQuestionTimer(endsAt, startedAt, fillId, labelId) {
-  clearQuestionTimer();
-  const fill = document.getElementById(fillId);
-  const label = document.getElementById(labelId);
-  const total = Math.max(1, endsAt - startedAt);
-  function tick() {
-    const remaining = Math.max(0, endsAt - Date.now());
-    const pct = Math.max(0, Math.min(100, (remaining / total) * 100));
-    if (fill) {
-      fill.style.width = pct + '%';
-      fill.classList.toggle('warn', pct <= 50 && pct > 20);
-      fill.classList.toggle('danger', pct <= 20);
-    }
-    if (label) label.textContent = Math.ceil(remaining / 1000) + 's';
-  }
-  tick();
-  qTimerHandle = setInterval(tick, 200);
-}
-function clearQuestionTimer() { if (qTimerHandle) { clearInterval(qTimerHandle); qTimerHandle = null; } }
-
-async function attemptAnswer(qId, optionIndex) {
+async function attemptAnswer(optionIndex) {
   document.querySelectorAll('#qOptions .kahoot-tile').forEach(b => b.disabled = true);
-  const ansRef = DB.ref('kahootGames/' + GAME_CODE + '/answers/' + player.id);
-  await ansRef.transaction(current => {
-    if (current) return; // ya respondió esta partida (evita doble toque)
-    return { optionIdx: optionIndex, ts: Date.now(), qId };
+  const qRef = DB.ref('liveGames/' + GAME_CODE + '/question');
+  // Transacción atómica: solo el PRIMER toque que llega gana el bloqueo (lockedBy),
+  // sin importar cuántos jugadores toquen casi al mismo tiempo.
+  await qRef.transaction(current => {
+    if (!current || current.status !== 'open') return; // ya no está abierta, no hacemos nada
+    if (current.lockedBy) return; // otro ya la tomó primero
+    current.lockedBy = { playerId: player.id, name: player.name, optionIndex: optionIndex };
+    current.status = 'locked';
+    return current;
   });
 }
 
-function showLockedScreen(round) {
-  showScreen('locked');
-  startQuestionTimer(round.endsAt, round.startedAt, 'lkTimerFill', 'lkTimerLabel');
-}
-
-function showLeaderboardScreen(game, round, myAnswer) {
+function showRoundResultScreen(game, q) {
   showScreen('leaderboard');
-  const answered = myAnswer && myAnswer.qId === round.qId;
-  const correct = answered && myAnswer.optionIdx === round.revealCorrect;
-  const pts = (game.roundScores && game.roundScores[player.id]) || 0;
+  const iWasWinner = q.resolvedWinner && q.resolvedWinner.playerId === player.id;
+  const iWasLocked = q.lockedBy && q.lockedBy.playerId === player.id;
 
   const icon = document.getElementById('lbIcon');
   const title = document.getElementById('lbTitle');
   const sub = document.getElementById('lbSub');
   const ptsEl = document.getElementById('lbPoints');
-  const letters = ['A', 'B', 'C'];
 
-  if (!answered) {
-    icon.textContent = '⌛';
-    title.className = 'rb-title bad';
-    title.textContent = 'No respondiste a tiempo';
-    const correctText = (round.options || [])[round.revealCorrect];
-    sub.textContent = (typeof round.revealCorrect === 'number' && correctText) ? ('La respuesta era: ' + letters[round.revealCorrect] + ') ' + correctText) : '';
-    ptsEl.textContent = '+0';
-  } else if (correct) {
+  if (q.status === 'resolved_correct' && iWasWinner) {
     icon.textContent = '🎉';
     title.className = 'rb-title good';
-    title.textContent = '¡Correcto!';
+    title.textContent = '¡Correcto! Fuiste el más rápido';
     sub.textContent = '';
-    ptsEl.textContent = '+' + pts;
-  } else {
-    icon.textContent = '❌';
+    ptsEl.textContent = '+1';
+  } else if (q.status === 'resolved_correct') {
+    icon.textContent = '👀';
     title.className = 'rb-title bad';
-    title.textContent = 'Incorrecto';
-    const correctText = (round.options || [])[round.revealCorrect];
-    sub.textContent = (typeof round.revealCorrect === 'number' && correctText) ? ('La respuesta era: ' + letters[round.revealCorrect] + ') ' + correctText) : '';
+    title.textContent = (q.resolvedWinner ? q.resolvedWinner.name : 'Otro participante') + ' respondió primero';
+    sub.textContent = '';
     ptsEl.textContent = '+0';
+  } else if (q.status === 'resolved_wrong_all') {
+    icon.textContent = '🤔';
+    title.className = 'rb-title bad';
+    title.textContent = 'Nadie acertó esta vez';
+    sub.textContent = 'El anfitrión va a decir la respuesta correcta en voz alta.';
+    ptsEl.textContent = iWasLocked ? '-1' : '+0';
   }
 
   const list = document.getElementById('lbList');
@@ -903,21 +839,11 @@ function showLeaderboardScreen(game, round, myAnswer) {
     const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : ('#' + (idx + 1));
     const meTag = isMe ? '<span class="me-tag">(VOS)</span>' : '';
     const rowClasses = ['final-rank-row', isMe ? 'me' : '', idx === 0 ? 'winner' : ''].filter(Boolean).join(' ');
-    const correctCount = p.correctCount || 0;
-    const wrongCount = p.wrongCount || 0;
-    const noAnswerCount = p.noAnswerCount || 0;
-    const avgTime = correctCount > 0 ? (p.correctTimeSumSec / correctCount) : null;
-    const avgTimeStr = avgTime !== null ? avgTime.toFixed(1) + 's' : '—';
-    return '<div class="' + rowClasses + '" style="flex-direction:column; align-items:stretch;">' +
-      '<div style="display:flex; justify-content:space-between; align-items:center;">' +
-      '<span class="final-rank-pos">' + medal + '</span><span class="final-rank-name">' + escapeHtml(p.name || '') + meTag + '</span><span class="final-rank-score">' + (p.score || 0) + '</span>' +
-      '</div>' +
-      '<div class="muted" style="font-size:11px; margin-top:2px;">✓ ' + correctCount + ' &nbsp;·&nbsp; ✗ ' + wrongCount + ' &nbsp;·&nbsp; ⃝ ' + noAnswerCount + ' &nbsp;·&nbsp; ⏱ ' + avgTimeStr + '</div>' +
-      '</div>';
+    return '<div class="' + rowClasses + '"><span class="final-rank-pos">' + medal + '</span><span class="final-rank-name">' + escapeHtml(p.name || '') + meTag + '</span><span class="final-rank-score">' + (p.score || 0) + '</span></div>';
   }).join('');
   const lbExplainer = document.getElementById('lbScoreExplainer');
   if (lbExplainer) {
-    lbExplainer.innerHTML = '⏱ 1-5s → 10 pts · 6-10s → 7 pts · 11-15s → 5 pts · 16-20s → 3 pts · sin responder o error → 0 pts.';
+    lbExplainer.innerHTML = '🎮 El primero en tocar la opción correcta suma +1 punto. Una respuesta incorrecta resta 1 punto.';
   }
 }
 
@@ -926,7 +852,7 @@ function showFinishedScreen(game) {
   const entries = Object.entries(game.players || {}).sort((a, b) => (b[1].score || 0) - (a[1].score || 0));
   const myIdx = player ? entries.findIndex(([id]) => id === player.id) : -1;
   const iWon = entries.length > 0 && myIdx === 0;
-  document.getElementById('fTitle').textContent = iWon ? '¡Ganaste el Modo Relámpago!' : '¡Modo Relámpago finalizado!';
+  document.getElementById('fTitle').textContent = iWon ? '¡Ganaste el Modo Clásico!' : '¡Modo Clásico finalizado!';
 
   const podium = document.getElementById('podiumWrap');
   const top3 = entries.slice(0, 3);
@@ -945,21 +871,11 @@ function showFinishedScreen(game) {
     const medal = isWinner ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : ('#' + (idx + 1));
     const meTag = isMe ? '<span class="me-tag">(VOS)</span>' : '';
     const rowClasses = ['final-rank-row', isMe ? 'me' : '', isWinner ? 'winner' : ''].filter(Boolean).join(' ');
-    const correctCount = p.correctCount || 0;
-    const wrongCount = p.wrongCount || 0;
-    const noAnswerCount = p.noAnswerCount || 0;
-    const avgTime = correctCount > 0 ? (p.correctTimeSumSec / correctCount) : null;
-    const avgTimeStr = avgTime !== null ? avgTime.toFixed(1) + 's' : '—';
-    return '<div class="' + rowClasses + '" style="flex-direction:column; align-items:stretch;">' +
-      '<div style="display:flex; justify-content:space-between; align-items:center;">' +
-      '<span class="final-rank-pos">' + medal + '</span><span class="final-rank-name">' + escapeHtml(p.name || '') + meTag + '</span><span class="final-rank-score">' + (p.score || 0) + '</span>' +
-      '</div>' +
-      '<div class="muted" style="font-size:11px; margin-top:2px;">✓ ' + correctCount + ' &nbsp;·&nbsp; ✗ ' + wrongCount + ' &nbsp;·&nbsp; ⃝ ' + noAnswerCount + ' &nbsp;·&nbsp; ⏱ ' + avgTimeStr + '</div>' +
-      '</div>';
+    return '<div class="' + rowClasses + '"><span class="final-rank-pos">' + medal + '</span><span class="final-rank-name">' + escapeHtml(p.name || '') + meTag + '</span><span class="final-rank-score">' + (p.score || 0) + ' pts</span></div>';
   }).join('');
   const fExplainer = document.getElementById('fScoreExplainer');
   if (fExplainer) {
-    fExplainer.innerHTML = '⏱ Cómo se puntúa: 1-5s → 10 pts · 6-10s → 7 pts · 11-15s → 5 pts · 16-20s → 3 pts · sin responder o error → 0 pts.';
+    fExplainer.innerHTML = '🎮 El primero en tocar la opción correcta suma +1 punto. Una respuesta incorrecta resta 1 punto.';
   }
 }
 
