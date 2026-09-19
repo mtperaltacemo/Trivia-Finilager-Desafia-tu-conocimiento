@@ -945,15 +945,19 @@ let currentMeta = {}; // último snapshot de game.meta (incluye el bloque de pre
    El anfitrión elige el NIVEL (básico / intermedio / experto) que se va a usar para
    lanzar preguntas — al empezar la partida y en cualquier momento después, incluso a
    mitad de partida (se aplica desde la próxima pregunta que lance). Dentro del nivel
-   elegido, cada partida usa un bloque de 5 preguntas de esa dificultad. Hay 5 bloques
-   posibles por nivel por categoría (25 / 5 = 5); un contador persistente en Firebase
-   (categoryCycleByLevel/{categoria}/{nivel}/nextBlock) va rotando 0→1→2→3→4→0→... cada
-   vez que una partida nueva "estrena" esa combinación categoría+nivel, así no se repiten
-   preguntas hasta agotar las 25 de ese nivel, y ahí vuelve a empezar desde el bloque 1.
-   El bloque asignado para cada nivel se guarda por separado, así si el anfitrión cambia
-   de nivel y vuelve, encuentra el mismo bloque que ya tenía en esa partida. */
-const CATEGORY_TIER_SIZE = 5; // preguntas por bloque dentro de un mismo nivel
-const LEVEL_BLOCK_COUNT = 5; // 25 preguntas por nivel / 5 por bloque
+   elegido, cada partida muestra 15 preguntas de esa dificultad para elegir (si el
+   anfitrión se queda todo el juego en un solo nivel, siempre tiene 15 entre las cuales
+   elegir). Como cada nivel solo tiene 25 preguntas en total, esas 15 son una "ventana"
+   circular de 25 que se corre 5 lugares cada vez que una partida nueva "estrena" esa
+   combinación categoría+nivel (posición 0, 5, 10, 15, 20 y vuelve a 0) — un contador
+   persistente en Firebase (categoryCycleByLevel/{categoria}/{nivel}/nextBlock) lleva
+   esa rotación, así partidas consecutivas en el mismo nivel no muestran exactamente
+   las mismas 15. El bloque asignado para cada nivel se guarda por separado, así si el
+   anfitrión cambia de nivel y vuelve, encuentra el mismo grupo de 15 que ya tenía en
+   esa partida. */
+const LEVEL_WINDOW_SIZE = 15; // preguntas a elegir, por nivel, en cada partida
+const CATEGORY_TIER_STEP = 5; // cuánto se corre la ventana en cada rotación
+const LEVEL_BLOCK_COUNT = 5; // 25 preguntas por nivel / 5 de paso = 5 rotaciones posibles
 const LEVEL_LABELS = { 1: '🟢 Básico', 2: '🟡 Intermedio', 3: '🔴 Experto' };
 let currentLevel = 2; // nivel activo por defecto: Intermedio
 const pendingBlockAssignments = new Set();
@@ -965,8 +969,14 @@ function getTierBlockIndices(cat, level, blockIndex) {
     const d = (q.difficulty === 1 || q.difficulty === 3) ? q.difficulty : 2;
     if (d === level) tierIdxs.push(idx);
   });
-  const start = blockIndex * CATEGORY_TIER_SIZE;
-  return tierIdxs.slice(start, start + CATEGORY_TIER_SIZE);
+  const n = tierIdxs.length; // 25
+  const windowSize = Math.min(LEVEL_WINDOW_SIZE, n);
+  const start = (blockIndex * CATEGORY_TIER_STEP) % n;
+  const result = [];
+  for (let i = 0; i < windowSize; i++) {
+    result.push(tierIdxs[(start + i) % n]);
+  }
+  return result;
 }
 
 async function ensureLevelBlockAssigned(cat, level) {
@@ -1168,8 +1178,8 @@ function renderBankList() {
     return;
   }
 
-  infoBox.textContent = LEVEL_LABELS[currentLevel] + ' — bloque ' + (blockIndex + 1) + ' de ' + LEVEL_BLOCK_COUNT +
-    ' (5 preguntas de este nivel). Podés cambiar de nivel cuando quieras, incluso a mitad de partida: se aplica desde la próxima pregunta que lances.';
+  infoBox.textContent = LEVEL_LABELS[currentLevel] + ' — grupo ' + (blockIndex + 1) + ' de ' + LEVEL_BLOCK_COUNT +
+    ' (15 preguntas de este nivel para elegir). Podés cambiar de nivel cuando quieras, incluso a mitad de partida: se aplica desde la próxima pregunta que lances.';
 
   const indices = getTierBlockIndices(currentCat, currentLevel, blockIndex);
 
