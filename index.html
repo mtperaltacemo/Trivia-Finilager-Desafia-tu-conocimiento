@@ -15,6 +15,9 @@
 <meta name="apple-mobile-web-app-title" content="Desafiando FINILAGER">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Firebase (Realtime Database) para el ranking compartido: mismo proyecto que Modo Clasico -->
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-database-compat.js"></script>
 <style>
   :root {
     --bg-red: #D32F2F;
@@ -1052,36 +1055,87 @@ async function drawQuizQuestions(categoryKey, n) {
 }
 
 /* ============================================================
-   ALMACENAMIENTO (ranking compartido vía window.storage)
-   Si no está disponible (por ejemplo, fuera de Claude), se usa
-   un almacenamiento en memoria solo para esta sesión.
+   ALMACENAMIENTO (ranking compartido vía Firebase Realtime Database)
+   Usa el mismo proyecto Firebase ("finilager-trivia") que ya usa
+   Modo Clasico (anfitrion-clasico.html / envivo-clasico.html), con
+   reglas publicas de lectura/escritura (no requiere login).
+   Si Firebase no llega a cargar (por ejemplo sin conexion), se usa
+   un almacenamiento en memoria solo para esta sesion del navegador:
+   no se comparte con otros jugadores ni sobrevive a recargar la
+   pagina.
    ============================================================ */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAirG_Kj0zB56aTGJ02bWIXXLquCkJyHz0",
+  authDomain: "finilager-trivia.firebaseapp.com",
+  databaseURL: "https://finilager-trivia-default-rtdb.firebaseio.com",
+  projectId: "finilager-trivia",
+  storageBucket: "finilager-trivia.firebasestorage.app",
+  messagingSenderId: "187189730256",
+  appId: "1:187189730256:web:bec3f70c23006ac73877d5"
+};
+
 let memoryStore = {};
-let storageAvailable = (typeof window.storage !== 'undefined');
+let firebaseDb = null;
+try {
+  if (typeof firebase !== 'undefined') {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    firebaseDb = firebase.database();
+  }
+} catch (e) { firebaseDb = null; }
+let storageAvailable = !!firebaseDb;
+
+/* Convierte una clave plana tipo 'player:c_xxx' o 'quizdeck:rodamientos'
+   en una ruta de arbol para Realtime Database (ej. 'players/c_xxx'). */
+function keyToPath(key) {
+  const idx = key.indexOf(':');
+  if (idx === -1) return 'kv/' + key;
+  return key.slice(0, idx) + 's/' + key.slice(idx + 1);
+}
 
 async function storageGet(key, shared) {
   if (storageAvailable) {
     try {
-      const res = await window.storage.get(key, shared);
-      return res ? JSON.parse(res.value) : null;
+      const snap = await firebaseDb.ref(keyToPath(key)).once('value');
+      let val = snap.exists() ? snap.val() : null;
+      // Firebase no guarda campos con valor null (los omite), asi que al
+      // leer un jugador se restauran a null los campos que el resto del
+      // codigo compara con === null / !== null (evita romper "mejor tiempo").
+      if (val && key.indexOf('player:') === 0 && val.categories) {
+        Object.keys(val.categories).forEach(ck => {
+          const c = val.categories[ck];
+          if (c.bestTime === undefined) c.bestTime = null;
+          if (!c.history) c.history = [];
+        });
+      }
+      return val;
     } catch (e) { return null; }
   }
   return memoryStore[key] ? JSON.parse(memoryStore[key]) : null;
 }
 async function storageSet(key, value, shared) {
-  const str = JSON.stringify(value);
   if (storageAvailable) {
-    try { await window.storage.set(key, str, shared); return true; }
+    try { await firebaseDb.ref(keyToPath(key)).set(value); return true; }
     catch (e) { return false; }
   }
-  memoryStore[key] = str;
+  memoryStore[key] = JSON.stringify(value);
+  return true;
+}
+async function storageDelete(key, shared) {
+  if (storageAvailable) {
+    try { await firebaseDb.ref(keyToPath(key)).remove(); return true; }
+    catch (e) { return false; }
+  }
+  delete memoryStore[key];
   return true;
 }
 async function storageListKeys(prefix, shared) {
   if (storageAvailable) {
     try {
-      const res = await window.storage.list(prefix, shared);
-      return res ? res.keys : [];
+      const idx = prefix.indexOf(':');
+      const pathPrefix = idx === -1 ? prefix : prefix.slice(0, idx) + 's';
+      const snap = await firebaseDb.ref(pathPrefix).once('value');
+      const val = snap.val() || {};
+      return Object.keys(val).map(k => prefix + k);
     } catch (e) { return []; }
   }
   return Object.keys(memoryStore).filter(k => k.startsWith(prefix));
@@ -2083,11 +2137,7 @@ async function renderAdminPanel() {
       const name = btn.closest('.admin-player-row').querySelector('.admin-player-name').textContent;
       if (!confirm(`¿Eliminar a "${name}" del ranking?`)) return;
       try {
-        if (storageAvailable) {
-          await window.storage.delete(key, true);
-        } else {
-          delete memoryStore[key];
-        }
+        await storageDelete(key, true);
       } catch (e) { /* ignore */ }
       renderRanking();
       setTimeout(renderAdminPanel, 300);
@@ -2102,11 +2152,7 @@ async function renderAdminPanel() {
       if (!confirm('CONFIRMACIÓN FINAL: ¿Borrar todos los datos de todos los participantes?')) return;
       for (const p of players) {
         try {
-          if (storageAvailable) {
-            await window.storage.delete(p.key, true);
-          } else {
-            delete memoryStore[p.key];
-          }
+          await storageDelete(p.key, true);
         } catch (e) { /* ignore */ }
       }
       renderRanking();
@@ -2121,11 +2167,7 @@ async function renderAdminPanel() {
       if (!confirm('¿Reiniciar los mazos de preguntas? Esto hará que las preguntas se mezclen de nuevo desde cero.')) return;
       for (const dk of deckKeys) {
         try {
-          if (storageAvailable) {
-            await window.storage.delete(dk, true);
-          } else {
-            delete memoryStore[dk];
-          }
+          await storageDelete(dk, true);
         } catch (e) { /* ignore */ }
       }
       alert('Mazos reiniciados. Las próximas pruebas usarán un orden nuevo.');
@@ -2244,6 +2286,15 @@ renderResult = function(cd, isNewBest) {
    INICIO
    ============================================================ */
 showScreen('register');
+</script>
+<script>
+// Registrar el Service Worker: requisito tecnico para que Chrome/Android
+// ofrezca la opcion de "Instalar app" / agregar a pantalla de inicio.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
 </script>
 </body>
 </html>
