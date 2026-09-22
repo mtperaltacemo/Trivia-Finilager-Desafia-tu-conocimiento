@@ -206,7 +206,7 @@
   .course-video-icon {
     flex-shrink:0; width:26px; height:26px; border-radius:50%;
     background:var(--cat-purple); color:#fff; display:flex; align-items:center;
-    justify-content:center; font-size:11px;
+    justify-content:center; font-size:13px; font-weight:700;
   }
   .course-video-empty { font-size:13px; margin:6px 0 0; }
 
@@ -680,14 +680,15 @@ const COURSE_TOPICS = [
 
 const CURSOS_BASICOS = {
   rodamientos: [
+    // Orden pensado para un neófito: de lo más básico a lo más avanzado.
     { title: '¿Qué es un rodamiento? ¿Tipos de rodamientos y cómo funcionan?', url: 'https://www.youtube.com/watch?v=qFA48dl8Ja8' },
+    { title: '¿Para qué sirve un rodamiento en el auto?', url: 'https://www.youtube.com/watch?v=Tr-hRfkUMWI' },
     { title: 'Clasificación y tipos de rodamientos', url: 'https://www.youtube.com/watch?v=FIeiCLOSzys' },
-    { title: '4 formas de identificar un rodamiento en mal estado y cómo alargar su vida útil', url: 'https://www.youtube.com/watch?v=Dxvz3-2RehE' },
+    { title: 'Cómo evolucionaron los rodamientos para autos', url: 'https://www.youtube.com/watch?v=3e4OXH3jiBs' },
     { title: 'Características de los rodamientos de rodillo cilíndricos', url: 'https://www.youtube.com/watch?v=z8UG2TbXZhk' },
     { title: '¿Qué tapa usar en los rodamientos? ¿Metal o caucho?', url: 'https://www.youtube.com/watch?v=3Cd6PECzHCQ' },
-    { title: 'Cómo cambiar el rodamiento de una rastra agrícola', url: 'https://www.youtube.com/watch?v=YmcVJJJc2Nw' },
-    { title: 'Cómo evolucionaron los rodamientos para autos', url: 'https://www.youtube.com/watch?v=3e4OXH3jiBs' },
-    { title: '¿Para qué sirve un rodamiento en el auto?', url: 'https://www.youtube.com/watch?v=Tr-hRfkUMWI' }
+    { title: '4 formas de identificar un rodamiento en mal estado y cómo alargar su vida útil', url: 'https://www.youtube.com/watch?v=Dxvz3-2RehE' },
+    { title: 'Cómo cambiar el rodamiento de una rastra agrícola', url: 'https://www.youtube.com/watch?v=YmcVJJJc2Nw' }
   ],
   tpt_retenes: [],
   lubricacion: [
@@ -1402,14 +1403,17 @@ function renderCourses() {
     if (videos.length === 0) {
       itemsHtml = `<p class="muted course-video-empty">Próximamente</p>`;
     } else {
-      itemsHtml = videos.map(v => `
+      itemsHtml = videos.map((v, i) => `
         <a class="course-video" href="${v.url}" target="_blank" rel="noopener">
-          <span class="course-video-icon">▶</span>
+          <span class="course-video-icon">${i + 1}</span>
           <span>${escapeHtml(v.title)}</span>
         </a>
       `).join('');
     }
-    section.innerHTML = `<h4 class="course-topic-title">${escapeHtml(topic.name)}</h4>${itemsHtml}`;
+    section.innerHTML = `
+      <h4 class="course-topic-title">${escapeHtml(topic.name)}</h4>
+      ${videos.length > 1 ? `<p class="muted" style="font-size:12px; margin:-4px 0 10px;">Del más básico al más avanzado — seguí el orden 👇</p>` : ''}
+      ${itemsHtml}`;
     wrap.appendChild(section);
   });
 }
